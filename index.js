@@ -25,8 +25,6 @@ function buildTable() {
         success: function(data) {
 
             var db = data.data;
-            console.log(db);
-            console.log('HELLP!');
 
             var numberOfEntries = 0;
 

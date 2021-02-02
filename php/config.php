@@ -1,10 +1,17 @@
 <?php
 
-	$cd_host = "127.0.0.1";
-	$cd_port = 3306;
+	$cd_host = "localhost";
+	$cd_port = 8080;
 	$cd_socket = "";
-	$cd_user = "root"; // user name
-	$cd_password = "sElling@348"; // password
-	$cd_dbname = "companydirectory"; // database name
+
+	// Development
+	$cd_user = "root";
+	$cd_password = "";
+	$cd_dbname = "companydirectory";
+
+	// Production 
+	// $cd_user = "u193647531_directory";
+	// $cd_password = "Directory123";
+	// $cd_dbname = "u193647531_directory";
 
 ?>
