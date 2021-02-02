@@ -20,21 +20,42 @@
 
   <body>
 
-    <div class="databaseWrapper table-responsive m-auto">
-      <table class="table table-bordered table-striped table-fixed mb-0" id="database">
-          <thead>
-              <tr id="tableHeader">
-                  <th scope="col" class="hideCell">ID</th>
-                  <th scope="col">Display Name</th>
-                  <th scope="col" class="hideCell">Job Title</th>
-                  <th scope="col" class="hideCell">Email</th>
-                  <th scope="col" class="hideCell">Department</th>
-                  <th scope="col" class="hideCell">Location</th>
-              </tr>
-          </thead>
-          <tbody>
-          </tbody>
-      </table>
+    <div class="main-content-wrapper">
+
+      <div class="header">
+        <h1>Company Directory</h1>
+        <div class="admin-section">
+          <div class="admin-profile"><img src="media/svg/search.svg"><span>Admin: Logged In</span></div>
+          <button class="sign-out">Sign Out</button>
+        </div>
+      </div>
+
+      <div class="manage-employees">
+        <h3 class="header-title">Manage Employees</h3>
+        <div class="buttons">
+          <button class="add-employee"><img src="media/svg/title.svg"><span>ADD EMPLOYEE</span></button>
+          <button class="search"><img src="media/svg/search.svg"><span>SEARCH</span></button>
+          <button class="sort"><img src="media/svg/sort.svg"><span>Sort</span></button>
+          <button class="filter"><img src="media/svg/filter.svg"><span>Filter</span></button>
+        </div>
+      </div>
+
+      <div class="databaseWrapper table-responsive m-auto">
+        <table class="table border-bottom table-fixed" id="database">
+            <thead>
+                <tr id="tableHeader">
+                    <th scope="col" class="hideCell">ID</th>
+                    <th scope="col">Display Name</th>
+                    <th scope="col" class="hideCell">Job Title</th>
+                    <th scope="col" class="hideCell">Email</th>
+                    <th scope="col" class="hideCell">Department</th>
+                    <th scope="col" class="hideCell">Location</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+      </div>
     </div>
 
     <script

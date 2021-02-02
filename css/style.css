@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;600;700&display=swap");
+
+body {
+  font-family: Mulish, sans-serif !important;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.main-content-wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  width: 100vw;
+  height: 175px;
+  background: #dfe0eb;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header h1 {
+  margin-left: 32px;
+  font-family: Mulish, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 30px;
+  letter-spacing: 0.3px;
+}
+
+.manage-employees {
+  width: 100vw;
+  height: 125px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-title {
+  font-size: 18px;
+  white-space: nowrap;
+  margin-left: 32px;
+  font-weight: 700;
+}
+
+.buttons,
+.admin-section {
+  display: flex;
+  flex-direction: row;
+  margin-right: 32px;
+}
+
+.sign-out {
+  width: 100px;
+  height: 34px;
+  border-radius: 100px;
+  border: none;
+  background: white;
+  margin-left: 16px;
+  font-weight: 700 !important;
+  font-style: bold !important;
+  font-size: 14px !important;
+}
+
+.search,
+.add-employee {
+  width: 171px;
+  height: 34px;
+  border-radius: 100px;
+  border: none;
+  color: white;
+  font-weight: 700 !important;
+  font-style: bold !important;
+  font-size: 14px !important;
+}
+
+.add-employee {
+  background: #29cc97;
+}
+
+.search {
+  background: #dfe0eb;
+  margin-left: 16px;
+}
+
+.search span,
+.add-employee span,
+.sort span,
+.filter span {
+  margin-left: 8px;
+}
+
+.sort,
+.filter {
+  margin-left: 16px;
+  width: 75px;
+  background: none;
+  border: none;
+  font-weight: 700 !important;
+  font-style: bold !important;
+  font-size: 14px !important;
+}
+
+.databaseWrapper {
+  width: 100%;
+  height: 100vh;
+  padding: 0px 32px;
+}
