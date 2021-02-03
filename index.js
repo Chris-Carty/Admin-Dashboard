@@ -53,3 +53,16 @@ function appendEntry(db, i, filterBy) {
     `)
 
 }
+
+// BUTTONS
+
+function addEmployee() {
+    var info = document.getElementById('add-employee-form')
+    var visibility = info.style.visibility;
+    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+    console.log('cliked');
+  }
+
+  function closeAddEmployee() {
+    addEmployee()
+  }

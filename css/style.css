@@ -35,7 +35,7 @@ body {
 
 .manage-employees {
   width: 100vw;
-  height: 125px;
+  height: 150px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -47,6 +47,19 @@ body {
   white-space: nowrap;
   margin-left: 32px;
   font-weight: 700;
+}
+
+.header h1 img {
+  width: 40px;
+}
+
+.header h1 span {
+  margin-left: 16px;
+}
+
+.admin-profile img {
+  width: 40px;
+  margin-left: 16px;
 }
 
 .buttons,
@@ -66,6 +79,8 @@ body {
   font-weight: 700 !important;
   font-style: bold !important;
   font-size: 14px !important;
+  color: #c7c8d3;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .search,
@@ -78,6 +93,7 @@ body {
   font-weight: 700 !important;
   font-style: bold !important;
   font-size: 14px !important;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .add-employee {
@@ -111,4 +127,63 @@ body {
   width: 100%;
   height: 100vh;
   padding: 0px 32px;
+}
+
+#add-employee-form {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(196, 196, 196, 0.8);
+  z-index: 100;
+  border: solid 1px green;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.employee-form {
+  width: 30%;
+  height: 80%;
+  background: #dfe0eb;
+  border-radius: 50px;
+  z-index: 100;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+#close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 25px;
+  z-index: 200;
+}
+
+.employee-form-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+}
+
+.btn {
+  background: #29cc97 !important;
+  width: 171px;
+  height: 34px;
+  border-radius: 100px !important;
+  border: none !important;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  font-weight: 700 !important;
+  font-style: bold !important;
+  font-size: 14px !important;
+  margin-left: 25% !important;
+}
+
+label {
+  font-weight: 700 !important;
+  font-style: bold !important;
 }

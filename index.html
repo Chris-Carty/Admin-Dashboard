@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Company HQ</title>
+    <title>Company Directory</title>
     <meta name="author" content="Chris Carty" />
-    <meta name="description" content="Company Admin Dashboard" />
+    <meta name="description" content="Company Directory" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="css/style.css" />
     <link
@@ -23,9 +23,9 @@
     <div class="main-content-wrapper">
 
       <div class="header">
-        <h1>Company Directory</h1>
+        <h1><img src="media/svg/folder.svg"><span>Company Directory</span></h1>
         <div class="admin-section">
-          <div class="admin-profile"><img src="media/svg/search.svg"><span>Admin: Logged In</span></div>
+          <div class="admin-profile"><span>Admin: Logged In</span><!--<img src="media/svg/profile-img.svg">--></div>
           <button class="sign-out">Sign Out</button>
         </div>
       </div>
@@ -33,8 +33,8 @@
       <div class="manage-employees">
         <h3 class="header-title">Manage Employees</h3>
         <div class="buttons">
-          <button class="add-employee"><img src="media/svg/title.svg"><span>ADD EMPLOYEE</span></button>
-          <button class="search"><img src="media/svg/search.svg"><span>SEARCH</span></button>
+          <button class="add-employee" onclick="addEmployee()"><img src="media/svg/title.svg"><span>ADD EMPLOYEE</span></button>
+          <button class="search"><img src="media/svg/search.svg"><span>SEARCH..</span></button>
           <button class="sort"><img src="media/svg/sort.svg"><span>Sort</span></button>
           <button class="filter"><img src="media/svg/filter.svg"><span>Filter</span></button>
         </div>
@@ -55,6 +55,133 @@
             <tbody>
             </tbody>
         </table>
+      </div>
+    </div>
+
+    <div id="sign-in-form-content" style="visibility: hidden;">
+      <div class="sign-in-form">
+        <img id="close" src="media/svg/Close-icon.svg" onclick="closeAddEmployee()"/>
+        <div class="sign-in-form-wrapper">
+          <form>
+            <div class="form-group">
+              <label for="username">Username:</label>
+              <input type="text" class="form-control" id="username" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="password" class="form-control" id="password" required>
+            </div><br>
+            <button type="submit" class="btn btn-primary">SAVE EMPLOYEE</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="add-employee-form" style="visibility: hidden;">
+      <div class="employee-form">
+        <img id="close" src="media/svg/Close-icon.svg" onclick="closeAddEmployee()"/>
+        <div class="employee-form-wrapper">
+          <form>
+            <div class="form-group">
+              <label for="profile-img">Profile Image</label>
+              <input type="file" class="form-control-file" id="profile-img">
+            </div>
+            <div class="form-group">
+              <label for="first-name">First Name:</label>
+              <input type="text" class="form-control" id="first-name" placeholder="John" required>
+            </div>
+            <div class="form-group">
+              <label for="surname">Surname:</label>
+              <input type="text" class="form-control" id="surname" placeholder="Doe" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="department">Department:</label>
+              <select class="form-control" name="department" id="department" required>
+                <option value="Accounting">Accounting</option>
+                <option value="Business Development">Business Development</option>   
+                <option value="Engineering">Engineering</option>
+                <option value="Human Resources">Human Resources</option>
+                <option value="Legal">Legal</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Product Management">Product Management</option> 
+                <option value="Research and Development">Research and Development</option>  
+                <option value="Support">Support</option>
+                <option value="Services">Services</option>       
+                <option value="Sales">Sales</option>
+                <option value="Training">Training</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="location">Location:</label>
+              <select class="form-control" name="location" id="location" required>
+                <option value="London">London</option>
+                <option value="Munich">Munich</option>
+                <option value="New York">New York</option>
+                <option value="Paris">Paris</option>
+                <option value="Rome">Rome</option>
+              </select>
+            </div><br>
+            <button type="submit" class="btn btn-primary">SAVE EMPLOYEE</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="update-employee-form" style="visibility: hidden;">
+      <div class="employee-form">
+        <img id="close" src="media/svg/Close-icon.svg" onclick="closeUpdateEmployee()"/>
+        <div class="employee-form-wrapper">
+          <form>
+            <div class="form-group">
+              <label for="profile-img">Profile Image</label>
+              <input type="file" class="form-control-file" id="profile-img">
+            </div>
+            <div class="form-group">
+              <label for="first-name">First Name:</label>
+              <input type="text" class="form-control" id="first-name" placeholder="John" required readonly>
+            </div>
+            <div class="form-group">
+              <label for="surname">Surname:</label>
+              <input type="text" class="form-control" id="surname" placeholder="Doe" required readonly>
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="email" placeholder="name@example.com" required readonly>
+            </div>
+            <div class="form-group">
+              <label for="department">Department:</label>
+              <select class="form-control" name="department" id="department" required readonly>
+                <option value="Accounting">Accounting</option>
+                <option value="Business Development">Business Development</option>   
+                <option value="Engineering">Engineering</option>
+                <option value="Human Resources">Human Resources</option>
+                <option value="Legal">Legal</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Product Management">Product Management</option> 
+                <option value="Research and Development">Research and Development</option>  
+                <option value="Support">Support</option>
+                <option value="Services">Services</option>       
+                <option value="Sales">Sales</option>
+                <option value="Training">Training</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="location">Location:</label>
+              <select class="form-control" name="location" id="location" required readonly>
+                <option value="London">London</option>
+                <option value="Munich">Munich</option>
+                <option value="New York">New York</option>
+                <option value="Paris">Paris</option>
+                <option value="Rome">Rome</option>
+              </select>
+            </div><br>
+            <button type="submit" class="btn btn-primary">SAVE UPDATES</button>
+          </form>
+        </div>
       </div>
     </div>
 
