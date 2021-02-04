@@ -39,6 +39,22 @@ function buildTable() {
     })
 }
 
+function clearTable() {
+
+    $('#database').html(`
+    <tbody>
+        <tr id="tableHeader">
+            <th scope="col" class="hideCell" >ID</th>
+            <th scope="col">Display Name</th>
+            <th scope="col" class="hideCell" id="jobTitleHeader">Job Title</th>
+            <th scope="col" class="hideCell">Email</th>
+            <th scope="col" class="hideCell" id="departmentHeader">Department</th>
+            <th scope="col" class="hideCell" id="locationHeader">Location</th>
+        </tr>
+    </tbody>
+    `)
+}
+
 function appendEntry(db, i, filterBy) {
 
     $('#database tbody').append(`
@@ -54,13 +70,88 @@ function appendEntry(db, i, filterBy) {
 
 }
 
+$("department").change(function(){
+    console.log("CHANGED!!!!!")
+    var selectedVal = $(this).val();
+    switch(selectedVal){
+        case '1':
+            $(location).attr("placeholder", "Japan");
+        break;
+        case '2':
+            market();
+        break;
+        case '3':
+            segment();
+        break;
+        case '4':
+            program();
+        break;
+        case '5':
+            platform();
+        break;
+        case '6':
+            platform();
+        break;
+        case '7':
+            platform();
+        break;
+        case '8':
+            platform();
+        break;
+        case '9':
+            platform();
+        break;
+        case '10':
+            platform();
+        break;
+        case '11':
+            platform();
+        break;
+        case '12':
+            platform();
+        break;
+    }
+});
+
+function addEmployeeData() {
+
+        $.ajax({
+            data: {
+                'firstName': $('#first-name').val(),
+                'lastName': $('#surname').val(),
+                'jobTitle': $('#job-title').val(),
+                'email': $('#email').val(),
+                'departmentID': $('#department').val()
+            },
+            url: 'php/insertEmployee.php', 
+            dataType: 'json',
+            success: function(data) {
+
+                console.log(data);
+                
+                clearTable()
+
+                $('#first-name').val("")
+                $('#surname').val("")
+                $('#job-title').val("")
+                $('#email').val("")
+                $('#department').find('option:eq(0)').prop('selected', true);
+
+                $.when($.ajax(
+                    buildTable()
+                ))//.then(function () {
+                   // editModeOn()
+                //});
+            }
+        })
+}
+
 // BUTTONS
 
 function addEmployee() {
     var info = document.getElementById('add-employee-form')
     var visibility = info.style.visibility;
     info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
-    console.log('cliked');
   }
 
   function closeAddEmployee() {
