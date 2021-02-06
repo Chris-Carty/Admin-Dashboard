@@ -99,6 +99,8 @@ function addEmployeeData() {
                 ))//.then(function () {
                    // editModeOn()
                 //});
+                addEmployee()
+                toggleAreYouSure();
             }
         })
 }
@@ -106,7 +108,6 @@ function addEmployeeData() {
 // UPDATE COUNTRY IN FORM UPON DEPARTMENT SELECTION
 
 $("#department").change(function(){
-    console.log("CHANGED!!!!!")
     var selectedVal = $(this).val();
     switch(selectedVal){
         case '1':
@@ -134,7 +135,7 @@ $("#department").change(function(){
     }
 });
 
-// BUTTONS
+// TOGGLE BUTTONS
 
 function addEmployee() {
     var info = document.getElementById('add-employee-form')
@@ -145,3 +146,21 @@ function addEmployee() {
   function closeAddEmployee() {
     addEmployee()
   }
+
+  function toggleAreYouSure() {
+    var info = document.getElementById('areYouSure')
+    var visibility = info.style.visibility;
+    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+  }
+
+  function closeAreYouSure() {
+    toggleAreYouSure();
+  }
+
+  /*
+
+  function successNotification() {
+    var info = document.getElementById('add-employee-form')
+    var visibility = info.style.visibility;
+    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+  } */

@@ -15,6 +15,10 @@
       integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
       crossorigin="anonymous"
     />
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
     <link rel="icon" href="favicon.png" />
   </head>
 
@@ -40,6 +44,8 @@
         </div>
       </div>
 
+      <!-- Database -->
+
       <div class="databaseWrapper table-responsive m-auto">
         <table class="table border-bottom table-fixed" id="database">
             <thead>
@@ -57,6 +63,8 @@
         </table>
       </div>
     </div>
+
+    <!-- Add-Employee Form -->
 
     <div id="add-employee-form" style="visibility: hidden;">
       <div class="employee-form">
@@ -100,20 +108,33 @@
               <label for="location">Location:</label>
               <input type="text" class="form-control" id="location" placeholder="" required readonly>
             </div><br>
-            <button type="submit" class="btn btn-primary" onclick="addEmployeeData()">SAVE EMPLOYEE</button>
+            <button type="submit" class="btn btn-primary" onclick="toggleAreYouSure()">SAVE EMPLOYEE</button>
         </div>
       </div>
     </div>
 
-    <div class="confirm-action">
-      <div class="confirm-wrapper">
-        <div class="confirm-text-add-employee">Please confirm you want to add this employee to the directory</div>
-        <div class="confirm-buttons">
-          <button id="yes">YES</button>
-          <button id="no">NO</button>
+    <!-- Are You Sure -- Confirm User Action Window -->
+
+    <div id="areYouSure" class="confirm-action" style="visibility: hidden;">
+      <div id="form-cover">
+        <div class="confirm-wrapper">
+          <div class="confirm-text-add-employee">Please confirm you want to add this employee to the directory</div>
+          <div class="confirm-buttons">
+            <button id="yes" onclick="addEmployeeData()">YES</button>
+            <button id="no" onclick="closeAreYouSure()">NO</button>
+          </div>
         </div>
       </div>
     </div>
+
+  <!-- Success Notification -->
+
+  <div id="success-notification-wrapper" class="animate__animated animate__fadeInDown">
+    <div class="success-notification">
+      Success!
+    </div>
+  </div>
+
 
     <script
       type="application/javascript"
