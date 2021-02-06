@@ -70,48 +70,6 @@ function appendEntry(db, i, filterBy) {
 
 }
 
-$("department").change(function(){
-    console.log("CHANGED!!!!!")
-    var selectedVal = $(this).val();
-    switch(selectedVal){
-        case '1':
-            $(location).attr("placeholder", "Japan");
-        break;
-        case '2':
-            market();
-        break;
-        case '3':
-            segment();
-        break;
-        case '4':
-            program();
-        break;
-        case '5':
-            platform();
-        break;
-        case '6':
-            platform();
-        break;
-        case '7':
-            platform();
-        break;
-        case '8':
-            platform();
-        break;
-        case '9':
-            platform();
-        break;
-        case '10':
-            platform();
-        break;
-        case '11':
-            platform();
-        break;
-        case '12':
-            platform();
-        break;
-    }
-});
 
 function addEmployeeData() {
 
@@ -127,7 +85,6 @@ function addEmployeeData() {
             dataType: 'json',
             success: function(data) {
 
-                console.log(data);
                 
                 clearTable()
 
@@ -145,6 +102,37 @@ function addEmployeeData() {
             }
         })
 }
+
+// UPDATE COUNTRY IN FORM UPON DEPARTMENT SELECTION
+
+$("#department").change(function(){
+    console.log("CHANGED!!!!!")
+    var selectedVal = $(this).val();
+    switch(selectedVal){
+        case '1':
+        case '4':
+        case '5':
+            $("#location").attr("placeholder", "London");
+        break;
+        case '2':
+        case '3':
+            $("#location").attr("placeholder", "New York");
+        break;
+        case '6':
+        case '7':
+        case '12':
+            $("#location").attr("placeholder", "Paris");
+        break;
+        case '8':
+        case '9':
+            $("#location").attr("placeholder", "Munich");
+        break;
+        case '10':
+        case '11':
+            $("#location").attr("placeholder", "Rome");
+        break;
+    }
+});
 
 // BUTTONS
 

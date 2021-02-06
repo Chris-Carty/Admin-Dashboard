@@ -187,3 +187,57 @@ label {
   font-weight: 700 !important;
   font-style: bold !important;
 }
+
+.confirm-action {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 22%;
+  height: 20%;
+  background: #dfe0eb;
+  border-radius: 40px;
+  z-index: 400;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.confirm-wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.confirm-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.confirm-text-add-employee {
+  text-align: center;
+  margin: 0px 30px 20px 30px;
+}
+
+#yes,
+#no {
+  color: white;
+  width: 100px;
+  height: 34px;
+  border-radius: 100px !important;
+  border: none !important;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  font-weight: 700 !important;
+  font-style: bold !important;
+  font-size: 14px !important;
+}
+
+#yes {
+  background: #29cc97 !important;
+}
+
+#no {
+  background: #cc4129 !important;
+}
