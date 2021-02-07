@@ -2,8 +2,6 @@
 
 let employeeID;
 
-//employeeID = $(e.target).closest("tr").find("th").text()
-
 let profile = {
     firstName: "",
     lastName: "",
@@ -68,10 +66,9 @@ function appendEntry(db, i, filterBy) {
             <td class="hideCell">${db[i].email}</td>
             <td class=${(filterBy == "department") ? "" : "hideCell"}>${db[i].department}</td>
             <td class=${(filterBy == "location") ? "" : "hideCell"}>${db[i].location}</td>
-            <td class="hideCell"><button><img src="media/svg/icons8-edit.svg"></button><button><img src="media/svg/trash-red.svg"></button></td>
+            <td class="hideCell"><button><img src="media/svg/icons8-edit.svg"></button><button onclick="deleteEmployee()"><img src="media/svg/trash-red.svg"></button></td>
         </tr>
     `)
-
 }
 
 // ADD EMPLOYEE TO DATABASE
@@ -114,11 +111,15 @@ function addEmployeeData() {
 
 function deleteEmployee() {
 
+    console.log("delete!!!!");
+
     $.ajax({
         data: {'id': employeeID},
-        url: 'libs/php/deleteEmployeeByID.php', 
+        url: 'php/deleteEmployeeByID.php', 
         dataType: 'json',
         success: function(data) {
+
+            console.log(data);
   
             clearTable()
 
