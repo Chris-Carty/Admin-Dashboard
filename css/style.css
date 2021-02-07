@@ -94,6 +94,7 @@ body {
   font-weight: 700 !important;
   font-style: bold !important;
   font-size: 14px !important;
+  text-align: center;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
@@ -108,7 +109,12 @@ body {
 
 .search {
   background: #dfe0eb;
+  color: black;
   margin-left: 16px;
+  text-align: center;
+  background-image: url(../media/svg/search.svg);
+  background-repeat: no-repeat;
+  background-position: 10% center;
 }
 
 .search span,
@@ -136,7 +142,21 @@ body {
   padding: 0px 32px;
 }
 
-#add-employee-form {
+#database button {
+  border: none;
+  background: none;
+}
+
+#database button img {
+  width: 25px;
+}
+
+#database button span {
+  color: rgba(0, 0, 0, 0.1) !important;
+}
+
+#add-employee-form,
+#update-employee-form {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -148,7 +168,8 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.employee-form {
+.employee-form,
+.employee-info {
   width: 30%;
   height: 80%;
   background: #dfe0eb;
@@ -169,7 +190,8 @@ body {
   z-index: 200;
 }
 
-.employee-form-wrapper {
+.employee-form-wrapper,
+.employee-form-info-wrapper {
   position: absolute;
   top: 50%;
   left: 50%;

@@ -37,9 +37,9 @@
       <div class="manage-employees">
         <h3 class="header-title">Manage Employees</h3>
         <div class="buttons">
-          <button class="add-employee" onclick="addEmployee()"><img src="media/svg/title.svg"><span>ADD EMPLOYEE</span></button>
-          <button class="add-department"><img src="media/svg/title.svg"><span>ADD DEPARTMENT</span></button>
-          <input type="text" class="search" placeholder="SEARCH.."><img src="media/svg/search.svg"></input>
+          <button class="add-employee" onclick="addEmployee()"><img src="media/svg/title.svg"><span>Add Employee</span></button>
+          <button class="add-department">Manage Departments</button>
+          <input type="text" class="search" placeholder="Search.."></input>
           <button class="sort"><img src="media/svg/sort.svg"><span>Sort</span></button>
           <button class="filter"><img src="media/svg/filter.svg"><span>Filter</span></button>
         </div>
@@ -48,7 +48,7 @@
       <!-- Database -->
 
       <div class="databaseWrapper table-responsive m-auto">
-        <table class="table border-bottom table-fixed" id="database">
+        <table class="table border-bottom table-fixed  table-hover" id="database">
             <thead>
                 <tr id="tableHeader">
                     <th scope="col">ID</th>
@@ -57,6 +57,7 @@
                     <th scope="col" class="hideCell">Email</th>
                     <th scope="col" class="hideCell">Department</th>
                     <th scope="col" class="hideCell">Location</th>
+                    <th scope="col" class="hideCell">Edit  / Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -113,6 +114,55 @@
         </div>
       </div>
     </div>
+
+        <!-- Add-Employee Form -->
+
+        <div id="update-employee-form" style="visibility: hidden;">
+          <div class="employee-info">
+            <img id="close" src="media/svg/Close-icon.svg" onclick="closeUpdateEmployee()"/>
+            <div class="employee-form-info-wrapper">
+                <div class="form-group">
+                  <label for="first-name">First Name:</label>
+                  <input type="text" class="form-control" id="first-name" placeholder="John" required>
+                </div>
+                <div class="form-group">
+                  <label for="surname">Surname:</label>
+                  <input type="text" class="form-control" id="surname" placeholder="Doe" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                </div>
+                <div class="form-group">
+                  <label for="job-title">Job Title:</label>
+                  <input type="text" class="form-control" id="job-title" placeholder="e.g CFO" required>
+                </div>
+                <div class="form-group">
+                  <label for="department">Department:</label>
+                  <select class="form-control" name="department" id="department" required>
+                    <option value="" disabled selected>Please Select</option>
+                    <option value="11">Accounting</option>
+                    <option value="12">Business Development</option>   
+                    <option value="10">Engineering</option>
+                    <option value="1">Human Resources</option>
+                    <option value="4">Legal</option>
+                    <option value="3">Marketing</option>
+                    <option value="7">Product Management</option> 
+                    <option value="6">Research and Development</option>  
+                    <option value="9">Support</option>
+                    <option value="5">Services</option>       
+                    <option value="2">Sales</option>
+                    <option value="8">Training</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="location">Location:</label>
+                  <input type="text" class="form-control" id="location" placeholder="" required readonly>
+                </div><br>
+                <button type="submit" class="btn btn-primary" onclick="toggleAreYouSure()">SAVE EMPLOYEE</button>
+            </div>
+          </div>
+        </div>
 
     <!-- Are You Sure -- Confirm User Action Window -->
 

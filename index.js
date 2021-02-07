@@ -52,6 +52,7 @@ function clearTable() {
             <th scope="col" class="hideCell">Email</th>
             <th scope="col" class="hideCell" id="departmentHeader">Department</th>
             <th scope="col" class="hideCell" id="locationHeader">Location</th>
+            <th scope="col" class="hideCell" id="ManageHeader">Manage</th>
         </tr>
     </tbody>
     `)
@@ -67,6 +68,7 @@ function appendEntry(db, i, filterBy) {
             <td class="hideCell">${db[i].email}</td>
             <td class=${(filterBy == "department") ? "" : "hideCell"}>${db[i].department}</td>
             <td class=${(filterBy == "location") ? "" : "hideCell"}>${db[i].location}</td>
+            <td class="hideCell"><button><img src="media/svg/icons8-edit.svg"></button><button><img src="media/svg/trash-red.svg"></button></td>
         </tr>
     `)
 
