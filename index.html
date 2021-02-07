@@ -38,6 +38,7 @@
         <h3 class="header-title">Manage Employees</h3>
         <div class="buttons">
           <button class="add-employee" onclick="addEmployee()"><img src="media/svg/title.svg"><span>ADD EMPLOYEE</span></button>
+          <button class="add-department"><img src="media/svg/title.svg"><span>ADD DEPARTMENT</span></button>
           <input type="text" class="search" placeholder="SEARCH.."><img src="media/svg/search.svg"></input>
           <button class="sort"><img src="media/svg/sort.svg"><span>Sort</span></button>
           <button class="filter"><img src="media/svg/filter.svg"><span>Filter</span></button>
@@ -50,7 +51,7 @@
         <table class="table border-bottom table-fixed" id="database">
             <thead>
                 <tr id="tableHeader">
-                    <th scope="col" class="hideCell">ID</th>
+                    <th scope="col">ID</th>
                     <th scope="col">Display Name</th>
                     <th scope="col" class="hideCell">Job Title</th>
                     <th scope="col" class="hideCell">Email</th>
@@ -129,11 +130,27 @@
 
   <!-- Success Notification -->
 
-  <div id="success-notification-wrapper" class="animate__animated animate__fadeInDown">
+  <div id="success-notification-wrapper" class="animate__animated">
     <div class="success-notification">
-      Success!<span><img src="media/svg/tick.svg"></span>
+      Employee Added Successfully!<span><img src="media/svg/tick.svg"></span>
     </div>
   </div>
+
+  <!-- Cancel Notification -->
+
+  <div id="removed-notification-wrapper" class="animate__animated">
+    <div class="removed-notification">
+      Employee Removed Successfully!<span><img src="media/svg/tick.svg"></span>
+    </div>
+  </div>
+
+    <!-- Updated Notification -->
+
+    <div id="updated-notification-wrapper" class="animate__animated">
+      <div class="updated-notification">
+        Employee Updated Successfully!<span><img src="media/svg/tick.svg"></span>
+      </div>
+    </div>
 
 
     <script

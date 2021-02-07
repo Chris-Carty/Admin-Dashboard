@@ -2,6 +2,8 @@
 
 let employeeID;
 
+//employeeID = $(e.target).closest("tr").find("th").text()
+
 let profile = {
     firstName: "",
     lastName: "",
@@ -70,6 +72,7 @@ function appendEntry(db, i, filterBy) {
 
 }
 
+// ADD EMPLOYEE TO DATABASE
 
 function addEmployeeData() {
 
@@ -105,6 +108,29 @@ function addEmployeeData() {
         })
 }
 
+// REMOVE EMPLOYEE FROM DATABASE
+
+function deleteEmployee() {
+
+    $.ajax({
+        data: {'id': employeeID},
+        url: 'libs/php/deleteEmployeeByID.php', 
+        dataType: 'json',
+        success: function(data) {
+  
+            clearTable()
+
+            $.when($.ajax(
+                buildTable()
+            )).then(function () {
+                editModeOn()
+            });
+
+        }
+    })
+}
+
+
 // UPDATE COUNTRY IN FORM UPON DEPARTMENT SELECTION
 
 $("#department").change(function(){
@@ -135,7 +161,9 @@ $("#department").change(function(){
     }
 });
 
-// TOGGLE BUTTONS
+  // ------ FORMS ------ // 
+
+  // ADD EMPLOYEE FROM
 
 function addEmployee() {
     var info = document.getElementById('add-employee-form')
@@ -147,6 +175,27 @@ function addEmployee() {
     addEmployee()
   }
 
+   // UPDATE EMPLOYEE FORM
+
+   function updateEmployee() {
+    var info = document.getElementById('add-employee-form')
+    var visibility = info.style.visibility;
+    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+  }
+
+  function closeUpdateEmployee() {
+    updateEmployee()
+  }
+
+
+
+   // ADD DEPARTMENT FORM
+
+
+  // ------ NOTIFICATIONS ------ //
+
+  // CONFIRM ACTION NOTIFICATION
+
   function toggleAreYouSure() {
     var info = document.getElementById('areYouSure')
     var visibility = info.style.visibility;
@@ -157,10 +206,41 @@ function addEmployee() {
     toggleAreYouSure();
   }
 
-  /*
+  // SUCCESS NOTIFICATION
 
-  function successNotification() {
-    var info = document.getElementById('add-employee-form')
-    var visibility = info.style.visibility;
-    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
-  } */
+  $(document).ready(function(){
+    $(document).on("click","#yes",function() {
+        $("#success-notification-wrapper").show();
+        $("#success-notification-wrapper").addClass('animate__fadeInDown');
+            window.setTimeout( function(){
+                $("#success-notification-wrapper").hide();
+                $("#success-notification-wrapper").removeClass('animate__fadeInDown');
+         }, 2000);    
+    });
+    });
+
+    // REMOVED NOTIFICATION
+
+    $(document).ready(function(){
+        $(document).on("click","#delete",function() {
+            $("#removed-notification-wrapper").show();
+            $("#removed-notification-wrapper").addClass('animate__fadeInDown');
+                window.setTimeout( function(){
+                    $("#removed-notification-wrapper").hide();
+                    $("#removed-notification-wrapper").removeClass('animate__fadeInDown');
+             }, 1000);    
+        });
+        });
+
+    // UPDATED NOTIFICATION
+
+    $(document).ready(function(){
+        $(document).on("click","#XXXXXX",function() {
+            $("#updated-notification-wrapper").show();
+            $("#updated-notification-wrapper").addClass('animate__fadeInDown');
+                window.setTimeout( function(){
+                    $("#updated-notification-wrapper").hide();
+                    $("#updated-notification-wrapper").removeClass('animate__fadeInDown');
+             }, 1000);    
+        });
+        });
