@@ -242,7 +242,32 @@ label {
   transform: translate(-50%, -50%);
 }
 
-.confirm-wrapper {
+#form-cover2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 346px;
+  height: 197px;
+  background: #dfe0eb;
+  border-radius: 30px;
+  z-index: 400;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.confirm-action2 {
+  width: 100%;
+  height: 100%;
+  background: rgba(196, 196, 196, 0.8);
+  z-index: 105;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.confirm-wrapper,
+.confirm-wrapper2 {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -263,7 +288,9 @@ label {
 }
 
 #yes,
-#no {
+#no,
+#yes2,
+#no2 {
   color: white;
   width: 100px;
   height: 34px;
@@ -275,11 +302,13 @@ label {
   font-size: 14px !important;
 }
 
-#yes {
+#yes,
+#yes2 {
   background: #29cc97 !important;
 }
 
-#no {
+#no,
+#no2 {
   background: #cc4129 !important;
 }
 

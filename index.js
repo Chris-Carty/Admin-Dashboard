@@ -59,17 +59,35 @@ function clearTable() {
 function appendEntry(db, i, filterBy) {
 
     $('#database tbody').append(`
-        <tr onclick="loadProfile(${JSON.stringify(db[i]).split('"').join("&quot;")})">
+        <tr onclick="viewProfile(${JSON.stringify(db[i]).split('"').join("&quot;")})">
             <th class="hideCell">${db[i].id}</th>
             <td><b>${db[i].lastName}</b>, ${db[i].firstName}</td>
             <td class=${(filterBy == "jobTitle") ? "" : "hideCell"}>${db[i].jobTitle}</td>
             <td class="hideCell">${db[i].email}</td>
             <td class=${(filterBy == "department") ? "" : "hideCell"}>${db[i].department}</td>
             <td class=${(filterBy == "location") ? "" : "hideCell"}>${db[i].location}</td>
-            <td class="hideCell"><button><img src="media/svg/icons8-edit.svg"></button><button onclick="deleteEmployee()"><img src="media/svg/trash-red.svg"></button></td>
+            <td class="hideCell"><button onclick="updateEmployee()"><img src="media/svg/icons8-edit.svg"></button><button id="delete" onclick="toggleAreYouSure2()"><img src="media/svg/trash-red.svg"></button></td>
         </tr>
     `)
 }
+
+function viewProfile(profile) {
+
+    $('#id').attr("placeholder", profile.id);
+    $('#firstName').attr("placeholder", profile.firstName);
+    $('#lastName').attr("placeholder", profile.lastName);
+    $('#jobTitle').attr("placeholder", profile.jobTitle)
+    $('#email2').attr("placeholder", profile.email);
+    $('#department2').attr("placeholder", profile.department);
+    $('#location2').attr("placeholder", profile.location);
+
+    //if ($('#editModeToggle').prop('checked') == true) {
+     //   updateProfile()
+   // }
+    
+}
+
+// ------ PHP / SQL DATABASE MODIFICATIONS ------ // 
 
 // ADD EMPLOYEE TO DATABASE
 
@@ -111,33 +129,55 @@ function addEmployeeData() {
 
 function deleteEmployee() {
 
-    console.log("delete!!!!");
-
     $.ajax({
         data: {'id': employeeID},
         url: 'php/deleteEmployeeByID.php', 
         dataType: 'json',
         success: function(data) {
-
-            console.log(data);
   
             clearTable()
 
             $.when($.ajax(
                 buildTable()
-            )).then(function () {
-                editModeOn()
-            });
+            ))//.then(function () {
+               // editModeOn()
+            //}//);
+            toggleAreYouSure2();
 
         }
     })
 }
 
+  // ------ TOGGLE FORMS ------ // 
 
-// UPDATE COUNTRY IN FORM UPON DEPARTMENT SELECTION
+  // ADD EMPLOYEE FROM
+
+function addEmployee() {
+    let info = document.getElementById('add-employee-form')
+    let visibility = info.style.visibility;
+    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+  }
+
+  function closeAddEmployee() {
+    addEmployee()
+  }
+
+   // UPDATE EMPLOYEE FORM
+
+   function updateEmployee() {
+    let info = document.getElementById('update-employee-form')
+    let visibility = info.style.visibility;
+    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+  }
+
+  function closeUpdateEmployee() {
+    updateEmployee()
+  }
+
+  // UPDATE COUNTRY IN ADD EMPLOYEE FORM UPON DEPARTMENT SELECTION
 
 $("#department").change(function(){
-    var selectedVal = $(this).val();
+    let selectedVal = $(this).val();
     switch(selectedVal){
         case '1':
         case '4':
@@ -164,40 +204,11 @@ $("#department").change(function(){
     }
 });
 
-  // ------ FORMS ------ // 
-
-  // ADD EMPLOYEE FROM
-
-function addEmployee() {
-    var info = document.getElementById('add-employee-form')
-    var visibility = info.style.visibility;
-    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
-  }
-
-  function closeAddEmployee() {
-    addEmployee()
-  }
-
-   // UPDATE EMPLOYEE FORM
-
-   function updateEmployee() {
-    var info = document.getElementById('add-employee-form')
-    var visibility = info.style.visibility;
-    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
-  }
-
-  function closeUpdateEmployee() {
-    updateEmployee()
-  }
-
-
-
-   // ADD DEPARTMENT FORM
-
+  // ADD DEPARTMENT FORM
 
   // ------ NOTIFICATIONS ------ //
 
-  // CONFIRM ACTION NOTIFICATION
+  // CONFIRM ACTION NOTIFICATION(s)
 
   function toggleAreYouSure() {
     var info = document.getElementById('areYouSure')
@@ -207,6 +218,20 @@ function addEmployee() {
 
   function closeAreYouSure() {
     toggleAreYouSure();
+  }
+
+  function toggleAreYouSure2() {
+
+    let e = window.event;
+    employeeID = $(e.target).closest("tr").find("th").text()
+
+    var info = document.getElementById('areYouSure2')
+    var visibility = info.style.visibility;
+    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+  }
+
+  function closeDeleteEmployee() {
+    toggleAreYouSure2();
   }
 
   // SUCCESS NOTIFICATION
@@ -225,13 +250,13 @@ function addEmployee() {
     // REMOVED NOTIFICATION
 
     $(document).ready(function(){
-        $(document).on("click","#delete",function() {
+        $(document).on("click","#yes2",function() {
             $("#removed-notification-wrapper").show();
             $("#removed-notification-wrapper").addClass('animate__fadeInDown');
                 window.setTimeout( function(){
                     $("#removed-notification-wrapper").hide();
                     $("#removed-notification-wrapper").removeClass('animate__fadeInDown');
-             }, 1000);    
+             }, 2000);    
         });
         });
 

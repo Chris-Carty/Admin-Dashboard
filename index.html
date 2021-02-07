@@ -121,25 +121,30 @@
           <div class="employee-info">
             <img id="close" src="media/svg/Close-icon.svg" onclick="closeUpdateEmployee()"/>
             <div class="employee-form-info-wrapper">
+              <div class="form-group">
+                <label for="id">Employee ID:</label>
+                <input id="id" type="text" class="form-control" placeholder="id" required readonly>
+              </div>
                 <div class="form-group">
-                  <label for="first-name">First Name:</label>
-                  <input type="text" class="form-control" id="first-name" placeholder="John" required>
+                  <label for="firstName">First Name:</label>
+                  <input id="firstName" type="text" class="form-control" placeholder="John" required readonly>
                 </div>
                 <div class="form-group">
-                  <label for="surname">Surname:</label>
-                  <input type="text" class="form-control" id="surname" placeholder="Doe" required>
+                  <label for="lastName">Surname:</label>
+                  <input id="lastName" type="text" class="form-control" placeholder="Doe" required readonly>
                 </div>
                 <div class="form-group">
-                  <label for="email">Email:</label>
-                  <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                  <label for="email2">Email:</label>
+                  <input id="email2" type="email" class="form-control" placeholder="name@example.com" required readonly>
                 </div>
                 <div class="form-group">
-                  <label for="job-title">Job Title:</label>
-                  <input type="text" class="form-control" id="job-title" placeholder="e.g CFO" required>
+                  <label for="jobTitle">Job Title:</label>
+                  <input id="jobTitle" type="text" class="form-control" placeholder="e.g CFO" required readonly>
                 </div>
                 <div class="form-group">
-                  <label for="department">Department:</label>
-                  <select class="form-control" name="department" id="department" required>
+                  <label for="department2">Department:</label>
+                  <input id="department2" type="text" class="form-control" placeholder="Services" required readonly>
+                  <!--<select class="form-control" name="department2" id="department2" required readonly>
                     <option value="" disabled selected>Please Select</option>
                     <option value="11">Accounting</option>
                     <option value="12">Business Development</option>   
@@ -153,13 +158,12 @@
                     <option value="5">Services</option>       
                     <option value="2">Sales</option>
                     <option value="8">Training</option>
-                  </select>
+                  </select>-->
                 </div>
                 <div class="form-group">
-                  <label for="location">Location:</label>
-                  <input type="text" class="form-control" id="location" placeholder="" required readonly>
-                </div><br>
-                <button type="submit" class="btn btn-primary" onclick="toggleAreYouSure()">SAVE EMPLOYEE</button>
+                  <label for="location2">Location:</label>
+                  <input type="text" class="form-control" id="location2" placeholder="" required readonly>
+                </div>
             </div>
           </div>
         </div>
@@ -173,6 +177,18 @@
           <div class="confirm-buttons">
             <button id="yes" onclick="addEmployeeData()">YES</button>
             <button id="no" onclick="closeAreYouSure()">NO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="areYouSure2" class="confirm-action2" style="visibility: hidden;">
+      <div id="form-cover2">
+        <div class="confirm-wrapper2">
+          <div class="confirm-text-add-employee">Please confirm you want to remove this employee from the directory</div>
+          <div class="confirm-buttons">
+            <button id="yes2" onclick="deleteEmployee()">YES</button>
+            <button id="no2" onclick="closeDeleteEmployee()">NO</button>
           </div>
         </div>
       </div>
