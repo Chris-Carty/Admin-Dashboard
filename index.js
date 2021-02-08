@@ -64,9 +64,6 @@ function appendEntry(db, i, filterBy) {
 }
 
 function viewProfile(profile) {
-
-    console.log(profile.department);
-
     //var text1 = profile.department;
     //$("select option").filter(function() {
     //may want to use $.trim in here
@@ -120,32 +117,30 @@ function toggleReadOnly() {
         // POPULATE SELECT DEPARTMENT OPTIONS
 
         let entry = $('#profile').children().eq(5).children().eq(1);
-        let entryText = entry.text();
+        let entryText = entry.val();
         let id = entry.attr('id')
-    
-        profile[id] = entryText;
-
-        var category = capitalizeFistLetter(id)
-        selectOptions(category, id)
-
-        $(`#${id}`).append(`<option selected="true">${entryText}</option>`)
 
         if ($('#edit-mode-text').html() !== 'Off') {
 
             $("#save-updates").show(); 
+
             entry.replaceWith(`<select class="form-control" name="department" onchange="updateLocation()" id='department'></select>`)
-        
+
+            let category = capitalize(id)
+            selectOptions(category, id)
+
+            $(`#department`).append(`<option selected="true">${entryText}</option>`)
+           
         } else {
 
             $("#save-updates").hide(); 
-            entry.replaceWith(`<select class="form-control" name="department" onchange="updateLocation()" id="department" disabled></select>`)
+
+            entry.replaceWith(`<input id="department" name="department" type="text" class="form-control" placeholder='${entryText}' required readonly>`)
         }
-  
+
 }
 
 function updateLocation() {
-
-console.log('changed!')
 
 $.getJSON(`php/getAllDepartments.php`, function (departments) {
     let locationID = departments.data.filter(dep => dep.name == $('#department').val())[0].locationID
@@ -387,7 +382,7 @@ function addEmployee() {
             }); 
         }
 
-        function capitalizeFistLetter(word) {
+        function capitalize(word) {
             return word.charAt(0).toUpperCase() + word.slice(1);
         }
      
