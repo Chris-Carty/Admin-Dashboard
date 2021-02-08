@@ -57,7 +57,7 @@
                     <th scope="col" class="hideCell">Email</th>
                     <th scope="col" class="hideCell">Department</th>
                     <th scope="col" class="hideCell">Location</th>
-                    <th scope="col" class="hideCell">Edit  / Delete</th>
+                    <th scope="col" class="hideCell">Edit / Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    <!-- Add-Employee Form -->
+    <!-- Add Employee Form -->
 
     <div id="add-employee-form" style="visibility: hidden;">
       <div class="employee-form">
@@ -89,86 +89,61 @@
               <input type="text" class="form-control" id="job-title" placeholder="e.g CFO" required>
             </div>
             <div class="form-group">
-              <label for="department">Department:</label>
-              <select class="form-control" name="department" id="department" required>
-                <option value="" disabled selected>Please Select</option>
-                <option value="11">Accounting</option>
-                <option value="12">Business Development</option>   
-                <option value="10">Engineering</option>
-                <option value="1">Human Resources</option>
-                <option value="4">Legal</option>
-                <option value="3">Marketing</option>
-                <option value="7">Product Management</option> 
-                <option value="6">Research and Development</option>  
-                <option value="9">Support</option>
-                <option value="5">Services</option>       
-                <option value="2">Sales</option>
-                <option value="8">Training</option>
-              </select>
+              <label for="addEmployeeDepartment">Department:</label>
+              <select class="form-control" name="addEmployeeDepartment" id="addEmployeeDepartment" required></select>
             </div>
-            <div class="form-group">
-              <label for="location">Location:</label>
-              <input type="text" class="form-control" id="location" placeholder="" required readonly>
-            </div><br>
+            <br>
             <button type="submit" class="btn btn-primary" onclick="toggleAreYouSure()">SAVE EMPLOYEE</button>
         </div>
       </div>
     </div>
 
-        <!-- Add-Employee Form -->
+        <!-- Update Employee Form -->
 
         <div id="update-employee-form" style="visibility: hidden;">
           <div class="employee-info">
+            <label class="switch">
+              <input type="checkbox">
+              <span id="toggle-edit-mode" class="slider round" onclick="toggleReadOnly()"></span>
+            </label>
+            <div class="edit-mode">Edit Mode:<span id="edit-mode-text">Off</span></div>
             <img id="close" src="media/svg/Close-icon.svg" onclick="closeUpdateEmployee()"/>
-            <div class="employee-form-info-wrapper">
-              <div class="form-group">
+            <div id="profile" class="employee-form-info-wrapper">
+              <div class="form-group"><br>
                 <label for="id">Employee ID:</label>
-                <input id="id" type="text" class="form-control" placeholder="id" required readonly>
+                <input id="id" type="text" class="form-control" required readonly>
               </div>
                 <div class="form-group">
                   <label for="firstName">First Name:</label>
-                  <input id="firstName" type="text" class="form-control" placeholder="John" required readonly>
+                  <input id="firstName" type="text" class="form-control" required readonly>
                 </div>
                 <div class="form-group">
                   <label for="lastName">Surname:</label>
-                  <input id="lastName" type="text" class="form-control" placeholder="Doe" required readonly>
+                  <input id="lastName" type="text" class="form-control"required readonly>
                 </div>
                 <div class="form-group">
                   <label for="email2">Email:</label>
-                  <input id="email2" type="email" class="form-control" placeholder="name@example.com" required readonly>
+                  <input id="email2" type="email" class="form-control" required readonly>
                 </div>
                 <div class="form-group">
                   <label for="jobTitle">Job Title:</label>
-                  <input id="jobTitle" type="text" class="form-control" placeholder="e.g CFO" required readonly>
+                  <input id="jobTitle" type="text" class="form-control" required readonly>
                 </div>
                 <div class="form-group">
-                  <label for="department2">Department:</label>
-                  <input id="department2" type="text" class="form-control" placeholder="Services" required readonly>
-                  <!--<select class="form-control" name="department2" id="department2" required readonly>
-                    <option value="" disabled selected>Please Select</option>
-                    <option value="11">Accounting</option>
-                    <option value="12">Business Development</option>   
-                    <option value="10">Engineering</option>
-                    <option value="1">Human Resources</option>
-                    <option value="4">Legal</option>
-                    <option value="3">Marketing</option>
-                    <option value="7">Product Management</option> 
-                    <option value="6">Research and Development</option>  
-                    <option value="9">Support</option>
-                    <option value="5">Services</option>       
-                    <option value="2">Sales</option>
-                    <option value="8">Training</option>
-                  </select>-->
+                  <label for="department">Department:</label>
+                  <!--<input id="department" name="department" type="text" class="form-control" required readonly> -->
+                 <select onchange="updateLocation()" class="form-control" name="department" id="department" required disabled></select>
                 </div>
                 <div class="form-group">
-                  <label for="location2">Location:</label>
-                  <input type="text" class="form-control" id="location2" placeholder="" required readonly>
-                </div>
+                  <label for="location">Location:</label>
+                  <input id="location" name="location" type="text" class="form-control" required readonly>
+                </div><br>
+                <button id="save-updates" type="submit" class="btn btn-primary" onclick="toggleAreYouSure3()">SAVE UPDATES</button>
             </div>
           </div>
         </div>
 
-    <!-- Are You Sure -- Confirm User Action Window -->
+    <!-- Are You Sure -- Confirm User Action Window(s) -->
 
     <div id="areYouSure" class="confirm-action" style="visibility: hidden;">
       <div id="form-cover">
@@ -189,6 +164,18 @@
           <div class="confirm-buttons">
             <button id="yes2" onclick="deleteEmployee()">YES</button>
             <button id="no2" onclick="closeDeleteEmployee()">NO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="areYouSure3" class="confirm-action3" style="visibility: hidden;">
+      <div id="form-cover3">
+        <div class="confirm-wrapper3">
+          <div class="confirm-text-add-employee">Please confirm you want to update employee information</div>
+          <div class="confirm-buttons">
+            <button id="yes3" onclick="updateEmployee()">YES</button>
+            <button id="no3" onclick="closeUpdateEmployeeToggle()">NO</button>
           </div>
         </div>
       </div>

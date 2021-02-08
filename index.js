@@ -23,18 +23,10 @@ function buildTable() {
         url: 'php/getAll.php', 
         dataType: 'json',
         success: function(data) {
-
             var db = data.data;
-
-            var numberOfEntries = 0;
-
             for (let i in db) {
                 appendEntry(db, i)
-                numberOfEntries++
             }
-
-            $('#numberOfEntries').html(numberOfEntries)
-
         }
     })
 }
@@ -66,25 +58,105 @@ function appendEntry(db, i, filterBy) {
             <td class="hideCell">${db[i].email}</td>
             <td class=${(filterBy == "department") ? "" : "hideCell"}>${db[i].department}</td>
             <td class=${(filterBy == "location") ? "" : "hideCell"}>${db[i].location}</td>
-            <td class="hideCell"><button onclick="updateEmployee()"><img src="media/svg/icons8-edit.svg"></button><button id="delete" onclick="toggleAreYouSure2()"><img src="media/svg/trash-red.svg"></button></td>
+            <td class="hideCell"><button onclick="updateEmployeeToggle()"><img src="media/svg/icons8-edit.svg"></button><button id="delete" onclick="toggleAreYouSure2()"><img src="media/svg/trash-red.svg"></button></td>
         </tr>
     `)
 }
 
 function viewProfile(profile) {
 
-    $('#id').attr("placeholder", profile.id);
-    $('#firstName').attr("placeholder", profile.firstName);
-    $('#lastName').attr("placeholder", profile.lastName);
-    $('#jobTitle').attr("placeholder", profile.jobTitle)
-    $('#email2').attr("placeholder", profile.email);
-    $('#department2').attr("placeholder", profile.department);
-    $('#location2').attr("placeholder", profile.location);
+    console.log(profile.department);
 
-    //if ($('#editModeToggle').prop('checked') == true) {
-     //   updateProfile()
-   // }
+    //var text1 = profile.department;
+    //$("select option").filter(function() {
+    //may want to use $.trim in here
+    //return $(this).text() == text1;
+    //}).prop('selected', true);
+
+    $('#id').attr("placeholder", profile.id);
+    $('#firstName').val(profile.firstName);
+    $('#lastName').val(profile.lastName);
+    $('#jobTitle').val(profile.jobTitle)
+    $('#email2').val(profile.email);
+    $('#department').val(profile.department);
+    $('#location').val(profile.location);
+
+}
+
+function toggleReadOnly() {
+
+        //updateProfile()
+
+        if ($('#edit-mode-text').html() === 'Off') {
+            $('#edit-mode-text').html('On')
+        } else {
+            $('#edit-mode-text').html('Off')  
+        };
+
+        if (document.getElementById('firstName').readOnly === true) {
+            document.getElementById('firstName').readOnly = false;
+        } else {
+            document.getElementById('firstName').readOnly = true
+        };
+
+        if (document.getElementById('lastName').readOnly === true) {
+            document.getElementById('lastName').readOnly = false;
+        } else {
+            document.getElementById('lastName').readOnly = true
+        };
+
+        if (document.getElementById('email2').readOnly === true) {
+            document.getElementById('email2').readOnly = false;
+        } else {
+            document.getElementById('email2').readOnly = true
+        };
+
+        if (document.getElementById('jobTitle').readOnly === true) {
+            document.getElementById('jobTitle').readOnly = false;
+        } else {
+            document.getElementById('jobTitle').readOnly = true
+        };
+
+        // POPULATE SELECT DEPARTMENT OPTIONS
+
+        let entry = $('#profile').children().eq(5).children().eq(1);
+        let entryText = entry.text();
+        let id = entry.attr('id')
     
+        profile[id] = entryText;
+
+        var category = capitalizeFistLetter(id)
+        selectOptions(category, id)
+
+        $(`#${id}`).append(`<option selected="true">${entryText}</option>`)
+
+        if ($('#edit-mode-text').html() !== 'Off') {
+
+            $("#save-updates").show(); 
+            entry.replaceWith(`<select class="form-control" name="department" onchange="updateLocation()" id='department'></select>`)
+        
+        } else {
+
+            $("#save-updates").hide(); 
+            entry.replaceWith(`<select class="form-control" name="department" onchange="updateLocation()" id="department" disabled></select>`)
+        }
+  
+}
+
+function updateLocation() {
+
+console.log('changed!')
+
+$.getJSON(`php/getAllDepartments.php`, function (departments) {
+    let locationID = departments.data.filter(dep => dep.name == $('#department').val())[0].locationID
+
+    $.getJSON(`php/getAllLocations.php`, function (locations) { 
+        let location = locations.data.filter(loc => loc.id == locationID)[0].name
+        $('#location').val(location)
+
+    })
+})
+
 }
 
 // ------ PHP / SQL DATABASE MODIFICATIONS ------ // 
@@ -93,19 +165,23 @@ function viewProfile(profile) {
 
 function addEmployeeData() {
 
+        let departmentName = $('#addEmployeeDepartment').val()
+
+        $.getJSON(`php/getAllDepartments.php`, function (departments) {
+            let departmentID = departments.data.filter(dep => dep.name == departmentName)[0].id
+
         $.ajax({
             data: {
                 'firstName': $('#first-name').val(),
                 'lastName': $('#surname').val(),
                 'jobTitle': $('#job-title').val(),
                 'email': $('#email').val(),
-                'departmentID': $('#department').val()
+                'departmentID': departmentID
             },
             url: 'php/insertEmployee.php', 
             dataType: 'json',
             success: function(data) {
 
-                
                 clearTable()
 
                 $('#first-name').val("")
@@ -123,6 +199,42 @@ function addEmployeeData() {
                 toggleAreYouSure();
             }
         })
+    })
+}
+
+// UPDATE EMPLOYEE IN DATABASE
+
+function updateEmployee() {
+
+    closeUpdateEmployeeToggle()
+
+    $.getJSON(`php/getAllDepartments.php`, function (departments) {
+        let departmentID = departments.data.filter(dep => dep.name == profile.department)[0].id
+
+        $.ajax({
+            data: {
+                'id': parseInt($('#id').val()),
+                'firstName': $('#firstName').val(),
+                'lastName': $('#lastName').val(),
+                'jobTitle': $('#jobTitle').val(),
+                'email': $('#email2').val(),
+                'departmentID': departmentID
+            },
+            url: 'php/updateEmployeeByID.php', 
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+                clearTable()
+    
+                $.when($.ajax(
+                    buildTable()
+                ))//.then(function () {
+                    //editModeOn()
+                //});
+            }
+        })
+
+    })
 }
 
 // REMOVE EMPLOYEE FROM DATABASE
@@ -148,14 +260,22 @@ function deleteEmployee() {
     })
 }
 
-  // ------ TOGGLE FORMS ------ // 
+// ------------------// 
 
-  // ADD EMPLOYEE FROM
+// ------ TOGGLE FORMS ------ // 
+
+// ADD EMPLOYEE FROM
 
 function addEmployee() {
     let info = document.getElementById('add-employee-form')
     let visibility = info.style.visibility;
     info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+
+    let selectArr = ['Department', 'Location']
+
+    for (let i in selectArr) {
+        selectOptions(selectArr[i],`addEmployee${selectArr[i]}`) 
+    }
   }
 
   function closeAddEmployee() {
@@ -164,45 +284,16 @@ function addEmployee() {
 
    // UPDATE EMPLOYEE FORM
 
-   function updateEmployee() {
+   function updateEmployeeToggle() {
+
     let info = document.getElementById('update-employee-form')
     let visibility = info.style.visibility;
     info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
   }
 
   function closeUpdateEmployee() {
-    updateEmployee()
+    updateEmployeeToggle()
   }
-
-  // UPDATE COUNTRY IN ADD EMPLOYEE FORM UPON DEPARTMENT SELECTION
-
-$("#department").change(function(){
-    let selectedVal = $(this).val();
-    switch(selectedVal){
-        case '1':
-        case '4':
-        case '5':
-            $("#location").attr("placeholder", "London");
-        break;
-        case '2':
-        case '3':
-            $("#location").attr("placeholder", "New York");
-        break;
-        case '6':
-        case '7':
-        case '12':
-            $("#location").attr("placeholder", "Paris");
-        break;
-        case '8':
-        case '9':
-            $("#location").attr("placeholder", "Munich");
-        break;
-        case '10':
-        case '11':
-            $("#location").attr("placeholder", "Rome");
-        break;
-    }
-});
 
   // ADD DEPARTMENT FORM
 
@@ -234,6 +325,17 @@ $("#department").change(function(){
     toggleAreYouSure2();
   }
 
+  function toggleAreYouSure3() {
+
+    var info = document.getElementById('areYouSure3')
+    var visibility = info.style.visibility;
+    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+  }
+
+  function closeUpdateEmployeeToggle() {
+    toggleAreYouSure3();
+  }
+
   // SUCCESS NOTIFICATION
 
   $(document).ready(function(){
@@ -263,12 +365,30 @@ $("#department").change(function(){
     // UPDATED NOTIFICATION
 
     $(document).ready(function(){
-        $(document).on("click","#XXXXXX",function() {
+        $(document).on("click","#yes3",function() {
             $("#updated-notification-wrapper").show();
             $("#updated-notification-wrapper").addClass('animate__fadeInDown');
                 window.setTimeout( function(){
                     $("#updated-notification-wrapper").hide();
                     $("#updated-notification-wrapper").removeClass('animate__fadeInDown');
-             }, 1000);    
+             }, 2000);    
         });
         });
+
+    // SELCT DEPARTMENT OPTIONS NOTIFICATION
+
+        function selectOptions(category, selectID) {
+            $(`#${selectID}`).empty();
+        
+            $.getJSON(`php/getAll${category}s.php`, function (category) {
+                $.each(category.data , function (key, entry) {
+                    $(`#${selectID}`).append($('<option></option>').attr('value', entry.name).text(entry.name));
+                })
+            }); 
+        }
+
+        function capitalizeFistLetter(word) {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+        }
+     
+    

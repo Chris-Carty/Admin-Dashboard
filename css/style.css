@@ -162,7 +162,6 @@ body {
   height: 100%;
   background: rgba(196, 196, 196, 0.8);
   z-index: 100;
-  border: solid 1px green;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -180,6 +179,10 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.employee-info {
+  height: 95% !important;
 }
 
 #close {
@@ -242,7 +245,8 @@ label {
   transform: translate(-50%, -50%);
 }
 
-#form-cover2 {
+#form-cover2,
+#form-cover3 {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -266,8 +270,21 @@ label {
   transform: translate(-50%, -50%);
 }
 
+.confirm-action3 {
+  width: 30%;
+  height: 95%;
+  background: rgba(196, 196, 196, 0.8);
+  z-index: 105;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50px;
+}
+
 .confirm-wrapper,
-.confirm-wrapper2 {
+.confirm-wrapper2,
+.confirm-wrapper3 {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -290,7 +307,9 @@ label {
 #yes,
 #no,
 #yes2,
-#no2 {
+#no2,
+#yes3,
+#no3 {
   color: white;
   width: 100px;
   height: 34px;
@@ -303,12 +322,14 @@ label {
 }
 
 #yes,
-#yes2 {
+#yes2,
+#yes3 {
   background: #29cc97 !important;
 }
 
 #no,
-#no2 {
+#no2,
+#no3 {
   background: #cc4129 !important;
 }
 
@@ -348,4 +369,91 @@ label {
 .updated-notification img {
   width: 17.5px;
   margin-left: 5px;
+}
+
+#save-updates {
+  display: none;
+  position: absolute;
+  bottom: -6%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+}
+
+/* EDIT MODE SLIDER */
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 25px;
+  top: 25px;
+  left: 35px;
+}
+
+.edit-mode {
+  position: absolute;
+  top: 25px;
+  left: 105px;
+}
+
+#edit-mode-text {
+  margin-left: 5px;
+  font-weight: 700 !important;
+  font-style: bold !important;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cc4129;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 17px;
+  width: 17px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #29cc97;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px#29cc97;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(35px);
+  -ms-transform: translateX(35px);
+  transform: translateX(35px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
