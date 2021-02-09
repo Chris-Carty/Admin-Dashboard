@@ -9,7 +9,7 @@ let profile = {
     email: "",
     department: "",
     location: ""
-}
+};
 
 $(document).ready(function() {
     buildTable();
@@ -135,7 +135,8 @@ function toggleReadOnly() {
 
             $("#save-updates").hide(); 
 
-            entry.replaceWith(`<input id="department" name="department" type="text" class="form-control" placeholder='${entryText}' required readonly>`)
+            entry.replaceWith(`<input id="department" name="department" type="text" class="form-control" readonly>`)
+            $(`#department`).val(entryText)
         }
 
 }
@@ -187,9 +188,8 @@ function addEmployeeData() {
 
                 $.when($.ajax(
                     buildTable()
-                ))//.then(function () {
-                   // editModeOn()
-                //});
+                ))
+
                 addEmployee()
                 toggleAreYouSure();
             }
@@ -202,17 +202,19 @@ function addEmployeeData() {
 function updateEmployee() {
 
     closeUpdateEmployeeToggle()
+    closeUpdateEmployee()
 
-    $.getJSON(`php/getAllDepartments.php`, function (departments) {
+   $.getJSON(`php/getAllDepartments.php`, function (departments) {
+        console.log(departments);
         let departmentID = departments.data.filter(dep => dep.name == profile.department)[0].id
 
         $.ajax({
             data: {
-                'id': parseInt($('#id').val()),
-                'firstName': $('#firstName').val(),
-                'lastName': $('#lastName').val(),
-                'jobTitle': $('#jobTitle').val(),
-                'email': $('#email2').val(),
+                'id': parseInt($('#id').text()),
+                'firstName': profile.firstName,
+                'lastName': profile.lastName,
+                'jobTitle': profile.jobTitle,
+                'email': profile.email,
                 'departmentID': departmentID
             },
             url: 'php/updateEmployeeByID.php', 
@@ -223,9 +225,7 @@ function updateEmployee() {
     
                 $.when($.ajax(
                     buildTable()
-                ))//.then(function () {
-                    //editModeOn()
-                //});
+                ))
             }
         })
 
