@@ -2,14 +2,9 @@
 
 let employeeID;
 
-let profile = {
-    firstName: "",
-    lastName: "",
-    jobTitle: "",
-    email: "",
-    department: "",
-    location: ""
-};
+let employeeProfile;
+
+// ------------------// 
 
 $(document).ready(function() {
     buildTable();
@@ -64,13 +59,12 @@ function appendEntry(db, i, filterBy) {
 }
 
 function viewProfile(profile) {
-    //var text1 = profile.department;
-    //$("select option").filter(function() {
-    //may want to use $.trim in here
-    //return $(this).text() == text1;
-    //}).prop('selected', true);
 
-    $('#id').attr("placeholder", profile.id);
+    employeeProfile = profile
+
+    //console.log(employeeProfile);
+
+    $('#id').val(profile.id);
     $('#firstName').val(profile.firstName);
     $('#lastName').val(profile.lastName);
     $('#jobTitle').val(profile.jobTitle)
@@ -166,6 +160,11 @@ function addEmployeeData() {
         $.getJSON(`php/getAllDepartments.php`, function (departments) {
             let departmentID = departments.data.filter(dep => dep.name == departmentName)[0].id
 
+        if ( $('#first-name').val() == "" || $('#surname').val() == "" || $('#job-title').val() == "" || $('#email').val() == "" ) {
+                alert('Please Fill in the Blanks');
+                closeAreYouSure();
+            } else {
+
         $.ajax({
             data: {
                 'firstName': $('#first-name').val(),
@@ -192,8 +191,10 @@ function addEmployeeData() {
 
                 addEmployee()
                 toggleAreYouSure();
+                insertSuccessful()
             }
         })
+        } 
     })
 }
 
@@ -201,33 +202,41 @@ function addEmployeeData() {
 
 function updateEmployee() {
 
-    closeUpdateEmployeeToggle()
-    closeUpdateEmployee()
-
    $.getJSON(`php/getAllDepartments.php`, function (departments) {
-        console.log(departments);
-        let departmentID = departments.data.filter(dep => dep.name == profile.department)[0].id
+
+        let departmentID = departments.data.filter(dep => dep.name == $('#department').val())[0].id
+
+        if ( $('#firstName').val() == "" || $('#lastName').val() == "" || $('#jobTitle').val() == "" || $('#email2').val() == "" ) {
+            alert('Please Fill in the Blanks');
+            closeUpdateEmployeeToggle();
+        } else {
 
         $.ajax({
             data: {
-                'id': parseInt($('#id').text()),
-                'firstName': profile.firstName,
-                'lastName': profile.lastName,
-                'jobTitle': profile.jobTitle,
-                'email': profile.email,
+                'id': parseInt($('#id').val()),
+                'firstName': $('#firstName').val(),
+                'lastName': $('#lastName').val(),
+                'jobTitle': $('#jobTitle').val(),
+                'email': $('#email2').val(),
                 'departmentID': departmentID
             },
             url: 'php/updateEmployeeByID.php', 
             dataType: 'json',
+            method: "POST",
             success: function(data) {
-                console.log(data);
+
+                closeUpdateEmployeeToggle()
+                closeUpdateEmployee()
+                updateSuccessful()
+                
                 clearTable()
     
                 $.when($.ajax(
                     buildTable()
                 ))
             }
-        })
+        }) 
+     }
 
     })
 }
@@ -253,6 +262,101 @@ function deleteEmployee() {
 
         }
     })
+}
+
+// ADD DEPARTMENT TO DATABASE
+
+function addDepartment() {
+
+    let departmentName = $('#addDepartmentDepartment').val()
+    let locationName = $('#addDepartmentLocation').val()
+
+    $.getJSON(`libs/php/getAllLocations.php`, function (locations) {
+        let locationID = locations.data.filter(loc => loc.name == locationName)[0].id
+
+        $.ajax({
+            data: {
+                'name': departmentName,
+                'locationID': locationID,
+            },
+            url: 'php/insertDepartment.php', 
+            dataType: 'json',
+            success: function(data) {
+
+                $('#addDepartmentDepartment').val("")
+                $('#addDepartmentLocation').find('option:eq(0)').prop('selected', true);
+    
+            }
+        })
+    }); 
+
+}
+
+// DELETE DEPARTMENT FROM DATABASE
+
+function deleteDepartment() {
+
+    let departmentName = $('#removeDepartmentDepartment').val()
+
+    $.getJSON(`php/getAllDepartments.php`, function (departments) {
+        let departmentID = departments.data.filter(dep => dep.name == departmentName)[0].id
+
+        $.ajax({
+            data: {
+                'id': departmentID
+            },
+            url: 'php/deleteDepartmentByID.php', 
+            dataType: 'json',
+            success: function(data) {
+
+                $('#removeDepartmentDepartment').find('option:eq(0)').prop('selected', true);
+    
+            }
+        })
+
+    }); 
+}
+
+// ADD LOCATION TO DATABASE
+
+function addLocation() {
+
+    let locationName = $('#addLocationLocation').val()
+
+    $.ajax({
+        data: {
+            'name': locationName
+        },
+        url: 'php/insertLocation.php', 
+        dataType: 'json',
+        success: function(data) {
+
+            $('#addLocationLocation').val("")
+
+        }
+    })
+
+}
+
+// DELETE LOCATION FROM DATABASE
+
+function deleteLocation() {
+
+    let locationName = $('#removeLocationLocation').val()
+
+    $.ajax({
+        data: {
+            'name': locationName
+        },
+        url: 'php/deleteLocation.php', 
+        dataType: 'json',
+        success: function(data) {
+
+            $('#removeLocationLocation').find('option:eq(0)').prop('selected', true);
+
+        }
+    })
+    
 }
 
 // ------------------// 
@@ -332,17 +436,15 @@ function addEmployee() {
   }
 
   // SUCCESS NOTIFICATION
-
-  $(document).ready(function(){
-    $(document).on("click","#yes",function() {
+function insertSuccessful() {
         $("#success-notification-wrapper").show();
         $("#success-notification-wrapper").addClass('animate__fadeInDown');
             window.setTimeout( function(){
                 $("#success-notification-wrapper").hide();
                 $("#success-notification-wrapper").removeClass('animate__fadeInDown');
          }, 2000);    
-    });
-    });
+    };
+
 
     // REMOVED NOTIFICATION
 
@@ -359,16 +461,15 @@ function addEmployee() {
 
     // UPDATED NOTIFICATION
 
-    $(document).ready(function(){
-        $(document).on("click","#yes3",function() {
+    function updateSuccessful() {
             $("#updated-notification-wrapper").show();
             $("#updated-notification-wrapper").addClass('animate__fadeInDown');
                 window.setTimeout( function(){
                     $("#updated-notification-wrapper").hide();
                     $("#updated-notification-wrapper").removeClass('animate__fadeInDown');
              }, 2000);    
-        });
-        });
+        };
+ 
 
     // SELCT DEPARTMENT OPTIONS NOTIFICATION
 

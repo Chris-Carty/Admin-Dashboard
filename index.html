@@ -73,26 +73,26 @@
         <img id="close" src="media/svg/Close-icon.svg" onclick="closeAddEmployee()"/>
         <div class="employee-form-wrapper">
             <div class="form-group">
-              <label for="first-name">First Name:</label>
+              <label for="first-name">First Name<span class="required">*</span></label>
               <input type="text" class="form-control" id="first-name" placeholder="John" required>
             </div>
             <div class="form-group">
-              <label for="surname">Surname:</label>
+              <label for="surname">Surname<span class="required">*</span></label>
               <input type="text" class="form-control" id="surname" placeholder="Doe" required>
             </div>
             <div class="form-group">
-              <label for="email">Email:</label>
+              <label for="email">Email<span class="required">*</span></label>
               <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
             </div>
             <div class="form-group">
-              <label for="job-title">Job Title:</label>
+              <label for="job-title">Job Title<span class="required">*</span></label>
               <input type="text" class="form-control" id="job-title" placeholder="e.g CFO" required>
             </div>
             <div class="form-group">
-              <label for="addEmployeeDepartment">Department:</label>
+              <label for="addEmployeeDepartment">Department<span class="required">*</span></label>
               <select class="form-control" name="addEmployeeDepartment" id="addEmployeeDepartment" required></select>
             </div>
-            <br>
+            <div class="required-text"><span class="required">*Required Field</span></div><br>
             <button type="submit" class="btn btn-primary" onclick="toggleAreYouSure()">SAVE EMPLOYEE</button>
         </div>
       </div>

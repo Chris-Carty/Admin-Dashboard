@@ -457,3 +457,11 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.required-text {
+  font-size: 12px !important;
+}
+
+.required {
+  color: red !important;
+}
