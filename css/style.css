@@ -156,7 +156,9 @@ body {
 }
 
 #add-employee-form,
-#update-employee-form {
+#update-employee-form,
+#manage-departments-form,
+#manage-locations-form {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -168,7 +170,9 @@ body {
 }
 
 .employee-form,
-.employee-info {
+.employee-info,
+.department-info,
+.location-info {
   width: 30%;
   height: 80%;
   background: #dfe0eb;
@@ -181,8 +185,13 @@ body {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
-.employee-info {
+.employee-info,
+.department-info {
   height: 95% !important;
+}
+
+.location-info {
+  height: 45% !important;
 }
 
 #close {
@@ -213,6 +222,18 @@ body {
   font-style: bold !important;
   font-size: 14px !important;
   margin-left: 25% !important;
+}
+
+.btn2 {
+  background: #29cc97 !important;
+  width: 100px;
+  height: 34px;
+  border-radius: 100px !important;
+  border: none !important;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  font-weight: 700 !important;
+  font-style: bold !important;
+  font-size: 14px !important;
 }
 
 label {
@@ -246,7 +267,8 @@ label {
 }
 
 #form-cover2,
-#form-cover3 {
+#form-cover3,
+#form-cover4 {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -259,7 +281,8 @@ label {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
-.confirm-action2 {
+.confirm-action2,
+.confirm-action4 {
   width: 100%;
   height: 100%;
   background: rgba(196, 196, 196, 0.8);
@@ -284,7 +307,8 @@ label {
 
 .confirm-wrapper,
 .confirm-wrapper2,
-.confirm-wrapper3 {
+.confirm-wrapper3,
+.confirm-wrapper4 {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -309,7 +333,9 @@ label {
 #yes2,
 #no2,
 #yes3,
-#no3 {
+#no3,
+#yes4,
+#no4 {
   color: white;
   width: 100px;
   height: 34px;
@@ -323,19 +349,22 @@ label {
 
 #yes,
 #yes2,
-#yes3 {
+#yes3,
+#yes4 {
   background: #29cc97 !important;
 }
 
 #no,
 #no2,
-#no3 {
+#no3,
+#no4 {
   background: #cc4129 !important;
 }
 
 #success-notification-wrapper,
 #removed-notification-wrapper,
-#updated-notification-wrapper {
+#updated-notification-wrapper,
+#department-notification-wrapper {
   position: absolute;
   top: 5.5%;
   left: 40%;
@@ -356,7 +385,8 @@ label {
 
 .success-notification,
 .removed-notification,
-.updated-notification {
+.updated-notification,
+.department-added-notification {
   position: relative;
   top: 50%;
   left: 50%;
@@ -366,7 +396,8 @@ label {
 
 .success-notification img,
 .removed-notification img,
-.updated-notification img {
+.updated-notification img,
+.department-added-notification img {
   width: 17.5px;
   margin-left: 5px;
 }

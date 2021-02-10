@@ -208,7 +208,7 @@ function updateEmployee() {
 
         if ( $('#firstName').val() == "" || $('#lastName').val() == "" || $('#jobTitle').val() == "" || $('#email2').val() == "" ) {
             alert('Please Fill in the Blanks');
-            closeUpdateEmployeeToggle();
+            closeUpdateEmployeeToggle()
         } else {
 
         $.ajax({
@@ -224,10 +224,6 @@ function updateEmployee() {
             dataType: 'json',
             method: "POST",
             success: function(data) {
-
-                closeUpdateEmployeeToggle()
-                closeUpdateEmployee()
-                updateSuccessful()
                 
                 clearTable()
     
@@ -236,6 +232,10 @@ function updateEmployee() {
                 ))
             }
         }) 
+
+        closeUpdateEmployeeToggle()
+        closeUpdateEmployee()
+        updateSuccessful()
      }
 
     })
@@ -271,7 +271,7 @@ function addDepartment() {
     let departmentName = $('#addDepartmentDepartment').val()
     let locationName = $('#addDepartmentLocation').val()
 
-    $.getJSON(`libs/php/getAllLocations.php`, function (locations) {
+    $.getJSON(`php/getAllLocations.php`, function (locations) {
         let locationID = locations.data.filter(loc => loc.name == locationName)[0].id
 
         $.ajax({
@@ -285,6 +285,8 @@ function addDepartment() {
 
                 $('#addDepartmentDepartment').val("")
                 $('#addDepartmentLocation').find('option:eq(0)').prop('selected', true);
+
+                addDepartmentSuccessful()
     
             }
         })
@@ -396,6 +398,28 @@ function addEmployee() {
 
   // ADD DEPARTMENT FORM
 
+    function manageDepartmentsToggle() {
+
+    let info = document.getElementById('manage-departments-form')
+    let visibility = info.style.visibility;
+    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+  }
+
+  function closeAddDepartment() {
+    manageDepartmentsToggle()
+  }
+
+  function manageLocationsToggle() {
+
+    let info = document.getElementById('manage-locations-form')
+    let visibility = info.style.visibility;
+    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+  }
+
+  function closeManageLocations() {
+    manageLocationsToggle()
+  }
+
   // ------ NOTIFICATIONS ------ //
 
   // CONFIRM ACTION NOTIFICATION(s)
@@ -469,9 +493,8 @@ function insertSuccessful() {
                     $("#updated-notification-wrapper").removeClass('animate__fadeInDown');
              }, 2000);    
         };
- 
 
-    // SELCT DEPARTMENT OPTIONS NOTIFICATION
+    // SELECT DEPARTMENT OPTIONS NOTIFICATION
 
         function selectOptions(category, selectID) {
             $(`#${selectID}`).empty();

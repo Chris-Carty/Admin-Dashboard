@@ -38,7 +38,8 @@
         <h3 class="header-title">Manage Employees</h3>
         <div class="buttons">
           <button class="add-employee" onclick="addEmployee()"><img src="media/svg/title.svg"><span>Add Employee</span></button>
-          <button class="add-department">Manage Departments</button>
+          <button class="add-department" onclick="manageDepartmentsToggle()">Manage Departments</button>
+          <button class="add-department" onclick="manageLocationsToggle()">Manage Locations</button>
           <input type="text" class="search" placeholder="Search.."></input>
           <button class="sort"><img src="media/svg/sort.svg"><span>Sort</span></button>
           <button class="filter"><img src="media/svg/filter.svg"><span>Filter</span></button>
@@ -74,23 +75,23 @@
         <div class="employee-form-wrapper">
             <div class="form-group">
               <label for="first-name">First Name<span class="required">*</span></label>
-              <input type="text" class="form-control" id="first-name" placeholder="John" required>
+              <input type="text" class="form-control" id="first-name" placeholder="John">
             </div>
             <div class="form-group">
               <label for="surname">Surname<span class="required">*</span></label>
-              <input type="text" class="form-control" id="surname" placeholder="Doe" required>
+              <input type="text" class="form-control" id="surname" placeholder="Doe">
             </div>
             <div class="form-group">
               <label for="email">Email<span class="required">*</span></label>
-              <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+              <input type="email" class="form-control" id="email" placeholder="name@example.com">
             </div>
             <div class="form-group">
               <label for="job-title">Job Title<span class="required">*</span></label>
-              <input type="text" class="form-control" id="job-title" placeholder="e.g CFO" required>
+              <input type="text" class="form-control" id="job-title" placeholder="e.g CFO">
             </div>
             <div class="form-group">
               <label for="addEmployeeDepartment">Department<span class="required">*</span></label>
-              <select class="form-control" name="addEmployeeDepartment" id="addEmployeeDepartment" required></select>
+              <select class="form-control" name="addEmployeeDepartment" id="addEmployeeDepartment"></select>
             </div>
             <div class="required-text"><span class="required">*Required Field</span></div><br>
             <button type="submit" class="btn btn-primary" onclick="toggleAreYouSure()">SAVE EMPLOYEE</button>
@@ -111,38 +112,92 @@
             <div id="profile" class="employee-form-info-wrapper">
               <div class="form-group"><br>
                 <label for="id">Employee ID:</label>
-                <input id="id" type="text" class="form-control" required readonly>
+                <input id="id" type="text" class="form-control" readonly>
               </div>
                 <div class="form-group">
                   <label for="firstName">First Name:</label>
-                  <input id="firstName" type="text" class="form-control" required readonly>
+                  <input id="firstName" type="text" class="form-control" readonly>
                 </div>
                 <div class="form-group">
                   <label for="lastName">Surname:</label>
-                  <input id="lastName" type="text" class="form-control"required readonly>
+                  <input id="lastName" type="text" class="form-control"readonly>
                 </div>
                 <div class="form-group">
                   <label for="email2">Email:</label>
-                  <input id="email2" type="email" class="form-control" required readonly>
+                  <input id="email2" type="email" class="form-control" readonly>
                 </div>
                 <div class="form-group">
                   <label for="jobTitle">Job Title:</label>
-                  <input id="jobTitle" type="text" class="form-control" required readonly>
+                  <input id="jobTitle" type="text" class="form-control" readonly>
                 </div>
                 <div class="form-group">
                   <label for="department">Department:</label>
-                 <input id="department" name="department" type="text" class="form-control" required readonly>
+                 <input id="department" name="department" type="text" class="form-control" readonly>
                 </div>
                 <div class="form-group">
                   <label for="location">Location:</label>
-                  <input id="location" name="location" type="text" class="form-control" required readonly>
+                  <input id="location" name="location" type="text" class="form-control" readonly>
                 </div><br>
                 <button id="save-updates" type="submit" class="btn btn-primary" onclick="toggleAreYouSure3()">SAVE UPDATES</button>
             </div>
           </div>
         </div>
 
-    <!-- Are You Sure -- Confirm User Action Window(s) -->
+          <!-- Manage Departments Form -->
+
+        <div id="manage-departments-form" style="visibility: hidden;">
+          <div class="department-info">
+            <img id="close" src="media/svg/Close-icon.svg" onclick="closeAddDepartment()"/>
+            <div id="profile" class="employee-form-info-wrapper">
+                <div class="form-group">
+                  <label for="department">ADD DEPARTMENT</label><br>
+                  <label for="department">Name:</label>
+                 <input id="department" name="department" type="text" class="form-control" placeholder="e.g Purchasing">
+                </div>
+                <div class="form-group">
+                  <label for="location">Location:</label>
+                  <select id="location" name="location" type="text" class="form-control"></select> 
+                </div> 
+                <button id="save-new-department" type="submit" class="btn2 btn-primary" onclick="">ADD</button><br><br><br>
+                <div class="form-group">
+                  <label for="department">UPDATE DEPARTMENT</label><br>
+                  <label for="department">Name:</label>
+                 <select id="department" name="department" type="text" class="form-control" placeholder="e.g Purchasing"></select>
+                </div>
+                <div class="form-group">
+                  <label for="location">Location:</label>
+                  <select id="location" name="location" type="text" class="form-control"></select> 
+                </div> 
+                <button id="save-new-department" type="submit" class="btn2 btn-primary" onclick="">UPDATE</button><br><br><br>
+                <div class="form-group">
+                  <label for="location">REMOVE DEPARTMENT</label>
+                  <select id="location" name="location" type="text" class="form-control"></select>
+                </div> 
+                <button id="save-new-department" type="submit" class="btn2 btn-primary" onclick="">REMOVE</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Manage Locations Form -->
+        <div id="manage-locations-form" style="visibility: hidden;">
+          <div class="location-info">
+            <img id="close" src="media/svg/Close-icon.svg" onclick="closeManageLocations()"/>
+            <div id="profile" class="employee-form-info-wrapper">
+                <div class="form-group">
+                  <label for="location">ADD LOCATION</label>
+                  <input id="location" name="location" type="text" class="form-control" placeholder="e.g Berlin">
+                </div>
+                <button id="save-new-location" type="submit" class="btn2 btn-primary" onclick="">ADD</button><br><br>
+                <div class="form-group">
+                  <label for="location">REMOVE LOCATION</label>
+                  <select id="location" name="location" type="text" class="form-control"></select>
+                </div>
+                <button id="save-new-location" type="submit" class="btn2 btn-primary" onclick="">REMOVE</button>
+            </div>
+          </div>
+        </div>
+
+    <!-- Confirm User Action Window(s) -->
 
     <div id="areYouSure" class="confirm-action" style="visibility: hidden;">
       <div id="form-cover">
@@ -196,11 +251,18 @@
     </div>
   </div>
 
-    <!-- Updated Notification -->
+    <!-- Updated Employee Notification -->
 
     <div id="updated-notification-wrapper" class="animate__animated">
       <div class="updated-notification">
         Employee Updated Successfully!<span><img src="media/svg/tick.svg"></span>
+      </div>
+    </div>
+
+    <!-- Add Department Notification -->
+    <div id="department-notification-wrapper" class="animate__animated">
+      <div class="department-added-notification">
+        Department Added Successfully!<span><img src="media/svg/tick.svg"></span>
       </div>
     </div>
 
