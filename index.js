@@ -4,31 +4,28 @@ let employeeID;
 
 let employeeProfile;
 
-// ------------------// 
+// ------------------//
 
-$(document).ready(function() {
-    buildTable();
-})
-
+$(document).ready(function () {
+  buildTable();
+});
 
 function buildTable() {
-
-    $.ajax({
-        type: 'GET',
-        url: 'php/getAll.php', 
-        dataType: 'json',
-        success: function(data) {
-            var db = data.data;
-            for (let i in db) {
-                appendEntry(db, i)
-            }
-        }
-    })
+  $.ajax({
+    type: "GET",
+    url: "php/getAll.php",
+    dataType: "json",
+    success: function (data) {
+      var db = data.data;
+      for (let i in db) {
+        appendEntry(db, i);
+      }
+    },
+  });
 }
 
 function clearTable() {
-
-    $('#database').html(`
+  $("#database").html(`
     <tbody>
         <tr id="tableHeader">
             <th scope="col" class="hideCell" >ID</th>
@@ -40,474 +37,527 @@ function clearTable() {
             <th scope="col" class="hideCell" id="ManageHeader">Manage</th>
         </tr>
     </tbody>
-    `)
+    `);
 }
 
 function appendEntry(db, i, filterBy) {
-
-    $('#database tbody').append(`
-        <tr onclick="viewProfile(${JSON.stringify(db[i]).split('"').join("&quot;")})">
+  $("#database tbody").append(`
+        <tr onclick="viewProfile(${JSON.stringify(db[i])
+          .split('"')
+          .join("&quot;")})">
             <th class="hideCell">${db[i].id}</th>
             <td><b>${db[i].lastName}</b>, ${db[i].firstName}</td>
-            <td class=${(filterBy == "jobTitle") ? "" : "hideCell"}>${db[i].jobTitle}</td>
+            <td class=${filterBy == "jobTitle" ? "" : "hideCell"}>${
+    db[i].jobTitle
+  }</td>
             <td class="hideCell">${db[i].email}</td>
-            <td class=${(filterBy == "department") ? "" : "hideCell"}>${db[i].department}</td>
-            <td class=${(filterBy == "location") ? "" : "hideCell"}>${db[i].location}</td>
+            <td class=${filterBy == "department" ? "" : "hideCell"}>${
+    db[i].department
+  }</td>
+            <td class=${filterBy == "location" ? "" : "hideCell"}>${
+    db[i].location
+  }</td>
             <td class="hideCell"><button onclick="updateEmployeeToggle()"><img src="media/svg/icons8-edit.svg"></button><button id="delete" onclick="toggleAreYouSure2()"><img src="media/svg/trash-red.svg"></button></td>
         </tr>
-    `)
+    `);
 }
 
 function viewProfile(profile) {
+  employeeProfile = profile;
 
-    employeeProfile = profile
+  //console.log(employeeProfile);
 
-    //console.log(employeeProfile);
-
-    $('#id').val(profile.id);
-    $('#firstName').val(profile.firstName);
-    $('#lastName').val(profile.lastName);
-    $('#jobTitle').val(profile.jobTitle)
-    $('#email2').val(profile.email);
-    $('#department').val(profile.department);
-    $('#location').val(profile.location);
-
+  $("#id").val(profile.id);
+  $("#firstName").val(profile.firstName);
+  $("#lastName").val(profile.lastName);
+  $("#jobTitle").val(profile.jobTitle);
+  $("#email2").val(profile.email);
+  $("#department").val(profile.department);
+  $("#location").val(profile.location);
 }
 
 function toggleReadOnly() {
+  //updateProfile()
 
-        //updateProfile()
+  if ($("#edit-mode-text").html() === "Off") {
+    $("#edit-mode-text").html("On");
+  } else {
+    $("#edit-mode-text").html("Off");
+  }
 
-        if ($('#edit-mode-text').html() === 'Off') {
-            $('#edit-mode-text').html('On')
-        } else {
-            $('#edit-mode-text').html('Off')  
-        };
+  if (document.getElementById("firstName").readOnly === true) {
+    document.getElementById("firstName").readOnly = false;
+  } else {
+    document.getElementById("firstName").readOnly = true;
+  }
 
-        if (document.getElementById('firstName').readOnly === true) {
-            document.getElementById('firstName').readOnly = false;
-        } else {
-            document.getElementById('firstName').readOnly = true
-        };
+  if (document.getElementById("lastName").readOnly === true) {
+    document.getElementById("lastName").readOnly = false;
+  } else {
+    document.getElementById("lastName").readOnly = true;
+  }
 
-        if (document.getElementById('lastName').readOnly === true) {
-            document.getElementById('lastName').readOnly = false;
-        } else {
-            document.getElementById('lastName').readOnly = true
-        };
+  if (document.getElementById("email2").readOnly === true) {
+    document.getElementById("email2").readOnly = false;
+  } else {
+    document.getElementById("email2").readOnly = true;
+  }
 
-        if (document.getElementById('email2').readOnly === true) {
-            document.getElementById('email2').readOnly = false;
-        } else {
-            document.getElementById('email2').readOnly = true
-        };
+  if (document.getElementById("jobTitle").readOnly === true) {
+    document.getElementById("jobTitle").readOnly = false;
+  } else {
+    document.getElementById("jobTitle").readOnly = true;
+  }
 
-        if (document.getElementById('jobTitle').readOnly === true) {
-            document.getElementById('jobTitle').readOnly = false;
-        } else {
-            document.getElementById('jobTitle').readOnly = true
-        };
+  // POPULATE SELECT DEPARTMENT OPTIONS
 
-        // POPULATE SELECT DEPARTMENT OPTIONS
+  let entry = $("#profile").children().eq(5).children().eq(1);
+  let entryText = entry.val();
+  let id = entry.attr("id");
 
-        let entry = $('#profile').children().eq(5).children().eq(1);
-        let entryText = entry.val();
-        let id = entry.attr('id')
+  if ($("#edit-mode-text").html() !== "Off") {
+    $("#save-updates").show();
 
-        if ($('#edit-mode-text').html() !== 'Off') {
+    entry.replaceWith(
+      `<select class="form-control" name="department" onchange="updateLocation()" id='department'></select>`
+    );
 
-            $("#save-updates").show(); 
+    let category = capitalize(id);
+    selectOptions(category, id);
 
-            entry.replaceWith(`<select class="form-control" name="department" onchange="updateLocation()" id='department'></select>`)
+    $(`#department`).append(`<option selected="true">${entryText}</option>`);
+  } else {
+    $("#save-updates").hide();
 
-            let category = capitalize(id)
-            selectOptions(category, id)
-
-            $(`#department`).append(`<option selected="true">${entryText}</option>`)
-           
-        } else {
-
-            $("#save-updates").hide(); 
-
-            entry.replaceWith(`<input id="department" name="department" type="text" class="form-control" readonly>`)
-            $(`#department`).val(entryText)
-        }
-
+    entry.replaceWith(
+      `<input id="department" name="department" type="text" class="form-control" readonly>`
+    );
+    $(`#department`).val(entryText);
+  }
 }
 
 function updateLocation() {
+  $.getJSON(`php/getAllDepartments.php`, function (departments) {
+    let locationID = departments.data.filter(
+      (dep) => dep.name == $("#department").val()
+    )[0].locationID;
 
-$.getJSON(`php/getAllDepartments.php`, function (departments) {
-    let locationID = departments.data.filter(dep => dep.name == $('#department').val())[0].locationID
-
-    $.getJSON(`php/getAllLocations.php`, function (locations) { 
-        let location = locations.data.filter(loc => loc.id == locationID)[0].name
-        $('#location').val(location)
-
-    })
-})
-
+    $.getJSON(`php/getAllLocations.php`, function (locations) {
+      let location = locations.data.filter((loc) => loc.id == locationID)[0]
+        .name;
+      $("#location").val(location);
+    });
+  });
 }
 
-// ------ PHP / SQL DATABASE MODIFICATIONS ------ // 
+// ------ PHP / SQL DATABASE MODIFICATIONS ------ //
 
 // ADD EMPLOYEE TO DATABASE
 
 function addEmployeeData() {
+  let departmentName = $("#addEmployeeDepartment").val();
 
-        let departmentName = $('#addEmployeeDepartment').val()
+  $.getJSON(`php/getAllDepartments.php`, function (departments) {
+    let departmentID = departments.data.filter(
+      (dep) => dep.name == departmentName
+    )[0].id;
 
-        $.getJSON(`php/getAllDepartments.php`, function (departments) {
-            let departmentID = departments.data.filter(dep => dep.name == departmentName)[0].id
+    if (
+      $("#first-name").val() == "" ||
+      $("#surname").val() == "" ||
+      $("#job-title").val() == "" ||
+      $("#email").val() == ""
+    ) {
+      alert("Please Fill in the Blanks");
+      toggleAreYouSure();
+    } else {
+      $.ajax({
+        data: {
+          firstName: $("#first-name").val(),
+          lastName: $("#surname").val(),
+          jobTitle: $("#job-title").val(),
+          email: $("#email").val(),
+          departmentID: departmentID,
+        },
+        url: "php/insertEmployee.php",
+        dataType: "json",
+        success: function (data) {
+          clearTable();
 
-        if ( $('#first-name').val() == "" || $('#surname').val() == "" || $('#job-title').val() == "" || $('#email').val() == "" ) {
-                alert('Please Fill in the Blanks');
-                closeAreYouSure();
-            } else {
+          $("#first-name").val("");
+          $("#surname").val("");
+          $("#job-title").val("");
+          $("#email").val("");
+          $("#department").find("option:eq(0)").prop("selected", true);
 
-        $.ajax({
-            data: {
-                'firstName': $('#first-name').val(),
-                'lastName': $('#surname').val(),
-                'jobTitle': $('#job-title').val(),
-                'email': $('#email').val(),
-                'departmentID': departmentID
-            },
-            url: 'php/insertEmployee.php', 
-            dataType: 'json',
-            success: function(data) {
+          $.when($.ajax(buildTable()));
 
-                clearTable()
-
-                $('#first-name').val("")
-                $('#surname').val("")
-                $('#job-title').val("")
-                $('#email').val("")
-                $('#department').find('option:eq(0)').prop('selected', true);
-
-                $.when($.ajax(
-                    buildTable()
-                ))
-
-                addEmployee()
-                toggleAreYouSure();
-                insertSuccessful()
-            }
-        })
-        } 
-    })
+          addEmployee();
+          toggleAreYouSure();
+          insertSuccessful();
+        },
+      });
+    }
+  });
 }
 
 // UPDATE EMPLOYEE IN DATABASE
 
 function updateEmployee() {
+  $.getJSON(`php/getAllDepartments.php`, function (departments) {
+    let departmentID = departments.data.filter(
+      (dep) => dep.name == $("#department").val()
+    )[0].id;
 
-   $.getJSON(`php/getAllDepartments.php`, function (departments) {
+    if (
+      $("#firstName").val() == "" ||
+      $("#lastName").val() == "" ||
+      $("#jobTitle").val() == "" ||
+      $("#email2").val() == ""
+    ) {
+      alert("Please Fill in the Blanks");
+      closeUpdateEmployeeToggle();
+    } else {
+      $.ajax({
+        data: {
+          id: parseInt($("#id").val()),
+          firstName: $("#firstName").val(),
+          lastName: $("#lastName").val(),
+          jobTitle: $("#jobTitle").val(),
+          email: $("#email2").val(),
+          departmentID: departmentID,
+        },
+        url: "php/updateEmployeeByID.php",
+        dataType: "json",
+        method: "POST",
+        success: function (data) {
+          clearTable();
 
-        let departmentID = departments.data.filter(dep => dep.name == $('#department').val())[0].id
+          $.when($.ajax(buildTable()));
+        },
+      });
 
-        if ( $('#firstName').val() == "" || $('#lastName').val() == "" || $('#jobTitle').val() == "" || $('#email2').val() == "" ) {
-            alert('Please Fill in the Blanks');
-            closeUpdateEmployeeToggle()
-        } else {
-
-        $.ajax({
-            data: {
-                'id': parseInt($('#id').val()),
-                'firstName': $('#firstName').val(),
-                'lastName': $('#lastName').val(),
-                'jobTitle': $('#jobTitle').val(),
-                'email': $('#email2').val(),
-                'departmentID': departmentID
-            },
-            url: 'php/updateEmployeeByID.php', 
-            dataType: 'json',
-            method: "POST",
-            success: function(data) {
-                
-                clearTable()
-    
-                $.when($.ajax(
-                    buildTable()
-                ))
-            }
-        }) 
-
-        closeUpdateEmployeeToggle()
-        closeUpdateEmployee()
-        updateSuccessful()
-     }
-
-    })
+      toggleAreYouSure3();
+      updateEmployeeToggle();
+      updateSuccessful();
+    }
+  });
 }
 
 // REMOVE EMPLOYEE FROM DATABASE
 
 function deleteEmployee() {
+  $.ajax({
+    data: { id: employeeID },
+    url: "php/deleteEmployeeByID.php",
+    dataType: "json",
+    success: function (data) {
+      clearTable();
 
-    $.ajax({
-        data: {'id': employeeID},
-        url: 'php/deleteEmployeeByID.php', 
-        dataType: 'json',
-        success: function(data) {
-  
-            clearTable()
+      $.when($.ajax(buildTable()));
 
-            $.when($.ajax(
-                buildTable()
-            ))//.then(function () {
-               // editModeOn()
-            //}//);
-            toggleAreYouSure2();
-
-        }
-    })
+      toggleAreYouSure2();
+    },
+  });
 }
 
 // ADD DEPARTMENT TO DATABASE
 
 function addDepartment() {
+  let departmentName = $("#add-department").val();
+  let locationName = $("#add-department-location").val();
 
-    let departmentName = $('#addDepartmentDepartment').val()
-    let locationName = $('#addDepartmentLocation').val()
+  $.getJSON(`php/getAllLocations.php`, function (locations) {
+    let locationID = locations.data.filter((loc) => loc.name == locationName)[0]
+      .id;
 
-    $.getJSON(`php/getAllLocations.php`, function (locations) {
-        let locationID = locations.data.filter(loc => loc.name == locationName)[0].id
+    if ($("#add-department").val() == "") {
+      alert("Please Enter Department Name");
+      confirmAddDepartment();
+    } else {
+      $.ajax({
+        data: {
+          name: departmentName,
+          locationID: locationID,
+        },
+        url: "php/insertDepartment.php",
+        dataType: "json",
+        success: function (data) {
+          $("#add-department").val("");
+          $("#add-department-location")
+            .find("option:eq(0)")
+            .prop("selected", true);
 
-        $.ajax({
-            data: {
-                'name': departmentName,
-                'locationID': locationID,
-            },
-            url: 'php/insertDepartment.php', 
-            dataType: 'json',
-            success: function(data) {
-
-                $('#addDepartmentDepartment').val("")
-                $('#addDepartmentLocation').find('option:eq(0)').prop('selected', true);
-
-                addDepartmentSuccessful()
-    
-            }
-        })
-    }); 
-
+          addDepartmentSuccessful();
+          confirmAddDepartment();
+          manageDepartmentsToggle();
+        },
+      });
+    }
+  });
 }
 
 // DELETE DEPARTMENT FROM DATABASE
 
 function deleteDepartment() {
+  let departmentName = $("#remove-department").val();
 
-    let departmentName = $('#removeDepartmentDepartment').val()
+  $.getJSON(`php/getAllDepartments.php`, function (departments) {
+    let departmentID = departments.data.filter(
+      (dep) => dep.name == departmentName
+    )[0].id;
 
-    $.getJSON(`php/getAllDepartments.php`, function (departments) {
-        let departmentID = departments.data.filter(dep => dep.name == departmentName)[0].id
-
-        $.ajax({
-            data: {
-                'id': departmentID
-            },
-            url: 'php/deleteDepartmentByID.php', 
-            dataType: 'json',
-            success: function(data) {
-
-                $('#removeDepartmentDepartment').find('option:eq(0)').prop('selected', true);
-    
-            }
-        })
-
-    }); 
+    $.ajax({
+      data: {
+        id: departmentID,
+      },
+      url: "php/deleteDepartmentByID.php",
+      dataType: "json",
+      success: function (data) {
+        $("#remove-department").find("option:eq(0)").prop("selected", true);
+        removeDepartmentSuccessful();
+        manageDepartmentsToggle();
+        confirmRemoveDepartment();
+      },
+    });
+  });
 }
 
 // ADD LOCATION TO DATABASE
 
 function addLocation() {
+  let locationName = $("#add-location-name").val();
 
-    let locationName = $('#addLocationLocation').val()
-
+  if (locationName == "") {
+    alert("Please Enter Location Name");
+    confirmAddLocation();
+  } else {
     $.ajax({
-        data: {
-            'name': locationName
-        },
-        url: 'php/insertLocation.php', 
-        dataType: 'json',
-        success: function(data) {
-
-            $('#addLocationLocation').val("")
-
-        }
-    })
-
+      data: {
+        name: locationName,
+      },
+      url: "php/insertLocation.php",
+      dataType: "json",
+      success: function (data) {
+        $("#add-location-name").val("");
+        manageLocationsToggle();
+        confirmAddLocation();
+        addLocationSuccessful();
+      },
+    });
+  }
 }
 
 // DELETE LOCATION FROM DATABASE
 
 function deleteLocation() {
+  let locationName = $("#add-locations").val();
 
-    let locationName = $('#removeLocationLocation').val()
-
-    $.ajax({
-        data: {
-            'name': locationName
-        },
-        url: 'php/deleteLocation.php', 
-        dataType: 'json',
-        success: function(data) {
-
-            $('#removeLocationLocation').find('option:eq(0)').prop('selected', true);
-
-        }
-    })
-    
+  $.ajax({
+    data: {
+      name: locationName,
+    },
+    url: "php/deleteLocation.php",
+    dataType: "json",
+    success: function (data) {
+      $("#add-locations").find("option:eq(0)").prop("selected", true);
+      manageLocationsToggle();
+      confirmRemoveLocation();
+      removeLocationSuccessful();
+    },
+  });
 }
 
-// ------------------// 
+// ------------------//
 
-// ------ TOGGLE FORMS ------ // 
+// ------ TOGGLE FORMS ------ //
 
 // ADD EMPLOYEE FROM
 
 function addEmployee() {
-    let info = document.getElementById('add-employee-form')
-    let visibility = info.style.visibility;
-    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+  let info = document.getElementById("add-employee-form");
+  let visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 
-    let selectArr = ['Department', 'Location']
+  let selectArr = ["Department", "Location"];
 
-    for (let i in selectArr) {
-        selectOptions(selectArr[i],`addEmployee${selectArr[i]}`) 
-    }
+  for (let i in selectArr) {
+    selectOptions(selectArr[i], `addEmployee${selectArr[i]}`);
   }
+}
 
-  function closeAddEmployee() {
-    addEmployee()
-  }
+// UPDATE EMPLOYEE FORM
 
-   // UPDATE EMPLOYEE FORM
+function updateEmployeeToggle() {
+  let info = document.getElementById("update-employee-form");
+  let visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+}
 
-   function updateEmployeeToggle() {
+// ADD DEPARTMENT FORM
 
-    let info = document.getElementById('update-employee-form')
-    let visibility = info.style.visibility;
-    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
-  }
+function manageDepartmentsToggle() {
+  let info = document.getElementById("manage-departments-form");
+  let visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 
-  function closeUpdateEmployee() {
-    updateEmployeeToggle()
-  }
+  selectOptions("Location", "add-department-location");
+  selectOptions("Department", "remove-department");
+}
 
-  // ADD DEPARTMENT FORM
+function manageLocationsToggle() {
+  let info = document.getElementById("manage-locations-form");
+  let visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 
-    function manageDepartmentsToggle() {
+  selectOptions("Location", "add-locations");
+}
 
-    let info = document.getElementById('manage-departments-form')
-    let visibility = info.style.visibility;
-    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
-  }
+// ------ NOTIFICATIONS ------ //
 
-  function closeAddDepartment() {
-    manageDepartmentsToggle()
-  }
+// CONFIRM ACTION NOTIFICATION(s)
 
-  function manageLocationsToggle() {
+function toggleAreYouSure() {
+  var info = document.getElementById("areYouSure");
+  var visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+}
 
-    let info = document.getElementById('manage-locations-form')
-    let visibility = info.style.visibility;
-    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
-  }
+function toggleAreYouSure2() {
+  let e = window.event;
+  employeeID = $(e.target).closest("tr").find("th").text();
 
-  function closeManageLocations() {
-    manageLocationsToggle()
-  }
+  var info = document.getElementById("areYouSure2");
+  var visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+}
 
-  // ------ NOTIFICATIONS ------ //
+function toggleAreYouSure3() {
+  var info = document.getElementById("areYouSure3");
+  var visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+}
 
-  // CONFIRM ACTION NOTIFICATION(s)
+function confirmAddDepartment() {
+  var info = document.getElementById("confirm-add-department");
+  var visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+}
 
-  function toggleAreYouSure() {
-    var info = document.getElementById('areYouSure')
-    var visibility = info.style.visibility;
-    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
-  }
+function confirmRemoveDepartment() {
+  var info = document.getElementById("confirm-remove-department");
+  var visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+}
 
-  function closeAreYouSure() {
-    toggleAreYouSure();
-  }
+function confirmAddLocation() {
+  var info = document.getElementById("confirm-add-location");
+  var visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+}
 
-  function toggleAreYouSure2() {
+function confirmRemoveLocation() {
+  var info = document.getElementById("confirm-remove-location");
+  var visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+}
 
-    let e = window.event;
-    employeeID = $(e.target).closest("tr").find("th").text()
-
-    var info = document.getElementById('areYouSure2')
-    var visibility = info.style.visibility;
-    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
-  }
-
-  function closeDeleteEmployee() {
-    toggleAreYouSure2();
-  }
-
-  function toggleAreYouSure3() {
-
-    var info = document.getElementById('areYouSure3')
-    var visibility = info.style.visibility;
-    info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
-  }
-
-  function closeUpdateEmployeeToggle() {
-    toggleAreYouSure3();
-  }
-
-  // SUCCESS NOTIFICATION
+// SUCCESS NOTIFICATION
 function insertSuccessful() {
-        $("#success-notification-wrapper").show();
-        $("#success-notification-wrapper").addClass('animate__fadeInDown');
-            window.setTimeout( function(){
-                $("#success-notification-wrapper").hide();
-                $("#success-notification-wrapper").removeClass('animate__fadeInDown');
-         }, 2000);    
-    };
+  $("#success-notification-wrapper").show();
+  $("#success-notification-wrapper").addClass("animate__fadeInDown");
+  window.setTimeout(function () {
+    $("#success-notification-wrapper").hide();
+    $("#success-notification-wrapper").removeClass("animate__fadeInDown");
+  }, 2000);
+}
 
+// REMOVED NOTIFICATION
 
-    // REMOVED NOTIFICATION
+$(document).ready(function () {
+  $(document).on("click", "#yes2", function () {
+    $("#removed-notification-wrapper").show();
+    $("#removed-notification-wrapper").addClass("animate__fadeInDown");
+    window.setTimeout(function () {
+      $("#removed-notification-wrapper").hide();
+      $("#removed-notification-wrapper").removeClass("animate__fadeInDown");
+    }, 2000);
+  });
+});
 
-    $(document).ready(function(){
-        $(document).on("click","#yes2",function() {
-            $("#removed-notification-wrapper").show();
-            $("#removed-notification-wrapper").addClass('animate__fadeInDown');
-                window.setTimeout( function(){
-                    $("#removed-notification-wrapper").hide();
-                    $("#removed-notification-wrapper").removeClass('animate__fadeInDown');
-             }, 2000);    
-        });
-        });
+// UPDATED NOTIFICATION
 
-    // UPDATED NOTIFICATION
+function updateSuccessful() {
+  $("#updated-notification-wrapper").show();
+  $("#updated-notification-wrapper").addClass("animate__fadeInDown");
+  window.setTimeout(function () {
+    $("#updated-notification-wrapper").hide();
+    $("#updated-notification-wrapper").removeClass("animate__fadeInDown");
+  }, 2000);
+}
 
-    function updateSuccessful() {
-            $("#updated-notification-wrapper").show();
-            $("#updated-notification-wrapper").addClass('animate__fadeInDown');
-                window.setTimeout( function(){
-                    $("#updated-notification-wrapper").hide();
-                    $("#updated-notification-wrapper").removeClass('animate__fadeInDown');
-             }, 2000);    
-        };
+// DEPARTENT ADDED SUCCESSFULLY NOTIFICATION
 
-    // SELECT DEPARTMENT OPTIONS NOTIFICATION
+function addDepartmentSuccessful() {
+  $("#department-notification-wrapper").show();
+  $("#department-notification-wrapper").addClass("animate__fadeInDown");
+  window.setTimeout(function () {
+    $("#department-notification-wrapper").hide();
+    $("#department-notification-wrapper").removeClass("animate__fadeInDown");
+  }, 2000);
+}
 
-        function selectOptions(category, selectID) {
-            $(`#${selectID}`).empty();
-        
-            $.getJSON(`php/getAll${category}s.php`, function (category) {
-                $.each(category.data , function (key, entry) {
-                    $(`#${selectID}`).append($('<option></option>').attr('value', entry.name).text(entry.name));
-                })
-            }); 
-        }
+// DEPARTENT REMOVED SUCCESSFULLY NOTIFICATION
 
-        function capitalize(word) {
-            return word.charAt(0).toUpperCase() + word.slice(1);
-        }
-     
-    
+function removeDepartmentSuccessful() {
+  $("#department-removed-notification-wrapper").show();
+  $("#department-removed-notification-wrapper").addClass("animate__fadeInDown");
+  window.setTimeout(function () {
+    $("#department-removed-notification-wrapper").hide();
+    $("#department-removed-notification-wrapper").removeClass(
+      "animate__fadeInDown"
+    );
+  }, 2000);
+}
+
+// DEPARTENT ADDED SUCCESSFULLY NOTIFICATION
+
+function addLocationSuccessful() {
+  $("#location-notification-wrapper").show();
+  $("#location-notification-wrapper").addClass("animate__fadeInDown");
+  window.setTimeout(function () {
+    $("#location-notification-wrapper").hide();
+    $("#location-notification-wrapper").removeClass("animate__fadeInDown");
+  }, 2000);
+}
+
+// DEPARTENT REMOVED SUCCESSFULLY NOTIFICATION
+
+function removeLocationSuccessful() {
+  $("#location-removed-notification-wrapper").show();
+  $("#location-removed-notification-wrapper").addClass("animate__fadeInDown");
+  window.setTimeout(function () {
+    $("#location-removed-notification-wrapper").hide();
+    $("#location-removed-notification-wrapper").removeClass(
+      "animate__fadeInDown"
+    );
+  }, 2000);
+}
+
+// SELECT DEPARTMENT OPTIONS NOTIFICATION
+
+function selectOptions(category, selectID) {
+  $(`#${selectID}`).empty();
+
+  $.getJSON(`php/getAll${category}s.php`, function (category) {
+    $.each(category.data, function (key, entry) {
+      $(`#${selectID}`).append(
+        $("<option></option>").attr("value", entry.name).text(entry.name)
+      );
+    });
+  });
+}
+
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}

@@ -35,7 +35,7 @@
       </div>
 
       <div class="manage-employees">
-        <h3 class="header-title">Manage Employees</h3>
+        <h3 class="header-title">Employee Database</h3>
         <div class="buttons">
           <button class="add-employee" onclick="addEmployee()"><img src="media/svg/title.svg"><span>Add Employee</span></button>
           <button class="add-department" onclick="manageDepartmentsToggle()">Manage Departments</button>
@@ -71,9 +71,10 @@
 
     <div id="add-employee-form" style="visibility: hidden;">
       <div class="employee-form">
-        <img id="close" src="media/svg/Close-icon.svg" onclick="closeAddEmployee()"/>
+        <img id="close" src="media/svg/Close-icon.svg" onclick="addEmployee();"/>
         <div class="employee-form-wrapper">
             <div class="form-group">
+              <label class="text-center justify-content-center">ADD EMPLOYEE<span class="required"></span></label><br>
               <label for="first-name">First Name<span class="required">*</span></label>
               <input type="text" class="form-control" id="first-name" placeholder="John">
             </div>
@@ -108,7 +109,7 @@
               <span id="toggle-edit-mode" class="slider round" onclick="toggleReadOnly()"></span>
             </label>
             <div class="edit-mode">Edit Mode:<span id="edit-mode-text">Off</span></div>
-            <img id="close" src="media/svg/Close-icon.svg" onclick="closeUpdateEmployee()"/>
+            <img id="close" src="media/svg/Close-icon.svg" onclick="updateEmployeeToggle()"/>
             <div id="profile" class="employee-form-info-wrapper">
               <div class="form-group"><br>
                 <label for="id">Employee ID:</label>
@@ -147,33 +148,23 @@
 
         <div id="manage-departments-form" style="visibility: hidden;">
           <div class="department-info">
-            <img id="close" src="media/svg/Close-icon.svg" onclick="closeAddDepartment()"/>
+            <img id="close" src="media/svg/Close-icon.svg" onclick="manageDepartmentsToggle();"/>
             <div id="profile" class="employee-form-info-wrapper">
                 <div class="form-group">
-                  <label for="department">ADD DEPARTMENT</label><br>
-                  <label for="department">Name:</label>
-                 <input id="department" name="department" type="text" class="form-control" placeholder="e.g Purchasing">
+                  <label for="add-department">ADD DEPARTMENT</label><br>
+                  <label for="add-department">Name:</label>
+                 <input id="add-department" name="add-department" type="text" class="form-control" placeholder="e.g Purchasing">
                 </div>
                 <div class="form-group">
-                  <label for="location">Location:</label>
-                  <select id="location" name="location" type="text" class="form-control"></select> 
+                  <label for="add-department-location">Location:</label>
+                  <select id="add-department-location" name="add-department-location" type="text" class="form-control"></select> 
                 </div> 
-                <button id="save-new-department" type="submit" class="btn2 btn-primary" onclick="">ADD</button><br><br><br>
+                <button id="add-new-department" type="submit" class="btn2 btn-primary" onclick="confirmAddDepartment()">ADD</button><br><br><br>
                 <div class="form-group">
-                  <label for="department">UPDATE DEPARTMENT</label><br>
-                  <label for="department">Name:</label>
-                 <select id="department" name="department" type="text" class="form-control" placeholder="e.g Purchasing"></select>
-                </div>
-                <div class="form-group">
-                  <label for="location">Location:</label>
-                  <select id="location" name="location" type="text" class="form-control"></select> 
+                  <label for="remove-department">REMOVE DEPARTMENT</label>
+                  <select id="remove-department" name="location" type="text" class="form-control"></select>
                 </div> 
-                <button id="save-new-department" type="submit" class="btn2 btn-primary" onclick="">UPDATE</button><br><br><br>
-                <div class="form-group">
-                  <label for="location">REMOVE DEPARTMENT</label>
-                  <select id="location" name="location" type="text" class="form-control"></select>
-                </div> 
-                <button id="save-new-department" type="submit" class="btn2 btn-primary" onclick="">REMOVE</button>
+                <button id="remove-department-button" type="submit" class="btn2 btn-primary" onclick="confirmRemoveDepartment()">REMOVE</button>
             </div>
           </div>
         </div>
@@ -181,18 +172,18 @@
         <!-- Manage Locations Form -->
         <div id="manage-locations-form" style="visibility: hidden;">
           <div class="location-info">
-            <img id="close" src="media/svg/Close-icon.svg" onclick="closeManageLocations()"/>
+            <img id="close" src="media/svg/Close-icon.svg" onclick="manageLocationsToggle();"/>
             <div id="profile" class="employee-form-info-wrapper">
                 <div class="form-group">
-                  <label for="location">ADD LOCATION</label>
-                  <input id="location" name="location" type="text" class="form-control" placeholder="e.g Berlin">
+                  <label for="add-location-name">ADD LOCATION</label>
+                  <input id="add-location-name" name="add-location-name" type="text" class="form-control" placeholder="e.g Berlin">
                 </div>
-                <button id="save-new-location" type="submit" class="btn2 btn-primary" onclick="">ADD</button><br><br>
+                <button id="save-new-location" type="submit" class="btn2 btn-primary" onclick="confirmAddLocation()">ADD</button><br><br>
                 <div class="form-group">
-                  <label for="location">REMOVE LOCATION</label>
-                  <select id="location" name="location" type="text" class="form-control"></select>
+                  <label for="add-locations">REMOVE LOCATION</label>
+                  <select id="add-locations" name="add-locations" type="text" class="form-control"></select>
                 </div>
-                <button id="save-new-location" type="submit" class="btn2 btn-primary" onclick="">REMOVE</button>
+                <button id="save-new-location" type="submit" class="btn2 btn-primary" onclick="confirmRemoveLocation()">REMOVE</button>
             </div>
           </div>
         </div>
@@ -205,7 +196,7 @@
           <div class="confirm-text-add-employee">Please confirm you want to add this employee to the directory</div>
           <div class="confirm-buttons">
             <button id="yes" onclick="addEmployeeData()">YES</button>
-            <button id="no" onclick="closeAreYouSure()">NO</button>
+            <button id="no" onclick="toggleAreYouSure();">NO</button>
           </div>
         </div>
       </div>
@@ -217,7 +208,7 @@
           <div class="confirm-text-add-employee">Please confirm you want to remove this employee from the directory</div>
           <div class="confirm-buttons">
             <button id="yes2" onclick="deleteEmployee()">YES</button>
-            <button id="no2" onclick="closeDeleteEmployee()">NO</button>
+            <button id="no2" onclick="toggleAreYouSure2()">NO</button>
           </div>
         </div>
       </div>
@@ -229,11 +220,60 @@
           <div class="confirm-text-add-employee">Please confirm you want to update employee information</div>
           <div class="confirm-buttons">
             <button id="yes3" onclick="updateEmployee()">YES</button>
-            <button id="no3" onclick="closeUpdateEmployeeToggle()">NO</button>
+            <button id="no3" onclick="toggleAreYouSure3();">NO</button>
           </div>
         </div>
       </div>
     </div>
+
+    <div id="confirm-add-department" class="confirm-action4" style="visibility: hidden;">
+      <div id="form-cover4">
+        <div class="confirm-wrapper4">
+          <div class="confirm-text-add-employee">Please confirm you want to add department</div>
+          <div class="confirm-buttons">
+            <button id="yes4" onclick="addDepartment()">YES</button>
+            <button id="no4" onclick="confirmAddDepartment();">NO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="confirm-remove-department" class="confirm-action5" style="visibility: hidden;">
+      <div id="form-cover5">
+        <div class="confirm-wrapper5">
+          <div class="confirm-text-add-employee">Please confirm you want to remove department</div>
+          <div class="confirm-buttons">
+            <button id="yes5" onclick="deleteDepartment()">YES</button>
+            <button id="no5" onclick="confirmRemoveDepartment();">NO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="confirm-add-location" class="confirm-action6" style="visibility: hidden;">
+      <div id="form-cover6">
+        <div class="confirm-wrapper6">
+          <div class="confirm-text-add-employee">Please confirm you want to add location</div>
+          <div class="confirm-buttons">
+            <button id="yes6" onclick="addLocation()">YES</button>
+            <button id="no6" onclick="confirmAddLocation();">NO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="confirm-remove-location" class="confirm-action7" style="visibility: hidden;">
+      <div id="form-cover7">
+        <div class="confirm-wrapper7">
+          <div class="confirm-text-add-employee">Please confirm you want to remove location</div>
+          <div class="confirm-buttons">
+            <button id="yes7" onclick="deleteLocation()">YES</button>
+            <button id="no7" onclick="confirmRemoveLocation();">NO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
   <!-- Success Notification -->
 
@@ -266,6 +306,29 @@
       </div>
     </div>
 
+     <!-- Remove Department Notification -->
+
+    <div id="department-removed-notification-wrapper" class="animate__animated">
+      <div class="department-removed-notification">
+        Department Removed Successfully!<span><img src="media/svg/tick.svg"></span>
+      </div>
+    </div>
+
+        <!-- Add Location Notification -->
+
+        <div id="location-notification-wrapper" class="animate__animated">
+          <div class="location-added-notification">
+            Location Added Successfully!<span><img src="media/svg/tick.svg"></span>
+          </div>
+        </div>
+    
+         <!-- Remove Location Notification -->
+    
+        <div id="location-removed-notification-wrapper" class="animate__animated">
+          <div class="location-removed-notification">
+            Location Removed Successfully!<span><img src="media/svg/tick.svg"></span>
+          </div>
+        </div>
 
     <script
       type="application/javascript"
