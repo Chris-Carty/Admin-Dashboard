@@ -40,9 +40,9 @@
           <button class="add-employee" onclick="addEmployee()"><img src="media/svg/title.svg"><span>Add Employee</span></button>
           <button class="add-department" onclick="manageDepartmentsToggle()">Manage Departments</button>
           <button class="add-department" onclick="manageLocationsToggle()">Manage Locations</button>
-          <input type="text" class="search" placeholder="Search.."></input>
+          <button class="search" onclick="searchForm()"><span>Search</span></button>
+          <button class="reset" onclick="reset()"><span>Reset</span></button>
           <button class="sort"><img src="media/svg/sort.svg"><span>Sort</span></button>
-          <button class="filter"><img src="media/svg/filter.svg"><span>Filter</span></button>
         </div>
       </div>
 
@@ -187,6 +187,29 @@
             </div>
           </div>
         </div>
+
+                <!-- Search Departments Form -->
+                <div id="search-form" style="visibility: hidden;">
+                  <div class="search-info">
+                    <img id="close" src="media/svg/Close-icon.svg" onclick="searchForm()"/>
+                    <div id="profile" class="search-form-wrapper">
+                        <div class="search-form-group">
+                          <label for="search-by">SEARCH EMPLOYEE DATABASE</label>
+                          <label for="search-by">Search by:</label>
+                          <select id="search-by" name="search-by" type="text" class="form-control">
+                            <option val="" selected disabled>Please Select</option>
+                            <option val="">Starts With</option>
+                            <option val="">Ends With</option>
+                            <option val="">Contains</option>
+                            <option val="">Equals</option>
+                          </select><br>
+                        <label for="search-by">Enter Text:</label>
+                        <input type="text" class="form-control" placeholder="Enter Text.."></input><br>
+                        <button class="search-btn" onclick="search()"><span>Search</span></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
     <!-- Confirm User Action Window(s) -->
 

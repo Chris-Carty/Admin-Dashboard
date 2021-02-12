@@ -34,7 +34,7 @@ function clearTable() {
             <th scope="col" class="hideCell">Email</th>
             <th scope="col" class="hideCell" id="departmentHeader">Department</th>
             <th scope="col" class="hideCell" id="locationHeader">Location</th>
-            <th scope="col" class="hideCell" id="ManageHeader">Manage</th>
+            <th scope="col" class="hideCell" id="ManageHeader">Edit / Delete</th>
         </tr>
     </tbody>
     `);
@@ -413,6 +413,13 @@ function manageLocationsToggle() {
   selectOptions("Location", "add-locations");
 }
 
+function searchForm() {
+  let info = document.getElementById("search-form");
+  let visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+}
+
+
 // ------ NOTIFICATIONS ------ //
 
 // CONFIRM ACTION NOTIFICATION(s)
@@ -561,3 +568,80 @@ function selectOptions(category, selectID) {
 function capitalize(word) {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
+
+// SORT & FILTER FUNCTIONS
+
+function startsWith(db, i, filterBy, searchText) {
+
+  var strLength =  searchText.length;
+
+  if ((db[i][filterBy].toLowerCase()).slice(0, strLength) == searchText.toLowerCase()) {
+      appendEntry(db, i, filterBy)
+      return 1;
+  }
+  return 0;
+}
+
+function search() {
+
+  clearTable();
+
+  var filterBy = $('.filterSelect:first').val()
+  var filterQuery = $('.filterSelect:eq(1)').val()
+  var searchText = $('#searchBar').val()
+
+  $.ajax({
+      type: 'GET',
+      url: 'libs/php/getAll.php', 
+      dataType: 'json',
+      success: function(data) {
+
+          var db = data.data;
+
+          var numberOfEntries = 0;
+
+          for (let i in db) {
+
+              switch (filterQuery) {
+                  case "Starts with":
+                      numberOfEntries += startsWith(db, i, filterBy, searchText)
+                      break;
+                  case "Ends with":
+                      numberOfEntries += endsWith(db, i, filterBy, searchText)
+                      break;
+                  case "Contains":
+                      numberOfEntries += contains(db, i, filterBy, searchText)
+                      break;
+                  case "Equals":
+                      numberOfEntries += equals(db, i , filterBy, searchText)
+                      break;
+                  default:
+                      break;
+              }
+              
+          }
+
+          $('#numberOfEntries').html(numberOfEntries)
+
+          if ($('#editModeToggle').prop('checked') == true) {
+              editModeOn()
+          }
+          
+          $(`#${filterBy}Header`).removeClass()
+
+      }
+  })
+
+}
+
+function resetTable() {
+
+  $('.filterSelect:first').val("lastName")
+  $('.filterSelect:eq(1)').val("Starts with")
+  $('#searchBar').val("")
+
+  clearTable()
+  buildTable()
+}
+
+
