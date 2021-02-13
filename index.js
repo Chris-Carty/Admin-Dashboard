@@ -24,6 +24,22 @@ function buildTable() {
   });
 }
 
+function signIn() {
+
+  let username = $('#username').val()
+  let password = $('#password').val()
+
+  if ( username == 'Admin1' && password == '12345') {
+    signInForm()
+  } else {
+    alert('Please enter a valid password & username combination')
+  }
+}
+
+function signOut() {
+  signInForm()
+}
+
 function clearTable() {
   $("#database").html(`
     <tbody>
@@ -419,6 +435,13 @@ function searchForm() {
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
+function signInForm() {
+  let info = document.getElementById("sign-in-form");
+  let visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+}
+
+
 
 // ------ NOTIFICATIONS ------ //
 
@@ -551,6 +574,78 @@ function removeLocationSuccessful() {
   }, 2000);
 }
 
+// SORT & FILTER FUNCTIONS
+
+function startsWith(db, i, filterBy, searchText) {
+
+  var strLength =  searchText.length;
+
+  if ((db[i][filterBy].toLowerCase()).slice(0, strLength) == searchText.toLowerCase()) {
+      appendEntry(db, i, filterBy)
+      return 1;
+  }
+  return 0;
+}
+
+function equals(db, i, filterBy, searchText) {
+
+  if (db[i][filterBy].toLowerCase() == searchText.toLowerCase()) {
+      appendEntry(db, i, filterBy)
+      return 1;
+  }
+  return 0;
+}
+
+function search() {
+
+  clearTable();
+  searchForm();
+
+  var filterBy = $('#filter-one').val()
+  var filterQuery = $('#filter-two').val()
+  var searchText = $('#searchText').val()
+
+  $.ajax({
+      type: 'GET',
+      url: 'php/getAll.php', 
+      dataType: 'json',
+      success: function(data) {
+
+          var db = data.data;
+
+          for (let i in db) {
+
+              switch (filterQuery) {
+                  case "Starts with":
+                      startsWith(db, i, filterBy, searchText)
+                      break;
+                  case "Equals":
+                      equals(db, i , filterBy, searchText)
+                      break;
+                  default:
+                      break;
+              }
+              
+          }
+
+          $(`#${filterBy}Header`).removeClass()
+
+      }
+  })
+
+}
+
+function resetTable() {
+
+  $('#filter-one').val("default")
+  $('#filter-two').val("default")
+  $('#searchBar').val("")
+
+  clearTable()
+  buildTable()
+}
+
+
 // SELECT DEPARTMENT OPTIONS NOTIFICATION
 
 function selectOptions(category, selectID) {
@@ -567,81 +662,6 @@ function selectOptions(category, selectID) {
 
 function capitalize(word) {
   return word.charAt(0).toUpperCase() + word.slice(1);
-}
-
-// SORT & FILTER FUNCTIONS
-
-function startsWith(db, i, filterBy, searchText) {
-
-  var strLength =  searchText.length;
-
-  if ((db[i][filterBy].toLowerCase()).slice(0, strLength) == searchText.toLowerCase()) {
-      appendEntry(db, i, filterBy)
-      return 1;
-  }
-  return 0;
-}
-
-function search() {
-
-  clearTable();
-
-  var filterBy = $('.filterSelect:first').val()
-  var filterQuery = $('.filterSelect:eq(1)').val()
-  var searchText = $('#searchBar').val()
-
-  $.ajax({
-      type: 'GET',
-      url: 'libs/php/getAll.php', 
-      dataType: 'json',
-      success: function(data) {
-
-          var db = data.data;
-
-          var numberOfEntries = 0;
-
-          for (let i in db) {
-
-              switch (filterQuery) {
-                  case "Starts with":
-                      numberOfEntries += startsWith(db, i, filterBy, searchText)
-                      break;
-                  case "Ends with":
-                      numberOfEntries += endsWith(db, i, filterBy, searchText)
-                      break;
-                  case "Contains":
-                      numberOfEntries += contains(db, i, filterBy, searchText)
-                      break;
-                  case "Equals":
-                      numberOfEntries += equals(db, i , filterBy, searchText)
-                      break;
-                  default:
-                      break;
-              }
-              
-          }
-
-          $('#numberOfEntries').html(numberOfEntries)
-
-          if ($('#editModeToggle').prop('checked') == true) {
-              editModeOn()
-          }
-          
-          $(`#${filterBy}Header`).removeClass()
-
-      }
-  })
-
-}
-
-function resetTable() {
-
-  $('.filterSelect:first').val("lastName")
-  $('.filterSelect:eq(1)').val("Starts with")
-  $('#searchBar').val("")
-
-  clearTable()
-  buildTable()
 }
 
 
