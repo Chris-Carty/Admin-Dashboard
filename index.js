@@ -31,6 +31,7 @@ function signIn() {
 
   if ( username == 'Admin1' && password == '12345') {
     signInForm()
+    signInSuccessful()
   } else {
     alert('Please enter a valid password & username combination')
   }
@@ -38,6 +39,7 @@ function signIn() {
 
 function signOut() {
   signInForm()
+  signOutSuccessful()
 }
 
 function clearTable() {
@@ -574,6 +576,33 @@ function removeLocationSuccessful() {
   }, 2000);
 }
 
+// Sign In SUCCESSFUL NOTIFICATION
+
+function signInSuccessful() {
+  $("#signIn-notification-wrapper").show();
+  $("#signIn-notification-wrapper").addClass("animate__fadeInDown");
+  window.setTimeout(function () {
+    $("#signIn-notification-wrapper").hide();
+    $("#signIn-notification-wrapper").removeClass(
+      "animate__fadeInDown"
+    );
+  }, 2200);
+}
+
+// Sign Out SUCCESSFUL NOTIFICATION
+
+function signOutSuccessful() {
+  $("#signOut-notification-wrapper").show();
+  $("#signOut-notification-wrapper").addClass("animate__fadeInDown");
+  window.setTimeout(function () {
+    $("#signOut-notification-wrapper").hide();
+    $("#signOut-notification-wrapper").removeClass(
+      "animate__fadeInDown"
+    );
+  }, 2200);
+}
+
+
 // SORT & FILTER FUNCTIONS
 
 function startsWith(db, i, filterBy, searchText) {
@@ -600,6 +629,7 @@ function search() {
 
   clearTable();
   searchForm();
+  resetTable()
 
   var filterBy = $('#filter-one').val()
   var filterQuery = $('#filter-two').val()
@@ -639,7 +669,7 @@ function resetTable() {
 
   $('#filter-one').val("default")
   $('#filter-two').val("default")
-  $('#searchBar').val("")
+  $('#searchText').val("")
 
   clearTable()
   buildTable()

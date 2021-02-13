@@ -75,12 +75,12 @@ body {
   height: 34px;
   border-radius: 100px;
   border: none;
-  background: white;
+  background: #f16f33;
   margin-left: 16px;
   font-weight: 700 !important;
   font-style: bold !important;
   font-size: 14px !important;
-  color: #c7c8d3;
+  color: #ffffff;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
@@ -175,6 +175,10 @@ body {
   transform: translate(-50%, -50%);
 }
 
+#sign-in-form {
+  background: rgba(196, 196, 196, 1) !important;
+}
+
 .employee-form,
 .employee-info,
 .department-info,
@@ -255,6 +259,7 @@ body {
   font-weight: 700 !important;
   font-style: bold !important;
   font-size: 16px !important;
+  white-space: nowrap;
 }
 
 .employee-form-wrapper,
@@ -320,7 +325,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 
-  background: #9fa2b4 !important;
+  background: #29cc97 !important;
   width: 100px;
   height: 34px;
   border-radius: 100px !important;
@@ -515,6 +520,12 @@ label {
   z-index: 105;
   margin: 0;
   display: none;
+}
+
+#signIn-notification-wrapper,
+#signOut-notification-wrapper {
+  width: 200px !important;
+  left: 43% !important;
 }
 
 .success-notification,
