@@ -10,10 +10,6 @@
 	//$cd_dbname = "companydirectory";
 
 	// Production 
-	// $cd_user = "u193647531_directory";
-	// $cd_password = "Directory123";
-	// $cd_dbname = "u193647531_directory";
-	// Production 
 	$cleardb_url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 	$cleardb_server = $cleardb_url["host"];
 	$cleardb_username = $cleardb_url["user"];

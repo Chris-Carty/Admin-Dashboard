@@ -146,6 +146,15 @@ body {
   padding: 0px 32px;
 }
 
+.tableFixHead {
+  overflow-y: auto;
+}
+.tableFixHead thead th {
+  position: sticky;
+  top: 0;
+  background: #dfe0eb;
+}
+
 #database button {
   border: none;
   background: none;

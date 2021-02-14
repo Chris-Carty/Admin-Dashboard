@@ -82,6 +82,7 @@ function appendEntry(db, i, filterBy) {
 
 function viewProfile(profile) {
   employeeProfile = profile;
+  updateEmployeeToggle();
 
   //console.log(employeeProfile);
 
@@ -629,7 +630,6 @@ function search() {
 
   clearTable();
   searchForm();
-  resetTable()
 
   var filterBy = $('#filter-one').val()
   var filterQuery = $('#filter-two').val()
