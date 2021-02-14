@@ -52,13 +52,13 @@
         <table class="table  table-fixed  table-hover" id="database">
             <thead>
                 <tr id="tableHeader">
-                    <th scope="col">ID</th>
+                    <th scope="col" class="hide">ID</th>
                     <th scope="col">Display Name</th>
-                    <th scope="col" class="hideCell">Job Title</th>
-                    <th scope="col" class="hideCell">Email</th>
-                    <th scope="col" class="hideCell">Department</th>
-                    <th scope="col" class="hideCell">Location</th>
-                    <th scope="col" class="hideCell">Edit / Delete</th>
+                    <th scope="col" class="hide">Job Title</th>
+                    <th scope="col" class="hide">Email</th>
+                    <th scope="col" class="hide">Department</th>
+                    <th scope="col" class="hide">Location</th>
+                    <th scope="col">Edit / Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,7 +68,6 @@
     </div>
 
         <!-- Sign In From -->
-
         <div id="sign-in-form" style="visibility: visible;">
           <div class="signIn-form">
             <div class="logo-login">
@@ -259,7 +258,7 @@
           <div class="confirm-text-add-employee">Please confirm you want to remove this employee from the directory</div>
           <div class="confirm-buttons">
             <button id="yes2" onclick="deleteEmployee()">YES</button>
-            <button id="no2" onclick="toggleAreYouSure2()">NO</button>
+            <button id="no2" onclick="stopEvent()">NO</button>
           </div>
         </div>
       </div>

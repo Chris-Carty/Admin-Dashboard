@@ -46,13 +46,13 @@ function clearTable() {
   $("#database").html(`
     <tbody>
         <tr id="tableHeader">
-            <th scope="col" class="hideCell" >ID</th>
+            <th scope="col" class="hide">ID</th>
             <th scope="col">Display Name</th>
-            <th scope="col" class="hideCell" id="jobTitleHeader">Job Title</th>
-            <th scope="col" class="hideCell">Email</th>
-            <th scope="col" class="hideCell" id="departmentHeader">Department</th>
-            <th scope="col" class="hideCell" id="locationHeader">Location</th>
-            <th scope="col" class="hideCell" id="ManageHeader">Edit / Delete</th>
+            <th scope="col" class="hide" id="jobTitleHeader">Job Title</th>
+            <th scope="col" class="hide">Email</th>
+            <th scope="col" class="hide" id="departmentHeader">Department</th>
+            <th scope="col" class="hide" id="locationHeader">Location</th>
+            <th scope="col" id="ManageHeader">Edit / Delete</th>
         </tr>
     </tbody>
     `);
@@ -63,19 +63,19 @@ function appendEntry(db, i, filterBy) {
         <tr onclick="viewProfile(${JSON.stringify(db[i])
           .split('"')
           .join("&quot;")})">
-            <th class="hideCell">${db[i].id}</th>
+            <th class="hide">${db[i].id}</th>
             <td><b>${db[i].lastName}</b>, ${db[i].firstName}</td>
-            <td class=${filterBy == "jobTitle" ? "" : "hideCell"}>${
+            <td class=${filterBy == "jobTitle" ? "" : "hide"}>${
     db[i].jobTitle
   }</td>
-            <td class="hideCell">${db[i].email}</td>
-            <td class=${filterBy == "department" ? "" : "hideCell"}>${
+            <td class="hide">${db[i].email}</td>
+            <td class=${filterBy == "department" ? "" : "hide"}>${
     db[i].department
   }</td>
-            <td class=${filterBy == "location" ? "" : "hideCell"}>${
+            <td class=${filterBy == "location" ? "" : "hide"}>${
     db[i].location
   }</td>
-            <td class="hideCell"><button onclick="updateEmployeeToggle()"><img src="media/svg/icons8-edit.svg"></button><button id="delete" onclick="toggleAreYouSure2()"><img src="media/svg/trash-red.svg"></button></td>
+            <td class=""><button><img src="media/svg/icons8-edit.svg"></button><button id="delete" onclick="toggleAreYouSure2()"><img src="media/svg/trash-red.svg"></button></td>
         </tr>
     `);
 }
@@ -457,9 +457,16 @@ function toggleAreYouSure() {
 }
 
 function toggleAreYouSure2() {
+  updateEmployeeToggle()
   let e = window.event;
   employeeID = $(e.target).closest("tr").find("th").text();
 
+  var info = document.getElementById("areYouSure2");
+  var visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+}
+
+function stopEvent() {
   var info = document.getElementById("areYouSure2");
   var visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
