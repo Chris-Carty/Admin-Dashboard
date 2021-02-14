@@ -83,7 +83,7 @@ body {
 .add-employee,
 .add-department,
 .reset {
-  width: 160px;
+  width: 180px;
   height: 25px;
   border-radius: 100px;
   border: none;
@@ -108,18 +108,16 @@ body {
 }
 
 .reset {
-  width: 100px !important;
+  width: 180px !important;
   background: #f16f33;
   margin-bottom: 20px;
-  margin-left: 20%;
 }
 
 .search {
-  width: 100px;
+  width: 180px;
   background: #f19833;
   margin-left: 0px;
   text-align: center;
-  margin-left: 20%;
 }
 
 .add-employee span,
