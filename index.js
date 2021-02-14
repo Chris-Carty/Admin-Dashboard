@@ -63,7 +63,7 @@ function appendEntry(db, i, filterBy) {
         <tr onclick="viewProfile(${JSON.stringify(db[i])
           .split('"')
           .join("&quot;")})">
-            <th class="hide">${db[i].id}</th>
+            <td class="hide">${db[i].id}</td>
             <td><b>${db[i].lastName}</b>, ${db[i].firstName}</td>
             <td class=${filterBy == "jobTitle" ? "" : "hide"}>${
     db[i].jobTitle

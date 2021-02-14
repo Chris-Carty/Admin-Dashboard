@@ -159,6 +159,12 @@ body {
   background: #dfe0eb;
 }
 
+.tableFixHead tbody th {
+  position: sticky;
+  top: 0;
+  background: #dfe0eb;
+}
+
 #database button {
   border: none;
   background: none;
@@ -812,7 +818,7 @@ input:checked + .slider:before {
   .databaseWrapper {
     width: 100%;
     height: 100vh;
-    padding: 32px 32px;
+    padding: 0px 32px;
   }
 
   .hide {
