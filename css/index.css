@@ -390,18 +390,6 @@ label {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
-.confirm-action {
-  width: 30%;
-  height: 80%;
-  background: rgba(196, 196, 196, 0.8);
-  border-radius: 50px;
-  z-index: 105;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 #form-cover2,
 #form-cover3,
 #form-cover4,
@@ -412,7 +400,7 @@ label {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 346px;
+  width: 80%;
   height: 197px;
   background: #dfe0eb;
   border-radius: 30px;
@@ -420,6 +408,8 @@ label {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
+.confirm-action,
+.confirm-action3,
 .confirm-action2,
 .confirm-action4,
 .confirm-action5,
@@ -433,18 +423,6 @@ label {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.confirm-action3 {
-  width: 30%;
-  height: 95%;
-  background: rgba(196, 196, 196, 0.8);
-  z-index: 105;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50px;
 }
 
 .confirm-wrapper,
