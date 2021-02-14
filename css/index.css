@@ -58,11 +58,19 @@ body {
   margin-left: 6px;
 }
 
-.buttons,
 .admin-section {
   display: flex;
   flex-direction: column;
   margin-right: 0px;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-right: 0px;
+  justify-content: center;
+  align-items: center;
 }
 
 .sign-out {
@@ -82,8 +90,9 @@ body {
 .search,
 .add-employee,
 .add-department,
-.reset {
-  width: 180px;
+.reset,
+.add-location {
+  width: 170px;
   height: 25px;
   border-radius: 100px;
   border: none;
@@ -93,38 +102,45 @@ body {
   font-size: 14px !important;
   text-align: center;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.add-employee,
+.add-department {
+  margin-top: 0px;
+  background: #29cc97;
+}
+
+.add-location,
+.reset {
+  background: #29cc97;
   margin-top: 10px;
 }
 
-.add-employee {
-  background: #29cc97;
-  margin-top: -10px;
-}
-
-.add-department,
-.reset {
-  margin-left: 0px;
-  background: #29cc97;
+.add-department {
+  margin-left: 7px;
 }
 
 .reset {
-  width: 180px !important;
+  width: 110px !important;
   background: #f16f33;
   margin-bottom: 20px;
+  margin-left: 0px;
+  margin-top: 10px;
 }
 
 .search {
-  width: 180px;
+  width: 170px;
   background: #f19833;
-  margin-left: 0px;
+  margin-left: 7px;
   text-align: center;
+  margin-top: 7px;
 }
 
 .add-employee span,
 .add-department span,
 .sort span,
 .filter span {
-  margin-left: 0px;
+  margin-left: 10px;
 }
 
 .sort,
@@ -224,7 +240,7 @@ body {
 
 .signIn-form {
   width: 85%;
-  height: 80%;
+  height: 60%;
   border-radius: 50px;
   z-index: 100;
   position: absolute;
@@ -733,7 +749,8 @@ input:checked + .slider:before {
   .search,
   .add-employee,
   .add-department,
-  .reset {
+  .reset,
+  .add-location {
     width: 171px;
     height: 34px;
     border-radius: 100px;
@@ -744,12 +761,16 @@ input:checked + .slider:before {
     font-size: 14px !important;
     text-align: center;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    margin-top: 20px;
+    margin-top: 0px;
+  }
+
+  .add-location {
+    margin-left: 16px;
   }
 
   .add-employee {
     background: #29cc97;
-    margin-top: 20px;
+    margin-top: 0px;
   }
 
   .add-department,
@@ -761,7 +782,7 @@ input:checked + .slider:before {
   .reset {
     width: 100px !important;
     background: #f16f33;
-    margin-bottom: 30px;
+    margin-bottom: 0px;
     margin-left: 16px;
   }
 
