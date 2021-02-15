@@ -167,13 +167,7 @@ body {
 .tableFixHead {
   overflow-y: auto;
 }
-.tableFixHead thead th {
-  position: sticky;
-  top: 0;
-  background: #dfe0eb;
-}
-
-.tableFixHead tbody th {
+.tableFixHead .coloured-bg {
   position: sticky;
   top: 0;
   background: #dfe0eb;
@@ -825,7 +819,7 @@ input:checked + .slider:before {
   .tableFixHead {
     overflow-y: auto;
   }
-  .tableFixHead thead th {
+  .tableFixHead .coloured-bg {
     position: sticky;
     top: 0;
     background: #dfe0eb;

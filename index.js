@@ -46,13 +46,13 @@ function clearTable() {
   $("#database").html(`
     <tbody>
         <tr id="tableHeader">
-            <th scope="col" class="hide">ID</th>
-            <th scope="col">Display Name</th>
-            <th scope="col" class="hide" id="jobTitleHeader">Job Title</th>
-            <th scope="col" class="hide">Email</th>
-            <th scope="col" class="hide" id="departmentHeader">Department</th>
-            <th scope="col" class="hide" id="locationHeader">Location</th>
-            <th scope="col" id="ManageHeader">Edit / Delete</th>
+            <th scope="col" class="hide coloured-bg">ID</th>
+            <th scope="col" class="coloured-bg">Display Name</th>
+            <th scope="col" class="hide coloured-bg" id="jobTitleHeader">Job Title</th>
+            <th scope="col" class="hide coloured-bg">Email</th>
+            <th scope="col" class="hide coloured-bg" id="departmentHeader">Department</th>
+            <th scope="col" class="hide coloured-bg" id="locationHeader">Location</th>
+            <th scope="col" class="coloured-bg" id="ManageHeader">Edit / Delete</th>
         </tr>
     </tbody>
     `);
@@ -63,7 +63,7 @@ function appendEntry(db, i, filterBy) {
         <tr onclick="viewProfile(${JSON.stringify(db[i])
           .split('"')
           .join("&quot;")})">
-            <td class="hide">${db[i].id}</td>
+            <th class="hide">${db[i].id}</th>
             <td><b>${db[i].lastName}</b>, ${db[i].firstName}</td>
             <td class=${filterBy == "jobTitle" ? "" : "hide"}>${
     db[i].jobTitle
@@ -75,7 +75,7 @@ function appendEntry(db, i, filterBy) {
             <td class=${filterBy == "location" ? "" : "hide"}>${
     db[i].location
   }</td>
-            <td class=""><button><img src="media/svg/icons8-edit.svg"></button><button id="delete" onclick="toggleAreYouSure2()"><img src="media/svg/trash-red.svg"></button></td>
+            <td><button><img src="media/svg/icons8-edit.svg"></button><button id="delete" onclick="toggleAreYouSure2()"><img src="media/svg/trash-red.svg"></button></td>
         </tr>
     `);
 }
@@ -266,6 +266,7 @@ function updateEmployee() {
 // REMOVE EMPLOYEE FROM DATABASE
 
 function deleteEmployee() {
+
   $.ajax({
     data: { id: employeeID },
     url: "php/deleteEmployeeByID.php",
@@ -276,6 +277,7 @@ function deleteEmployee() {
       $.when($.ajax(buildTable()));
 
       toggleAreYouSure2();
+      updateEmployeeToggle()
     },
   });
 }
@@ -457,48 +459,52 @@ function toggleAreYouSure() {
 }
 
 function toggleAreYouSure2() {
+
   updateEmployeeToggle()
+
   let e = window.event;
+
   employeeID = $(e.target).closest("tr").find("th").text();
 
-  var info = document.getElementById("areYouSure2");
-  var visibility = info.style.visibility;
+  let info = document.getElementById("areYouSure2");
+  let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
 function stopEvent() {
-  var info = document.getElementById("areYouSure2");
-  var visibility = info.style.visibility;
+  let info = document.getElementById("areYouSure2");
+  let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
+
 function toggleAreYouSure3() {
-  var info = document.getElementById("areYouSure3");
-  var visibility = info.style.visibility;
+  let info = document.getElementById("areYouSure3");
+  let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
 function confirmAddDepartment() {
-  var info = document.getElementById("confirm-add-department");
-  var visibility = info.style.visibility;
+  let info = document.getElementById("confirm-add-department");
+  let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
 function confirmRemoveDepartment() {
-  var info = document.getElementById("confirm-remove-department");
-  var visibility = info.style.visibility;
+  let info = document.getElementById("confirm-remove-department");
+  let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
 function confirmAddLocation() {
-  var info = document.getElementById("confirm-add-location");
-  var visibility = info.style.visibility;
+  let info = document.getElementById("confirm-add-location");
+  let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
 function confirmRemoveLocation() {
-  var info = document.getElementById("confirm-remove-location");
-  var visibility = info.style.visibility;
+  let info = document.getElementById("confirm-remove-location");
+  let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 

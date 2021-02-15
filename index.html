@@ -52,13 +52,13 @@
         <table class="table  table-fixed  table-hover" id="database">
             <thead>
                 <tr id="tableHeader">
-                    <th scope="col" class="hide">ID</th>
-                    <th scope="col">Display Name</th>
-                    <th scope="col" class="hide">Job Title</th>
-                    <th scope="col" class="hide">Email</th>
-                    <th scope="col" class="hide">Department</th>
-                    <th scope="col" class="hide">Location</th>
-                    <th scope="col">Edit / Delete</th>
+                    <th scope="col" class="hide coloured-bg">ID</th>
+                    <th scope="col" class="coloured-bg">Display Name</th>
+                    <th scope="col" class="hide coloured-bg">Job Title</th>
+                    <th scope="col" class="hide coloured-bg">Email</th>
+                    <th scope="col" class="hide coloured-bg">Department</th>
+                    <th scope="col" class="hide coloured-bg">Location</th>
+                    <th scope="col" class="coloured-bg">Edit / Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -75,6 +75,7 @@
             <div id="company-logo-text">Company Directory</div>
             </div>
             <div class="employee-form-wrapper">
+              <form>
                 <div class="form-group">
                   <label for="username">Username</label>
                   <input type="text" class="form-control" id="username" placeholder="username = Admin1">
@@ -83,6 +84,7 @@
                   <label for="password">Password</label>
                   <input type="password" class="form-control" id="password" placeholder="password = 12345"><br>
                 </div>
+              </form>
             </div>
             <button type="submit" class="btn3 btn-primary" onclick="signIn()">Sign In</button>
           </div>
@@ -246,7 +248,7 @@
           <div class="confirm-text-add-employee">Please confirm you want to add this employee to the directory</div>
           <div class="confirm-buttons">
             <button id="yes" onclick="addEmployeeData()">YES</button>
-            <button id="no" onclick="toggleAreYouSure();">NO</button>
+            <button id="no" onclick="toggleAreYouSure()">NO</button>
           </div>
         </div>
       </div>
@@ -270,7 +272,7 @@
           <div class="confirm-text-add-employee">Please confirm you want to update employee information</div>
           <div class="confirm-buttons">
             <button id="yes3" onclick="updateEmployee()">YES</button>
-            <button id="no3" onclick="toggleAreYouSure3();">NO</button>
+            <button id="no3" onclick="toggleAreYouSure3()">NO</button>
           </div>
         </div>
       </div>
@@ -282,7 +284,7 @@
           <div class="confirm-text-add-employee">Please confirm you want to add department</div>
           <div class="confirm-buttons">
             <button id="yes4" onclick="addDepartment()">YES</button>
-            <button id="no4" onclick="confirmAddDepartment();">NO</button>
+            <button id="no4" onclick="confirmAddDepartment()">NO</button>
           </div>
         </div>
       </div>
@@ -294,7 +296,7 @@
           <div class="confirm-text-add-employee">Please confirm you want to remove department</div>
           <div class="confirm-buttons">
             <button id="yes5" onclick="deleteDepartment()">YES</button>
-            <button id="no5" onclick="confirmRemoveDepartment();">NO</button>
+            <button id="no5" onclick="confirmRemoveDepartment()">NO</button>
           </div>
         </div>
       </div>
@@ -306,7 +308,7 @@
           <div class="confirm-text-add-employee">Please confirm you want to add location</div>
           <div class="confirm-buttons">
             <button id="yes6" onclick="addLocation()">YES</button>
-            <button id="no6" onclick="confirmAddLocation();">NO</button>
+            <button id="no6" onclick="confirmAddLocation()">NO</button>
           </div>
         </div>
       </div>
@@ -318,7 +320,7 @@
           <div class="confirm-text-add-employee">Please confirm you want to remove location</div>
           <div class="confirm-buttons">
             <button id="yes7" onclick="deleteLocation()">YES</button>
-            <button id="no7" onclick="confirmRemoveLocation();">NO</button>
+            <button id="no7" onclick="confirmRemoveLocation()">NO</button>
           </div>
         </div>
       </div>
