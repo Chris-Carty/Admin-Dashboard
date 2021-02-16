@@ -33,16 +33,7 @@
 
 	}	
 
-	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
-
-	//$employee_id = $_POST['id'];
-	//$firstName = $_POST['firstName'];
-	//$lastName = $_POST['LastName'];
-	//$jobTitle = $_POST['jobTitle'];
-	//$email = $_POST['email'];
-	//$departmentID = $_POST['departmentID'];
-    
-    //$query = "UPDATE personnel SET firstName = '$firstName', lastName = $lastName,  lastName = $jobTitle,  lastName = $email,"
+	//change to $_POST for production
     
     $query = 'UPDATE personnel SET firstName = "'.$_REQUEST['firstName'].'", lastName = "'.$_REQUEST['lastName'].'", jobTitle = "'.$_REQUEST['jobTitle'].'", email = "'.$_REQUEST['email'].'", departmentID = '.$_REQUEST['departmentID'].' WHERE id = '.$_REQUEST['id'].'';
 

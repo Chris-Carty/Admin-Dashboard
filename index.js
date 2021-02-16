@@ -453,8 +453,8 @@ function signInForm() {
 // CONFIRM ACTION NOTIFICATION(s)
 
 function toggleAreYouSure() {
-  var info = document.getElementById("areYouSure");
-  var visibility = info.style.visibility;
+  let info = document.getElementById("areYouSure");
+  let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
@@ -621,7 +621,7 @@ function signOutSuccessful() {
 
 function startsWith(db, i, filterBy, searchText) {
 
-  var strLength =  searchText.length;
+  let strLength =  searchText.length;
 
   if ((db[i][filterBy].toLowerCase()).slice(0, strLength) == searchText.toLowerCase()) {
       appendEntry(db, i, filterBy)
@@ -644,9 +644,9 @@ function search() {
   clearTable();
   searchForm();
 
-  var filterBy = $('#filter-one').val()
-  var filterQuery = $('#filter-two').val()
-  var searchText = $('#searchText').val()
+  let filterBy = $('#filter-one').val()
+  let filterQ = $('#filter-two').val()
+  let searchText = $('#searchText').val()
 
   $.ajax({
       type: 'GET',
@@ -658,7 +658,7 @@ function search() {
 
           for (let i in db) {
 
-              switch (filterQuery) {
+              switch (filterQ) {
                   case "Starts with":
                       startsWith(db, i, filterBy, searchText)
                       break;
@@ -689,7 +689,7 @@ function resetTable() {
 }
 
 
-// SELECT DEPARTMENT OPTIONS NOTIFICATION
+// SELECT POPULATE WITH OPTIONS
 
 function selectOptions(category, selectID) {
   $(`#${selectID}`).empty();
