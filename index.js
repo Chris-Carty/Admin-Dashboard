@@ -1,28 +1,17 @@
 // Global Variables
 
 let employeeID;
-
 let employeeProfile;
 
 // ------------------//
+
+// BUILD TABLE ON PAGE LOAD
 
 $(document).ready(function () {
   buildTable();
 });
 
-function buildTable() {
-  $.ajax({
-    type: "GET",
-    url: "php/getAll.php",
-    dataType: "json",
-    success: function (data) {
-      var db = data.data;
-      for (let i in db) {
-        appendEntry(db, i);
-      }
-    },
-  });
-}
+// SIGN IN FUNCTION 
 
 function signIn() {
 
@@ -37,10 +26,30 @@ function signIn() {
   }
 }
 
+// SIGN OUT FUNCTION 
+
 function signOut() {
   signInForm()
   signOutSuccessful()
 }
+
+// BUILD TABLE FUNCTION
+
+function buildTable() {
+  $.ajax({
+    type: "GET",
+    url: "php/getAll.php",
+    dataType: "json",
+    success: function (data) {
+      var db = data.data;
+      for (let i in db) {
+        appendTableRow(db, i);
+      }
+    },
+  });
+}
+
+// CLEAR TABLE FUNCTION (USED FOR RESET)
 
 function clearTable() {
   $("#database").html(`
@@ -58,11 +67,28 @@ function clearTable() {
     `);
 }
 
-function appendEntry(db, i, filterBy) {
+// RESET TABLE FUNCTION (& RESET FROM VALUES)
+
+function resetTable() {
+
+  $('#filter-one').val("default")
+  $('#filter-two').val("default")
+  $('#searchText').val("")
+
+  clearTable()
+  buildTable()
+}
+
+// APPEND INFO FROM DATABASE AS TABLE ROWS
+
+function appendTableRow(db, i, filterBy) {
+
+  let profileInfo = JSON.stringify(db[i]).split('"').join('"')
+
+  //JSON.stringify(db[i]).split('"').join("&quot;")
+
   $("#database tbody").append(`
-        <tr onclick="viewProfile(${JSON.stringify(db[i])
-          .split('"')
-          .join("&quot;")})">
+        <tr onclick="viewProfile(${profileInfo})">
             <th class="hide">${db[i].id}</th>
             <td><b>${db[i].lastName}</b>, ${db[i].firstName}</td>
             <td class=${filterBy == "jobTitle" ? "" : "hide"}>${
@@ -80,6 +106,8 @@ function appendEntry(db, i, filterBy) {
     `);
 }
 
+// ASSIGN INFO TO EMPLOYEE PORFILE FORM
+
 function viewProfile(profile) {
   employeeProfile = profile;
   updateEmployeeToggle();
@@ -94,6 +122,8 @@ function viewProfile(profile) {
   $("#department").val(profile.department);
   $("#location").val(profile.location);
 }
+
+// EDIT MODE ON/OFF (FOR UPDATE EMPLOYEE FORM)
 
 function toggleReadOnly() {
   //updateProfile()
@@ -141,7 +171,7 @@ function toggleReadOnly() {
       `<select class="form-control" name="department" onchange="updateLocation()" id='department'></select>`
     );
 
-    let category = capitalize(id);
+    let category = id.charAt(0).toUpperCase() + id.slice(1);;
     selectOptions(category, id);
 
     $(`#department`).append(`<option selected="true">${entryText}</option>`);
@@ -155,25 +185,12 @@ function toggleReadOnly() {
   }
 }
 
-function updateLocation() {
-  $.getJSON(`php/getAllDepartments.php`, function (departments) {
-    let locationID = departments.data.filter(
-      (dep) => dep.name == $("#department").val()
-    )[0].locationID;
-
-    $.getJSON(`php/getAllLocations.php`, function (locations) {
-      let location = locations.data.filter((loc) => loc.id == locationID)[0]
-        .name;
-      $("#location").val(location);
-    });
-  });
-}
-
-// ------ PHP / SQL DATABASE MODIFICATIONS ------ //
+// ------ AJAX CALLS ---- DATABASE MODIFICATIONS ------ //
 
 // ADD EMPLOYEE TO DATABASE
 
 function addEmployeeData() {
+
   let departmentName = $("#addEmployeeDepartment").val();
 
   $.getJSON(`php/getAllDepartments.php`, function (departments) {
@@ -223,6 +240,7 @@ function addEmployeeData() {
 // UPDATE EMPLOYEE IN DATABASE
 
 function updateEmployee() {
+
   $.getJSON(`php/getAllDepartments.php`, function (departments) {
     let departmentID = departments.data.filter(
       (dep) => dep.name == $("#department").val()
@@ -285,6 +303,7 @@ function deleteEmployee() {
 // ADD DEPARTMENT TO DATABASE
 
 function addDepartment() {
+
   let departmentName = $("#add-department").val();
   let locationName = $("#add-department-location").val();
 
@@ -321,6 +340,7 @@ function addDepartment() {
 // DELETE DEPARTMENT FROM DATABASE
 
 function deleteDepartment() {
+
   let departmentName = $("#remove-department").val();
 
   $.getJSON(`php/getAllDepartments.php`, function (departments) {
@@ -347,6 +367,7 @@ function deleteDepartment() {
 // ADD LOCATION TO DATABASE
 
 function addLocation() {
+
   let locationName = $("#add-location-name").val();
 
   if (locationName == "") {
@@ -400,11 +421,8 @@ function addEmployee() {
   let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 
-  let selectArr = ["Department", "Location"];
-
-  for (let i in selectArr) {
-    selectOptions(selectArr[i], `addEmployee${selectArr[i]}`);
-  }
+  selectOptions("Location", "addEmployeeLocation");
+  selectOptions("Department", "addEmployeeDepartment");
 }
 
 // UPDATE EMPLOYEE FORM
@@ -415,7 +433,7 @@ function updateEmployeeToggle() {
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
-// ADD DEPARTMENT FORM
+// ADD / REMOVE DEPARTMENT FORM
 
 function manageDepartmentsToggle() {
   let info = document.getElementById("manage-departments-form");
@@ -426,6 +444,8 @@ function manageDepartmentsToggle() {
   selectOptions("Department", "remove-department");
 }
 
+// ADD / REMOVE DEPARTMENT FORM
+
 function manageLocationsToggle() {
   let info = document.getElementById("manage-locations-form");
   let visibility = info.style.visibility;
@@ -434,11 +454,29 @@ function manageLocationsToggle() {
   selectOptions("Location", "add-locations");
 }
 
+// POPULATE 'SELECT' INPUT WITH DEPARTMENT OR LOCATION 'OPTIONS'
+
+function selectOptions(category, selectID) {
+  $(`#${selectID}`).empty();
+
+  $.getJSON(`php/getAll${category}s.php`, function (category) {
+    $.each(category.data, function (key, entry) {
+      $(`#${selectID}`).append(
+        $("<option></option>").attr("value", entry.name).text(entry.name)
+      );
+    });
+  });
+}
+
+// SEARCH FORM
+
 function searchForm() {
   let info = document.getElementById("search-form");
   let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
+
+// SIGN IN FORM
 
 function signInForm() {
   let info = document.getElementById("sign-in-form");
@@ -448,15 +486,17 @@ function signInForm() {
 
 
 
-// ------ NOTIFICATIONS ------ //
+// ------ CONFIRM ACTION NOTIFICATION TOGGLES ------ //
 
-// CONFIRM ACTION NOTIFICATION(s)
+// CONFIRM ADD EMPLOYEE
 
 function toggleAreYouSure() {
   let info = document.getElementById("areYouSure");
   let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
+
+// CONFIRM DELETE EMPLOYEE
 
 function toggleAreYouSure2() {
 
@@ -477,6 +517,7 @@ function stopEvent() {
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
+// CONFIRM UPDATE EMPLOYEE
 
 function toggleAreYouSure3() {
   let info = document.getElementById("areYouSure3");
@@ -484,11 +525,15 @@ function toggleAreYouSure3() {
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
+// CONFIRM ADD DEPARTMENT
+
 function confirmAddDepartment() {
   let info = document.getElementById("confirm-add-department");
   let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
+
+// CONFIRM DELETE DEPARTMENT
 
 function confirmRemoveDepartment() {
   let info = document.getElementById("confirm-remove-department");
@@ -496,11 +541,15 @@ function confirmRemoveDepartment() {
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
+// CONFIRM ADD LOCATION
+
 function confirmAddLocation() {
   let info = document.getElementById("confirm-add-location");
   let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
+
+// CONFIRM DELETE LOCATION
 
 function confirmRemoveLocation() {
   let info = document.getElementById("confirm-remove-location");
@@ -508,7 +557,10 @@ function confirmRemoveLocation() {
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
-// SUCCESS NOTIFICATION
+// ------ SUCCESS NOTIFICATIONS ------ //
+
+// EMPLOYEE SUCCESSFULLY ADDED NOTIFICATION
+
 function insertSuccessful() {
   $("#success-notification-wrapper").show();
   $("#success-notification-wrapper").addClass("animate__fadeInDown");
@@ -518,7 +570,7 @@ function insertSuccessful() {
   }, 2000);
 }
 
-// REMOVED NOTIFICATION
+// EMPLOYEE SUCCESSFULLY REMOVED NOTIFICATION
 
 $(document).ready(function () {
   $(document).on("click", "#yes2", function () {
@@ -531,7 +583,7 @@ $(document).ready(function () {
   });
 });
 
-// UPDATED NOTIFICATION
+// UPDATE EMPLOYEE SUCCESS NOTIFICATION
 
 function updateSuccessful() {
   $("#updated-notification-wrapper").show();
@@ -542,7 +594,7 @@ function updateSuccessful() {
   }, 2000);
 }
 
-// DEPARTENT ADDED SUCCESSFULLY NOTIFICATION
+// DEPARTENT ADDED SUCCESS NOTIFICATION
 
 function addDepartmentSuccessful() {
   $("#department-notification-wrapper").show();
@@ -566,7 +618,7 @@ function removeDepartmentSuccessful() {
   }, 2000);
 }
 
-// DEPARTENT ADDED SUCCESSFULLY NOTIFICATION
+// LOCATION ADDED SUCCESS NOTIFICATION
 
 function addLocationSuccessful() {
   $("#location-notification-wrapper").show();
@@ -577,7 +629,7 @@ function addLocationSuccessful() {
   }, 2000);
 }
 
-// DEPARTENT REMOVED SUCCESSFULLY NOTIFICATION
+// LOCATION REMOVED SUCCESSFULLY NOTIFICATION
 
 function removeLocationSuccessful() {
   $("#location-removed-notification-wrapper").show();
@@ -590,7 +642,7 @@ function removeLocationSuccessful() {
   }, 2000);
 }
 
-// Sign In SUCCESSFUL NOTIFICATION
+// SIGNIN SUCCESS NOTIFICATION
 
 function signInSuccessful() {
   $("#signIn-notification-wrapper").show();
@@ -603,7 +655,7 @@ function signInSuccessful() {
   }, 2200);
 }
 
-// Sign Out SUCCESSFUL NOTIFICATION
+// SIGN OUT SUCCESS NOTIFICATION
 
 function signOutSuccessful() {
   $("#signOut-notification-wrapper").show();
@@ -678,33 +730,6 @@ function search() {
 
 }
 
-function resetTable() {
 
-  $('#filter-one').val("default")
-  $('#filter-two').val("default")
-  $('#searchText').val("")
-
-  clearTable()
-  buildTable()
-}
-
-
-// SELECT POPULATE WITH OPTIONS
-
-function selectOptions(category, selectID) {
-  $(`#${selectID}`).empty();
-
-  $.getJSON(`php/getAll${category}s.php`, function (category) {
-    $.each(category.data, function (key, entry) {
-      $(`#${selectID}`).append(
-        $("<option></option>").attr("value", entry.name).text(entry.name)
-      );
-    });
-  });
-}
-
-function capitalize(word) {
-  return word.charAt(0).toUpperCase() + word.slice(1);
-}
 
 
