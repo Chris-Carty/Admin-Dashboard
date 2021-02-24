@@ -2,7 +2,7 @@ Company Directory Project
 
 Mock company directory UI developed with front-end & back-end functionality.
 
-CRUD / AJAX Database practice
+CRUD / AJAX / MySQL Database practice
 
 Languages used:
 
