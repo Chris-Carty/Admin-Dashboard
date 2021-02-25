@@ -7,6 +7,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+#half-break {
+  line-height: 5px !important;
+}
+
+td {
+  cursor: pointer !important;
+}
+
+#id {
+  display: none;
+}
+
 .main-content-wrapper {
   height: 100vh;
   width: 100vw;
@@ -164,6 +176,10 @@ body {
   display: none;
 }
 
+.hide2 {
+  display: none;
+}
+
 .tableFixHead {
   overflow-y: auto;
 }
@@ -171,6 +187,7 @@ body {
   position: sticky;
   top: 0;
   background: #dfe0eb;
+  box-shadow: 0 0.25px 0 #dfe0eb, 0 -2.5px 0 #dfe0eb;
 }
 
 #database button {
@@ -212,9 +229,9 @@ body {
 .location-info,
 .search-info {
   width: 85%;
-  height: 80%;
+  height: 90%;
   background: #dfe0eb;
-  border-radius: 50px;
+  border-radius: 40px;
   z-index: 100;
   position: absolute;
   top: 50%;
@@ -223,16 +240,15 @@ body {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
-.employee-info,
-.department-info {
-  height: 90% !important;
+.employee-info {
+  height: 98% !important;
 }
 
 .department-info {
-  height: 60% !important;
+  height: 75% !important;
 }
 
-.signIn-form {
+/*.signIn-form {
   width: 85%;
   height: 60%;
   border-radius: 50px;
@@ -248,22 +264,23 @@ body {
     rgba(253, 180, 255, 0.4) 100%
   );
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-}
+}*/
 
 .location-info {
-  height: 45% !important;
+  height: 55% !important;
 }
 
 .search-info {
-  height: 55% !important;
+  height: 65% !important;
 }
 
 #close {
   position: absolute;
-  top: 30px;
+  top: 20px;
   right: 30px;
   width: 25px;
   z-index: 200;
+  cursor: pointer;
 }
 
 .logo-login {
@@ -317,10 +334,6 @@ body {
   justify-content: center;
 }
 
-#save-updates {
-  margin-left: 24%;
-}
-
 .btn {
   background: #29cc97 !important;
   width: 171px;
@@ -331,11 +344,7 @@ body {
   font-weight: 700 !important;
   font-style: bold !important;
   font-size: 14px !important;
-
-  position: absolute;
-  bottom: -10%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-left: 17% !important;
 }
 
 .btn2 {
@@ -403,7 +412,9 @@ label {
 #form-cover4,
 #form-cover5,
 #form-cover6,
-#form-cover7 {
+#form-cover7,
+#form-cover8,
+#form-cover9 {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -422,7 +433,9 @@ label {
 .confirm-action4,
 .confirm-action5,
 .confirm-action6,
-.confirm-action7 {
+.confirm-action7,
+.confirm-action8,
+.confirm-action9 {
   width: 100%;
   height: 100%;
   background: rgba(196, 196, 196, 0.8);
@@ -439,7 +452,9 @@ label {
 .confirm-wrapper4,
 .confirm-wrapper5,
 .confirm-wrapper6,
-.confirm-wrapper7 {
+.confirm-wrapper7,
+.confirm-wrapper8,
+.confirm-wrapper9 {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -472,7 +487,9 @@ label {
 #yes6,
 #no6,
 #yes7,
-#no7 {
+#no7,
+#yes8,
+#yes9 {
   color: white;
   width: 100px;
   height: 34px;
@@ -490,7 +507,9 @@ label {
 #yes4,
 #yes5,
 #yes6,
-#yes7 {
+#yes7,
+#yes8,
+#yes9 {
   background: #29cc97 !important;
 }
 
@@ -566,30 +585,12 @@ label {
   margin-left: 5px;
 }
 
-#save-updates {
-  display: none;
-  position: absolute;
-  bottom: -6%;
-  left: 25%;
-  transform: translate(-50%, -50%);
-}
-
 /* EDIT MODE SLIDER */
-
-/* The switch - the box around the slider */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 25px;
-  top: 25px;
-  left: 35px;
-}
 
 .edit-mode {
   position: absolute;
-  top: 25px;
-  left: 105px;
+  top: 20px;
+  left: 33px;
 }
 
 #edit-mode-text {
@@ -598,70 +599,21 @@ label {
   font-style: bold !important;
 }
 
-/* Hide default HTML checkbox */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+.required,
+.required-text span {
+  color: red;
+  font-size: 12px;
 }
 
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #cc4129;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 17px;
-  width: 17px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
-
-input:checked + .slider {
-  background-color: #29cc97;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px#29cc97;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(35px);
-  -ms-transform: translateX(35px);
-  transform: translateX(35px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-
-.required-text {
-  font-size: 12px !important;
-}
-
-.required {
-  color: red !important;
+.required-text span {
+  visibility: hidden;
 }
 
 @media only screen and (min-width: 768px) {
+  .hide2 {
+    display: none;
+  }
+
   .main-content-wrapper {
     height: 100vh;
     width: 100vw;
@@ -823,6 +775,7 @@ input:checked + .slider:before {
     position: sticky;
     top: 0;
     background: #dfe0eb;
+    box-shadow: 0 0.5px 0 #dfe0eb, 0 -0.5px 0 #dfe0eb;
   }
 
   #database button {
@@ -864,7 +817,7 @@ input:checked + .slider:before {
   .location-info,
   .search-info {
     width: 30%;
-    height: 80%;
+    height: 80% !important;
     background: #dfe0eb;
     border-radius: 50px;
     z-index: 100;
@@ -875,9 +828,8 @@ input:checked + .slider:before {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   }
 
-  .employee-info,
-  .department-info {
-    height: 95% !important;
+  .employee-info {
+    height: 92% !important;
   }
 
   .department-info {
@@ -969,10 +921,6 @@ input:checked + .slider:before {
     justify-content: center;
   }
 
-  #save-updates {
-    margin-left: 0;
-  }
-
   .btn {
     background: #29cc97 !important;
     width: 171px;
@@ -983,11 +931,8 @@ input:checked + .slider:before {
     font-weight: 700 !important;
     font-style: bold !important;
     font-size: 14px !important;
-
-    position: absolute;
-    bottom: -10%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-left: 25% !important;
+    margin-top: 10px !important;
   }
 
   .btn2 {
@@ -1067,7 +1012,9 @@ input:checked + .slider:before {
   #form-cover4,
   #form-cover5,
   #form-cover6,
-  #form-cover7 {
+  #form-cover7,
+  #form-cover8,
+  #form-cover9 {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -1080,11 +1027,14 @@ input:checked + .slider:before {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   }
 
+  .confirm-action3,
   .confirm-action2,
   .confirm-action4,
   .confirm-action5,
   .confirm-action6,
-  .confirm-action7 {
+  .confirm-action7,
+  .confirm-action8,
+  .confirm-action9 {
     width: 100%;
     height: 100%;
     background: rgba(196, 196, 196, 0.8);
@@ -1095,25 +1045,15 @@ input:checked + .slider:before {
     transform: translate(-50%, -50%);
   }
 
-  .confirm-action3 {
-    width: 30%;
-    height: 95%;
-    background: rgba(196, 196, 196, 0.8);
-    z-index: 105;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50px;
-  }
-
   .confirm-wrapper,
   .confirm-wrapper2,
   .confirm-wrapper3,
   .confirm-wrapper4,
   .confirm-wrapper5,
   .confirm-wrapper6,
-  .confirm-wrapper7 {
+  .confirm-wrapper7,
+  .confirm-wrapper8,
+  .confirm-wrapper9 {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -1146,7 +1086,9 @@ input:checked + .slider:before {
   #yes6,
   #no6,
   #yes7,
-  #no7 {
+  #no7,
+  #yes8,
+  #yes9 {
     color: white;
     width: 100px;
     height: 34px;
@@ -1164,7 +1106,9 @@ input:checked + .slider:before {
   #yes4,
   #yes5,
   #yes6,
-  #yes7 {
+  #yes7,
+  #yes8,
+  #yes9 {
     background: #29cc97 !important;
   }
 
@@ -1248,22 +1192,12 @@ input:checked + .slider:before {
     transform: translate(-50%, -50%);
   }
 
-  /* EDIT MODE SLIDER */
-
-  /* The switch - the box around the slider */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 25px;
-    top: 25px;
-    left: 35px;
-  }
+  /* EDIT MODE */
 
   .edit-mode {
     position: absolute;
-    top: 25px;
-    left: 105px;
+    top: 27px;
+    left: 40px;
   }
 
   #edit-mode-text {
@@ -1272,66 +1206,13 @@ input:checked + .slider:before {
     font-style: bold !important;
   }
 
-  /* Hide default HTML checkbox */
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+  #location {
+    margin-bottom: 10px !important;
   }
 
-  /* The slider */
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #cc4129;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-  }
-
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 17px;
-    width: 17px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-  }
-
-  input:checked + .slider {
-    background-color: #29cc97;
-  }
-
-  input:focus + .slider {
-    box-shadow: 0 0 1px#29cc97;
-  }
-
-  input:checked + .slider:before {
-    -webkit-transform: translateX(35px);
-    -ms-transform: translateX(35px);
-    transform: translateX(35px);
-  }
-
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-
-  .slider.round:before {
-    border-radius: 50%;
-  }
-
-  .required-text {
-    font-size: 12px !important;
-  }
-
-  .required {
-    color: red !important;
+  .required,
+  .required-text span {
+    color: red;
+    font-size: 12px;
   }
 }

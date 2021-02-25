@@ -19,6 +19,7 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
   />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css" integrity="sha512-YDChav1pUAodyH1Ja7PIpEDUOoFROpZi5Lb7pY8+9+kU8UTr3J8SI8QO7SRuf4qdDKb5OI0xSt4Vk1wiYjBXgw==" crossorigin="anonymous" />
     <link rel="icon" href="favicon.png" />
   </head>
 
@@ -29,8 +30,8 @@
       <div class="header">
         <h1><img src="media/svg/folder.svg"><span>Company Directory</span></h1>
         <div class="admin-section">
-         <!-- <div class="admin-profile">Admin:<span>Logged In</span></div>-->
-          <button class="sign-out" onclick="signOut()">Sign Out</button>
+         <!-- <div class="admin-profile">Admin:<span>Logged In</span></div>
+          <button class="sign-out" onclick="signOut()">Sign Out</button> -->
         </div>
       </div>
 
@@ -52,13 +53,13 @@
         <table class="table  table-fixed  table-hover" id="database">
             <thead>
                 <tr id="tableHeader">
-                    <th scope="col" class="hide coloured-bg">ID</th>
+                    <th scope="col" class="hide2 coloured-bg">ID</th>
                     <th scope="col" class="coloured-bg">Display Name</th>
                     <th scope="col" class="hide coloured-bg">Job Title</th>
                     <th scope="col" class="hide coloured-bg">Email</th>
                     <th scope="col" class="hide coloured-bg">Department</th>
                     <th scope="col" class="hide coloured-bg">Location</th>
-                    <th scope="col" class="coloured-bg">Edit / Delete</th>
+                    <th scope="col" class="coloured-bg text-right">Edit / Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -67,7 +68,7 @@
       </div>
     </div>
 
-        <!-- Sign In From -->
+        <!-- Sign In From
         <div id="sign-in-form" style="visibility: visible;">
           <div class="signIn-form">
             <div class="logo-login">
@@ -88,7 +89,7 @@
             </div>
             <button type="submit" class="btn3 btn-primary" onclick="signIn()">Sign In</button>
           </div>
-        </div>
+        </div> -->
 
     <!-- Add Employee Form -->
 
@@ -96,29 +97,34 @@
       <div class="employee-form">
         <img id="close" src="media/svg/Close-icon.svg" onclick="addEmployee();"/>
         <div class="employee-form-wrapper">
-            <div class="form-group">
-              <label class="text-center justify-content-center">ADD EMPLOYEE<span class="required"></span></label><br>
-              <label for="first-name">First Name<span class="required">*</span></label>
-              <input type="text" class="form-control" id="first-name" placeholder="John">
+          <form id="form" role="form" data-toggle="validator">
+            <div class="form-group has-feedback">
+              <label for="first-name" class="control-label">First Name<span class="required">*</span></label>
+              <input type="text" class="form-control" id="first-name" placeholder="John" required>
+              <div class="help-block with-errors"></div>
             </div>
-            <div class="form-group">
+            <div class="form-group has-feedback">
               <label for="surname">Surname<span class="required">*</span></label>
-              <input type="text" class="form-control" id="surname" placeholder="Doe">
+              <input type="text" class="form-control" id="surname" placeholder="Doe" required>
+              <div class="help-block with-errors"></div>
             </div>
-            <div class="form-group">
+            <div class="form-group has-feedback">
               <label for="email">Email<span class="required">*</span></label>
-              <input type="email" class="form-control" id="email" placeholder="name@example.com">
+              <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+              <div class="help-block with-errors"></div>
             </div>
-            <div class="form-group">
+            <div class="form-group has-feedback">
               <label for="job-title">Job Title<span class="required">*</span></label>
-              <input type="text" class="form-control" id="job-title" placeholder="e.g CFO">
+              <input type="text" class="form-control" id="job-title" placeholder="e.g CFO" required>
+              <div class="help-block with-errors"></div>
             </div>
-            <div class="form-group">
+            <div class="form-group has-feedback">
               <label for="addEmployeeDepartment">Department<span class="required">*</span></label>
               <select class="form-control" name="addEmployeeDepartment" id="addEmployeeDepartment"></select>
-            </div>
-            <div class="required-text"><span class="required">*Required Field</span></div><br>
-            <button type="submit" class="btn btn-primary" onclick="toggleAreYouSure()">SAVE EMPLOYEE</button>
+              <div class="help-block with-errors"></div>
+            </div><br>
+            <button type="submit" class="btn btn-primary">SAVE EMPLOYEE</button>
+          </form>
         </div>
       </div>
     </div>
@@ -127,42 +133,45 @@
 
         <div id="update-employee-form" style="visibility: hidden;">
           <div class="employee-info">
-            <label class="switch">
-              <input type="checkbox">
-              <span id="toggle-edit-mode" class="slider round" onclick="toggleReadOnly()"></span>
-            </label>
             <div class="edit-mode">Edit Mode:<span id="edit-mode-text">Off</span></div>
-            <img id="close" src="media/svg/Close-icon.svg" onclick="updateEmployeeToggle()"/>
+            <img id="close" src="media/svg/Close-icon.svg" onclick="closeUpdateEmployeeToggle()"/>
             <div id="profile" class="employee-form-info-wrapper">
-              <div class="form-group"><br>
-                <label for="id">Employee ID:</label>
-                <input id="id" type="text" class="form-control" readonly>
-              </div>
-                <div class="form-group">
-                  <label for="firstName">First Name:</label>
-                  <input id="firstName" type="text" class="form-control" readonly>
-                </div>
-                <div class="form-group">
-                  <label for="lastName">Surname:</label>
-                  <input id="lastName" type="text" class="form-control"readonly>
-                </div>
-                <div class="form-group">
-                  <label for="email2">Email:</label>
-                  <input id="email2" type="email" class="form-control" readonly>
-                </div>
-                <div class="form-group">
-                  <label for="jobTitle">Job Title:</label>
-                  <input id="jobTitle" type="text" class="form-control" readonly>
-                </div>
-                <div class="form-group">
-                  <label for="department">Department:</label>
-                 <input id="department" name="department" type="text" class="form-control" readonly>
-                </div>
-                <div class="form-group">
-                  <label for="location">Location:</label>
-                  <input id="location" name="location" type="text" class="form-control" readonly>
-                </div><br>
-                <button id="save-updates" type="submit" class="btn btn-primary" onclick="toggleAreYouSure3()">SAVE UPDATES</button>
+              <form id="form2" role="form" data-toggle="validator">
+                  <div class="form-group"><br>
+                    <input id="id" type="text" class="form-control" readonly required>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label for="firstName">First Name:</label>
+                    <input id="firstName" type="text" class="form-control" readonly required>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label for="lastName">Surname:</label>
+                    <input id="lastName" type="text" class="form-control"readonly required>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label for="email2">Email:</label>
+                    <input id="email2" type="email" class="form-control" readonly required>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label for="jobTitle">Job Title:</label>
+                    <input id="jobTitle" type="text" class="form-control" readonly required>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label for="department">Department:</label>
+                  <input id="department" name="department" type="text" class="form-control" readonly required>
+                  <div class="help-block with-errors"></div>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <label for="location">Location:</label>
+                    <input id="location" name="location" type="text" class="form-control" readonly required>
+                    <div class="help-block with-errors"></div>
+                  </div><br style="line-height: 10px;">
+                  <button id="save-updates" type="submit" class="btn btn-primary">SAVE UPDATES</button>
+              </form>
             </div>
           </div>
         </div>
@@ -173,21 +182,24 @@
           <div class="department-info">
             <img id="close" src="media/svg/Close-icon.svg" onclick="manageDepartmentsToggle();"/>
             <div id="profile" class="employee-form-info-wrapper">
-                <div class="form-group">
+              <form id="form3" role="form" data-toggle="validator">
+                <div class="form-group has-feedback">
                   <label for="add-department">ADD DEPARTMENT</label><br>
                   <label for="add-department">Name:</label>
-                 <input id="add-department" name="add-department" type="text" class="form-control" placeholder="e.g Purchasing">
+                 <input id="add-department" name="add-department" type="text" class="form-control" placeholder="e.g Purchasing" required>
+                 <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group">
                   <label for="add-department-location">Location:</label>
                   <select id="add-department-location" name="add-department-location" type="text" class="form-control"></select> 
                 </div> 
-                <button id="add-new-department" type="submit" class="btn2 btn-primary" onclick="confirmAddDepartment()">ADD</button><br><br><br>
+                <button id="add-new-department" type="submit" class="btn2 btn-primary">ADD</button><br><br><br>
+              </form>
                 <div class="form-group">
                   <label for="remove-department">REMOVE DEPARTMENT</label>
                   <select id="remove-department" name="location" type="text" class="form-control"></select>
                 </div> 
-                <button id="remove-department-button" type="submit" class="btn2 btn-primary" onclick="confirmRemoveDepartment()">REMOVE</button>
+                <button id="remove-department-button" type="submit" class="btn2 btn-primary" onclick="removeDepButton()">REMOVE</button>
             </div>
           </div>
         </div>
@@ -197,16 +209,19 @@
           <div class="location-info">
             <img id="close" src="media/svg/Close-icon.svg" onclick="manageLocationsToggle();"/>
             <div id="profile" class="employee-form-info-wrapper">
-                <div class="form-group">
+              <form id="form4" role="form" data-toggle="validator">
+                <div class="form-group has-feedback">
                   <label for="add-location-name">ADD LOCATION</label>
-                  <input id="add-location-name" name="add-location-name" type="text" class="form-control" placeholder="e.g Berlin">
+                  <input id="add-location-name" name="add-location-name" type="text" class="form-control" placeholder="e.g Berlin" required>
+                  <div class="help-block with-errors"></div>
                 </div>
-                <button id="save-new-location" type="submit" class="btn2 btn-primary" onclick="confirmAddLocation()">ADD</button><br><br>
+                <button id="save-new-location" type="submit" class="btn2 btn-primary">ADD</button><br><br>
+              </form>
                 <div class="form-group">
                   <label for="add-locations">REMOVE LOCATION</label>
                   <select id="add-locations" name="add-locations" type="text" class="form-control"></select>
                 </div>
-                <button id="save-new-location" type="submit" class="btn2 btn-primary" onclick="confirmRemoveLocation()">REMOVE</button>
+                <button id="save-new-location" type="submit" class="btn2 btn-primary" onclick="removeLocButton()">REMOVE</button>
             </div>
           </div>
         </div>
@@ -216,26 +231,13 @@
                   <div class="search-info">
                     <img id="close" src="media/svg/Close-icon.svg" onclick="searchForm()"/>
                     <div id="profile" class="search-form-wrapper">
-                        <div class="search-form-group">
-                          <label for="search-by">SEARCH EMPLOYEE DATABASE</label>
-                          <label for="search-by">Search by:</label>
-                          <select id="filter-one" name="search-by" type="text" class="form-control">
-                            <option val="default" selected disabled>Please Select</option>
-                            <option value="lastName">Last Name</option>
-                            <option value="firstName">First Name</option>
-                            <option value="jobTitle">Job Title</option>
-                            <option value="department">Department</option>
-                            <option value="location">Location</option>
-                          </select><br>
-                          <select id="filter-two" name="search-by" type="text" class="form-control">
-                            <option val="default" selected disabled>Please Select</option>
-                            <option>Starts with</option>
-                            <option>Equals</option>
-                          </select><br>
-                        <label for="search-by">Enter Text:</label>
-                        <input id="searchText" type="text" class="form-control" placeholder="Enter Text.."></input><br>
-                        <button class="search-btn" onclick="search()"><span>Search</span></button>
-                      </div>
+                      <form id="form5" role="form" data-toggle="validator">
+                        <div class="form-group has-feedback">
+                          <label for="search-by">Search Employee Dastabase:</label>
+                          <input id="searchText" type="text" class="form-control" placeholder="e.g Engineer" required></input>
+                          <div class="help-block with-errors"></div>
+                        </div>
+                        <button class="search-btn"">Search</button>
                     </div>
                   </div>
                 </div>
@@ -326,6 +328,27 @@
       </div>
     </div>
 
+    <div id="unable-remove-department" class="confirm-action8" style="visibility: hidden;">
+      <div id="form-cover8">
+        <div class="confirm-wrapper8">
+          <div class="confirm-text-add-employee">Error: Unable to remove department whilst employees are linked</div>
+          <div class="confirm-buttons">
+            <button id="yes8" onclick="unableRemoveDepartment()">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="unable-remove-location" class="confirm-action9" style="visibility: hidden;">
+      <div id="form-cover9">
+        <div class="confirm-wrapper9">
+          <div class="confirm-text-add-employee">Error: unable to remove location whilst department is linked</div>
+          <div class="confirm-buttons">
+            <button id="yes9" onclick="unableRemoveLocation()">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <!-- Success Notification -->
 
@@ -383,22 +406,6 @@
         </div>
 
             
-         <!-- Sign In Notification -->
-    
-         <div id="signIn-notification-wrapper" class="animate__animated">
-          <div class="signIn-notification">
-            Sign In Successful!<span><img src="media/svg/tick.svg"></span>
-          </div>
-        </div>
-
-            
-         <!-- Sign Out Notification -->
-    
-         <div id="signOut-notification-wrapper" class="animate__animated">
-          <div class="signOut-notification">
-            Sign Out Successful!<span><img src="media/svg/tick.svg"></span>
-          </div>
-        </div>
 
     <script
       type="application/javascript"
@@ -409,6 +416,7 @@
       integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js" integrity="sha512-Mf4TMPxK1TE3jNpbt6cFIM9Rz+Ezs+mvG6SvEKq2ZYEAix8QNtbseSccunI4efVNtvfzrRmd8vVwRRBgYMtfnA==" crossorigin="anonymous"></script>
     <script type="application/javascript" src="index.js"></script>
   </body>
 </html> 

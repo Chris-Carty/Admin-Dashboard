@@ -2,38 +2,14 @@
 
 let employeeID;
 let employeeProfile;
+let editMode = "Off"
+let departmentID;
 
 // ------------------//
-
-// BUILD TABLE ON PAGE LOAD
 
 $(document).ready(function () {
   buildTable();
 });
-
-// SIGN IN FUNCTION 
-
-function signIn() {
-
-  let username = $('#username').val()
-  let password = $('#password').val()
-
-  if ( username == 'Admin1' && password == '12345') {
-    signInForm()
-    signInSuccessful()
-  } else {
-    alert('Please enter a valid password & username combination')
-  }
-}
-
-// SIGN OUT FUNCTION 
-
-function signOut() {
-  signInForm()
-  signOutSuccessful()
-}
-
-// BUILD TABLE FUNCTION
 
 function buildTable() {
   $.ajax({
@@ -43,53 +19,34 @@ function buildTable() {
     success: function (data) {
       var db = data.data;
       for (let i in db) {
-        appendTableRow(db, i);
+        appendEntry(db, i);
       }
     },
   });
 }
 
-// CLEAR TABLE FUNCTION (USED FOR RESET)
-
 function clearTable() {
   $("#database").html(`
     <tbody>
         <tr id="tableHeader">
-            <th scope="col" class="hide coloured-bg">ID</th>
+            <th scope="col" class="hide2 coloured-bg">ID</th>
             <th scope="col" class="coloured-bg">Display Name</th>
             <th scope="col" class="hide coloured-bg" id="jobTitleHeader">Job Title</th>
             <th scope="col" class="hide coloured-bg">Email</th>
             <th scope="col" class="hide coloured-bg" id="departmentHeader">Department</th>
             <th scope="col" class="hide coloured-bg" id="locationHeader">Location</th>
-            <th scope="col" class="coloured-bg" id="ManageHeader">Edit / Delete</th>
+            <th scope="col" class="coloured-bg text-right" id="ManageHeader">Edit / Delete</th>
         </tr>
     </tbody>
     `);
 }
 
-// RESET TABLE FUNCTION (& RESET FROM VALUES)
-
-function resetTable() {
-
-  $('#filter-one').val("default")
-  $('#filter-two').val("default")
-  $('#searchText').val("")
-
-  clearTable()
-  buildTable()
-}
-
-// APPEND INFO FROM DATABASE AS TABLE ROWS
-
-function appendTableRow(db, i, filterBy) {
-
-  let profileInfo = JSON.stringify(db[i]).split('"').join('"')
-
-  //JSON.stringify(db[i]).split('"').join("&quot;")
-
+function appendEntry(db, i, filterBy) {
   $("#database tbody").append(`
-        <tr onclick="viewProfile(${profileInfo})">
-            <th class="hide">${db[i].id}</th>
+        <tr onclick="viewProfile(${JSON.stringify(db[i])
+          .split('"')
+          .join("&quot;")})">
+            <th class="hide2">${db[i].id}</th>
             <td><b>${db[i].lastName}</b>, ${db[i].firstName}</td>
             <td class=${filterBy == "jobTitle" ? "" : "hide"}>${
     db[i].jobTitle
@@ -101,12 +58,10 @@ function appendTableRow(db, i, filterBy) {
             <td class=${filterBy == "location" ? "" : "hide"}>${
     db[i].location
   }</td>
-            <td><button><img src="media/svg/icons8-edit.svg"></button><button id="delete" onclick="toggleAreYouSure2()"><img src="media/svg/trash-red.svg"></button></td>
+            <td class="text-right"><button onclick="toggleReadOnly(editMode)"><img src="media/svg/edit.svg"></button><button id="delete" onclick="toggleAreYouSure2()"><img src="media/svg/trash-red.svg"></button></td>
         </tr>
     `);
 }
-
-// ASSIGN INFO TO EMPLOYEE PORFILE FORM
 
 function viewProfile(profile) {
   employeeProfile = profile;
@@ -123,10 +78,10 @@ function viewProfile(profile) {
   $("#location").val(profile.location);
 }
 
-// EDIT MODE ON/OFF (FOR UPDATE EMPLOYEE FORM)
-
-function toggleReadOnly() {
+function toggleReadOnly(mode) {
   //updateProfile()
+  $("#edit-mode-text").html(mode)
+  
 
   if ($("#edit-mode-text").html() === "Off") {
     $("#edit-mode-text").html("On");
@@ -134,25 +89,25 @@ function toggleReadOnly() {
     $("#edit-mode-text").html("Off");
   }
 
-  if (document.getElementById("firstName").readOnly === true) {
+  if ($("#edit-mode-text").html() === "On") {
     document.getElementById("firstName").readOnly = false;
   } else {
     document.getElementById("firstName").readOnly = true;
   }
 
-  if (document.getElementById("lastName").readOnly === true) {
+  if ($("#edit-mode-text").html() === "On") {
     document.getElementById("lastName").readOnly = false;
   } else {
     document.getElementById("lastName").readOnly = true;
   }
 
-  if (document.getElementById("email2").readOnly === true) {
+  if ($("#edit-mode-text").html() === "On") {
     document.getElementById("email2").readOnly = false;
   } else {
     document.getElementById("email2").readOnly = true;
   }
 
-  if (document.getElementById("jobTitle").readOnly === true) {
+  if ($("#edit-mode-text").html() === "On") {
     document.getElementById("jobTitle").readOnly = false;
   } else {
     document.getElementById("jobTitle").readOnly = true;
@@ -171,7 +126,7 @@ function toggleReadOnly() {
       `<select class="form-control" name="department" onchange="updateLocation()" id='department'></select>`
     );
 
-    let category = id.charAt(0).toUpperCase() + id.slice(1);;
+    let category = capitalize(id);
     selectOptions(category, id);
 
     $(`#department`).append(`<option selected="true">${entryText}</option>`);
@@ -185,12 +140,74 @@ function toggleReadOnly() {
   }
 }
 
-// ------ AJAX CALLS ---- DATABASE MODIFICATIONS ------ //
+function updateLocation() {
+  $.getJSON(`php/getAllDepartments.php`, function (departments) {
+    let locationID = departments.data.filter(
+      (dep) => dep.name == $("#department").val()
+    )[0].locationID;
+
+    $.getJSON(`php/getAllLocations.php`, function (locations) {
+      let location = locations.data.filter((loc) => loc.id == locationID)[0]
+        .name;
+      $("#location").val(location);
+    });
+  });
+}
+
+// ------ PHP / SQL DATABASE MODIFICATIONS ------ //
 
 // ADD EMPLOYEE TO DATABASE
 
-function addEmployeeData() {
+// BOOTSTRAP -- VALIDATOR
 
+$('#form').validator().on('submit', function (e) {
+  if (e.isDefaultPrevented()) {
+    e.preventDefault();
+  } else {
+    e.preventDefault();
+    toggleAreYouSure();
+  }
+})
+
+$('#form2').validator().on('submit', function (e) {
+  if (e.isDefaultPrevented()) {
+    e.preventDefault();
+  } else {
+    e.preventDefault();
+    toggleAreYouSure3();
+  }
+})
+
+$('#form3').validator().on('submit', function (e) {
+  if (e.isDefaultPrevented()) {
+    e.preventDefault();
+  } else {
+    e.preventDefault();
+    confirmAddDepartment()
+  }
+})
+
+
+$('#form4').validator().on('submit', function (e) {
+  if (e.isDefaultPrevented()) {
+    e.preventDefault();
+  } else {
+    e.preventDefault();
+    confirmAddLocation()
+  }
+})
+
+$('#form5').validator().on('submit', function (e) {
+  if (e.isDefaultPrevented()) {
+    e.preventDefault();
+  } else {
+    e.preventDefault();
+    search()
+  }
+})
+
+
+function addEmployeeData() {
   let departmentName = $("#addEmployeeDepartment").val();
 
   $.getJSON(`php/getAllDepartments.php`, function (departments) {
@@ -240,7 +257,6 @@ function addEmployeeData() {
 // UPDATE EMPLOYEE IN DATABASE
 
 function updateEmployee() {
-
   $.getJSON(`php/getAllDepartments.php`, function (departments) {
     let departmentID = departments.data.filter(
       (dep) => dep.name == $("#department").val()
@@ -277,6 +293,7 @@ function updateEmployee() {
       toggleAreYouSure3();
       updateEmployeeToggle();
       updateSuccessful();
+      toggleReadOnly("On")
     }
   });
 }
@@ -303,7 +320,6 @@ function deleteEmployee() {
 // ADD DEPARTMENT TO DATABASE
 
 function addDepartment() {
-
   let departmentName = $("#add-department").val();
   let locationName = $("#add-department-location").val();
 
@@ -339,35 +355,56 @@ function addDepartment() {
 
 // DELETE DEPARTMENT FROM DATABASE
 
-function deleteDepartment() {
-
+function removeDepButton(){
   let departmentName = $("#remove-department").val();
 
   $.getJSON(`php/getAllDepartments.php`, function (departments) {
-    let departmentID = departments.data.filter(
+    departmentID = departments.data.filter(
       (dep) => dep.name == departmentName
     )[0].id;
 
-    $.ajax({
-      data: {
-        id: departmentID,
-      },
-      url: "php/deleteDepartmentByID.php",
-      dataType: "json",
-      success: function (data) {
-        $("#remove-department").find("option:eq(0)").prop("selected", true);
-        removeDepartmentSuccessful();
-        manageDepartmentsToggle();
-        confirmRemoveDepartment();
-      },
-    });
+    $.getJSON(`php/getPersonnel.php`, function (personnel) {
+
+      let personnelArr = personnel.data.personnel
+  
+      const count = personnelArr.filter((obj) => obj.departmentID === departmentID).length;
+
+      if (count > 0) {
+
+        unableRemoveDepartment()
+
+      } else {
+
+        confirmRemoveDepartment()
+        
+      }
+    })
   });
+
 }
+
+function deleteDepartment() {
+
+        $.ajax({
+          data: {
+            id: departmentID,
+          },
+          url: "php/deleteDepartmentByID.php",
+          dataType: "json",
+          success: function (data) {
+            $("#remove-department").find("option:eq(0)").prop("selected", true);
+            removeDepartmentSuccessful();
+            manageDepartmentsToggle();
+            confirmRemoveDepartment();
+          },
+        });
+      }
+ 
+
 
 // ADD LOCATION TO DATABASE
 
 function addLocation() {
-
   let locationName = $("#add-location-name").val();
 
   if (locationName == "") {
@@ -392,6 +429,34 @@ function addLocation() {
 
 // DELETE LOCATION FROM DATABASE
 
+function removeLocButton(){
+  let locationName = $("#add-locations").val();
+
+  $.getJSON(`php/getAllLocations.php`, function (locations) {
+    locationID = locations.data.filter(
+      (loc) => loc.name == locationName
+    )[0].id;
+
+    $.getJSON(`php/getAllDepartments.php`, function (departments) {
+
+      let departmentsArr = departments.data
+  
+      const count = departmentsArr.filter((obj) => obj.locationID === locationID).length;
+
+      if (count > 0) {
+
+        unableRemoveLocation()
+
+      } else {
+
+        confirmRemoveLocation()
+        
+      }
+    })
+  });
+
+}
+
 function deleteLocation() {
   let locationName = $("#add-locations").val();
 
@@ -410,6 +475,42 @@ function deleteLocation() {
   });
 }
 
+function search() {
+
+  clearTable();
+  searchForm();
+
+  let searchText = $('#searchText').val()
+
+  $.ajax({
+      type: 'GET',
+      url: 'php/search.php', 
+      dataType: 'json',
+      data: {
+        search: searchText,
+      },
+      success: function(data) {
+
+          var db = data.data;
+
+          appendEntry(db, i, filterBy)
+
+          $(`#${filterBy}Header`).removeClass()
+
+      }
+  })
+
+}
+
+function resetTable() {
+
+  $('#searchText').val("")
+
+  clearTable()
+  buildTable()
+}
+
+
 // ------------------//
 
 // ------ TOGGLE FORMS ------ //
@@ -421,8 +522,11 @@ function addEmployee() {
   let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 
-  selectOptions("Location", "addEmployeeLocation");
-  selectOptions("Department", "addEmployeeDepartment");
+  let selectArr = ["Department", "Location"];
+
+  for (let i in selectArr) {
+    selectOptions(selectArr[i], `addEmployee${selectArr[i]}`);
+  }
 }
 
 // UPDATE EMPLOYEE FORM
@@ -433,7 +537,17 @@ function updateEmployeeToggle() {
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
-// ADD / REMOVE DEPARTMENT FORM
+function closeUpdateEmployeeToggle() {
+
+  let editMode = "On"
+  toggleReadOnly(editMode)
+
+  let info = document.getElementById("update-employee-form");
+  let visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+}
+
+// ADD DEPARTMENT FORM
 
 function manageDepartmentsToggle() {
   let info = document.getElementById("manage-departments-form");
@@ -444,8 +558,6 @@ function manageDepartmentsToggle() {
   selectOptions("Department", "remove-department");
 }
 
-// ADD / REMOVE DEPARTMENT FORM
-
 function manageLocationsToggle() {
   let info = document.getElementById("manage-locations-form");
   let visibility = info.style.visibility;
@@ -454,29 +566,11 @@ function manageLocationsToggle() {
   selectOptions("Location", "add-locations");
 }
 
-// POPULATE 'SELECT' INPUT WITH DEPARTMENT OR LOCATION 'OPTIONS'
-
-function selectOptions(category, selectID) {
-  $(`#${selectID}`).empty();
-
-  $.getJSON(`php/getAll${category}s.php`, function (category) {
-    $.each(category.data, function (key, entry) {
-      $(`#${selectID}`).append(
-        $("<option></option>").attr("value", entry.name).text(entry.name)
-      );
-    });
-  });
-}
-
-// SEARCH FORM
-
 function searchForm() {
   let info = document.getElementById("search-form");
   let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
-
-// SIGN IN FORM
 
 function signInForm() {
   let info = document.getElementById("sign-in-form");
@@ -484,19 +578,15 @@ function signInForm() {
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
+// ------ NOTIFICATIONS ------ //
 
-
-// ------ CONFIRM ACTION NOTIFICATION TOGGLES ------ //
-
-// CONFIRM ADD EMPLOYEE
+// CONFIRM ACTION NOTIFICATION(s)
 
 function toggleAreYouSure() {
   let info = document.getElementById("areYouSure");
   let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
-
-// CONFIRM DELETE EMPLOYEE
 
 function toggleAreYouSure2() {
 
@@ -517,7 +607,6 @@ function stopEvent() {
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
-// CONFIRM UPDATE EMPLOYEE
 
 function toggleAreYouSure3() {
   let info = document.getElementById("areYouSure3");
@@ -525,15 +614,11 @@ function toggleAreYouSure3() {
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
-// CONFIRM ADD DEPARTMENT
-
 function confirmAddDepartment() {
   let info = document.getElementById("confirm-add-department");
   let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
-
-// CONFIRM DELETE DEPARTMENT
 
 function confirmRemoveDepartment() {
   let info = document.getElementById("confirm-remove-department");
@@ -541,15 +626,11 @@ function confirmRemoveDepartment() {
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
-// CONFIRM ADD LOCATION
-
 function confirmAddLocation() {
   let info = document.getElementById("confirm-add-location");
   let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
-
-// CONFIRM DELETE LOCATION
 
 function confirmRemoveLocation() {
   let info = document.getElementById("confirm-remove-location");
@@ -557,10 +638,22 @@ function confirmRemoveLocation() {
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
-// ------ SUCCESS NOTIFICATIONS ------ //
+function unableRemoveDepartment() {
+  let info = document.getElementById("unable-remove-department");
+  let visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+}
 
-// EMPLOYEE SUCCESSFULLY ADDED NOTIFICATION
+function unableRemoveLocation() {
+  let info = document.getElementById("unable-remove-location");
+  let visibility = info.style.visibility;
+  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+}
 
+// ERROR NOTIFICATIONS 
+
+
+// SUCCESS NOTIFICATION
 function insertSuccessful() {
   $("#success-notification-wrapper").show();
   $("#success-notification-wrapper").addClass("animate__fadeInDown");
@@ -570,7 +663,7 @@ function insertSuccessful() {
   }, 2000);
 }
 
-// EMPLOYEE SUCCESSFULLY REMOVED NOTIFICATION
+// REMOVED NOTIFICATION
 
 $(document).ready(function () {
   $(document).on("click", "#yes2", function () {
@@ -583,7 +676,7 @@ $(document).ready(function () {
   });
 });
 
-// UPDATE EMPLOYEE SUCCESS NOTIFICATION
+// UPDATED NOTIFICATION
 
 function updateSuccessful() {
   $("#updated-notification-wrapper").show();
@@ -594,7 +687,7 @@ function updateSuccessful() {
   }, 2000);
 }
 
-// DEPARTENT ADDED SUCCESS NOTIFICATION
+// DEPARTENT ADDED SUCCESSFULLY NOTIFICATION
 
 function addDepartmentSuccessful() {
   $("#department-notification-wrapper").show();
@@ -618,7 +711,8 @@ function removeDepartmentSuccessful() {
   }, 2000);
 }
 
-// LOCATION ADDED SUCCESS NOTIFICATION
+
+// LOCATION ADDED SUCCESSFULLY NOTIFICATION
 
 function addLocationSuccessful() {
   $("#location-notification-wrapper").show();
@@ -642,7 +736,7 @@ function removeLocationSuccessful() {
   }, 2000);
 }
 
-// SIGNIN SUCCESS NOTIFICATION
+// Sign In SUCCESSFUL NOTIFICATION
 
 function signInSuccessful() {
   $("#signIn-notification-wrapper").show();
@@ -655,7 +749,7 @@ function signInSuccessful() {
   }, 2200);
 }
 
-// SIGN OUT SUCCESS NOTIFICATION
+// Sign Out SUCCESSFUL NOTIFICATION
 
 function signOutSuccessful() {
   $("#signOut-notification-wrapper").show();
@@ -669,67 +763,21 @@ function signOutSuccessful() {
 }
 
 
-// SORT & FILTER FUNCTIONS
+// SELECT POPULATE WITH OPTIONS
 
-function startsWith(db, i, filterBy, searchText) {
+function selectOptions(category, selectID) {
+  $(`#${selectID}`).empty();
 
-  let strLength =  searchText.length;
-
-  if ((db[i][filterBy].toLowerCase()).slice(0, strLength) == searchText.toLowerCase()) {
-      appendEntry(db, i, filterBy)
-      return 1;
-  }
-  return 0;
+  $.getJSON(`php/getAll${category}s.php`, function (category) {
+    $.each(category.data, function (key, entry) {
+      $(`#${selectID}`).append(
+        $("<option></option>").attr("value", entry.name).text(entry.name)
+      );
+    });
+  });
 }
 
-function equals(db, i, filterBy, searchText) {
-
-  if (db[i][filterBy].toLowerCase() == searchText.toLowerCase()) {
-      appendEntry(db, i, filterBy)
-      return 1;
-  }
-  return 0;
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
 }
-
-function search() {
-
-  clearTable();
-  searchForm();
-
-  let filterBy = $('#filter-one').val()
-  let filterQ = $('#filter-two').val()
-  let searchText = $('#searchText').val()
-
-  $.ajax({
-      type: 'GET',
-      url: 'php/getAll.php', 
-      dataType: 'json',
-      success: function(data) {
-
-          var db = data.data;
-
-          for (let i in db) {
-
-              switch (filterQ) {
-                  case "Starts with":
-                      startsWith(db, i, filterBy, searchText)
-                      break;
-                  case "Equals":
-                      equals(db, i , filterBy, searchText)
-                      break;
-                  default:
-                      break;
-              }
-              
-          }
-
-          $(`#${filterBy}Header`).removeClass()
-
-      }
-  })
-
-}
-
-
-
 
