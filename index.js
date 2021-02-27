@@ -1,5 +1,12 @@
 // Global Variables
 
+var console = {};
+console.log = function(){};
+console.warn = function(){};
+console.error = function(){};
+
+window.console = console;
+
 let employeeID;
 let employeeProfile;
 let editMode = "Off"
@@ -17,7 +24,8 @@ function buildTable() {
     url: "php/getAll.php",
     dataType: "json",
     success: function (data) {
-      var db = data.data;
+      let db = data.data;
+      console.log(db)
       for (let i in db) {
         appendEntry(db, i);
       }
@@ -41,26 +49,33 @@ function clearTable() {
     `);
 }
 
-function appendEntry(db, i, filterBy) {
-  $("#database tbody").append(`
+function appendEntry(db, i) {
+  try {
+
+    $("#database tbody").append(`
         <tr onclick="viewProfile(${JSON.stringify(db[i])
           .split('"')
           .join("&quot;")})">
             <th class="hide2">${db[i].id}</th>
             <td><b>${db[i].lastName}</b>, ${db[i].firstName}</td>
-            <td class=${filterBy == "jobTitle" ? "" : "hide"}>${
+            <td class="hide">${
     db[i].jobTitle
   }</td>
             <td class="hide">${db[i].email}</td>
-            <td class=${filterBy == "department" ? "" : "hide"}>${
+            <td class="hide">${
     db[i].department
   }</td>
-            <td class=${filterBy == "location" ? "" : "hide"}>${
+            <td class="hide">${
     db[i].location
   }</td>
             <td class="text-right"><button onclick="toggleReadOnly(editMode)"><img src="media/svg/edit.svg"></button><button id="delete" onclick="toggleAreYouSure2()"><img src="media/svg/trash-red.svg"></button></td>
         </tr>
     `);
+
+  } catch {
+    console.error = function(){};
+  }
+
 }
 
 function viewProfile(profile) {
@@ -478,29 +493,32 @@ function deleteLocation() {
 function search() {
 
   clearTable();
-  searchForm();
 
-  let searchText = $('#searchText').val()
+  var searchText = $('#searchText').val().trim()
 
   $.ajax({
       type: 'GET',
-      url: 'php/search.php', 
+      url: 'php/getAll.php', 
       dataType: 'json',
-      data: {
-        search: searchText,
-      },
       success: function(data) {
 
-          var db = data.data;
+          let db = data.data;
 
-          appendEntry(db, i, filterBy)
+          let searched_arr = db.filter(o =>
+            Object.keys(o).some(k => o[k].toLowerCase().includes(searchText.toLowerCase())));
 
-          $(`#${filterBy}Header`).removeClass()
+            searched_arr = searched_arr.filter( Boolean );
 
+            console.log(searched_arr)
+        
+            for (let i in db) {
+              appendEntry(searched_arr, i)
+            } 
       }
   })
 
 }
+
 
 function resetTable() {
 
@@ -564,18 +582,6 @@ function manageLocationsToggle() {
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 
   selectOptions("Location", "add-locations");
-}
-
-function searchForm() {
-  let info = document.getElementById("search-form");
-  let visibility = info.style.visibility;
-  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
-}
-
-function signInForm() {
-  let info = document.getElementById("sign-in-form");
-  let visibility = info.style.visibility;
-  info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 }
 
 // ------ NOTIFICATIONS ------ //
@@ -780,4 +786,8 @@ function selectOptions(category, selectID) {
 function capitalize(word) {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
+
+// REMOVE CONSOLE.LOG FOR PRODUCTION 
+
+var cl,ce,cw;
 

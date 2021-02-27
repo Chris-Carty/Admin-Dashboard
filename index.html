@@ -30,8 +30,8 @@
       <div class="header">
         <h1><img src="media/svg/folder.svg"><span>Company Directory</span></h1>
         <div class="admin-section">
-         <!-- <div class="admin-profile">Admin:<span>Logged In</span></div>
-          <button class="sign-out" onclick="signOut()">Sign Out</button> -->
+         <!-- <div class="admin-profile">Admin:<span>Logged In</span></div> -->
+           <button class="reset" onclick="resetTable()"><span>Reset</span></button>
         </div>
       </div>
 
@@ -41,9 +41,15 @@
           <button class="add-employee" onclick="addEmployee()"><img src="media/svg/title.svg"><span>Add Employee</span></button>
           <button class="add-department" onclick="manageDepartmentsToggle()">Manage Departments</button>
           <button class="add-location" onclick="manageLocationsToggle()">Manage Locations</button>
-          <button class="search" onclick="searchForm()"><span>Search</span></button>
-          <button class="reset" onclick="resetTable()"><span>Reset</span></button>
-          <!--<button class="sort"><img src="media/svg/sort.svg"><span>Sort</span></button>-->
+          <form id="form5" role="form" data-toggle="validator">
+            <div class="search-wrapper input-group has-feedback">
+              <input id="searchText" type="text" class="form-control" placeholder="e.g Engineer" required></input>
+              <div class="help-block with-errors"></div>
+              <div class="input-group-append">
+                <button class="search-btn" type="submit">Search</button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
 
@@ -225,22 +231,6 @@
             </div>
           </div>
         </div>
-
-                <!-- Search Departments Form -->
-                <div id="search-form" style="visibility: hidden;">
-                  <div class="search-info">
-                    <img id="close" src="media/svg/Close-icon.svg" onclick="searchForm()"/>
-                    <div id="profile" class="search-form-wrapper">
-                      <form id="form5" role="form" data-toggle="validator">
-                        <div class="form-group has-feedback">
-                          <label for="search-by">Search Employee Dastabase:</label>
-                          <input id="searchText" type="text" class="form-control" placeholder="e.g Engineer" required></input>
-                          <div class="help-block with-errors"></div>
-                        </div>
-                        <button class="search-btn"">Search</button>
-                    </div>
-                  </div>
-                </div>
 
     <!-- Confirm User Action Window(s) -->
 

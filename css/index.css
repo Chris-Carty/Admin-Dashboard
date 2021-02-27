@@ -33,7 +33,7 @@ td {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .header h1 {
@@ -43,11 +43,12 @@ td {
   font-size: 18px;
   line-height: 30px;
   letter-spacing: 0.3px;
+  margin-left: 20px;
 }
 
 .manage-employees {
   width: 100%;
-  height: 175;
+  height: 160;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,6 +69,13 @@ td {
 
 .header h1 span {
   margin-left: 6px;
+  white-space: nowrap;
+}
+
+.reset {
+  width: 70px !important;
+  background: #f16f33;
+  margin-right: 20px;
 }
 
 .admin-section {
@@ -83,6 +91,7 @@ td {
   margin-right: 0px;
   justify-content: center;
   align-items: center;
+  margin-top: -25px;
 }
 
 .sign-out {
@@ -99,12 +108,11 @@ td {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
-.search,
 .add-employee,
 .add-department,
 .reset,
 .add-location {
-  width: 170px;
+  width: 209px;
   height: 25px;
   border-radius: 100px;
   border: none;
@@ -117,35 +125,46 @@ td {
 }
 
 .add-employee,
-.add-department {
-  margin-top: 0px;
-  background: #29cc97;
-}
-
-.add-location,
-.reset {
-  background: #29cc97;
+.add-department,
+.add-location {
   margin-top: 10px;
+  background: #29cc97;
 }
 
-.add-department {
-  margin-left: 7px;
-}
-
-.reset {
-  width: 110px !important;
-  background: #f16f33;
-  margin-bottom: 20px;
+#form5 {
+  margin-right: 0px;
   margin-left: 0px;
   margin-top: 10px;
+  margin-bottom: 15px;
 }
 
-.search {
+.search-wrapper {
+  background-color: #dfe0eb;
+  border-radius: 100px;
+  height: 25px;
   width: 170px;
-  background: #f19833;
-  margin-left: 7px;
+}
+
+.search-btn {
+  background-color: #f19833 !important;
+  color: white;
+  width: 100px;
+  height: 25px;
+  border-radius: 100px !important;
+  border: none !important;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   text-align: center;
-  margin-top: 7px;
+  font-weight: 700 !important;
+  font-style: bold !important;
+  font-size: 14px !important;
+}
+
+#searchText {
+  border: none;
+  background: transparent;
+  margin-left: 10px;
+  width: 100px;
+  height: 25px;
 }
 
 .add-employee span,
@@ -313,6 +332,7 @@ td {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
+  overflow-y: scroll;
 }
 
 .search-form-wrapper {
@@ -345,6 +365,7 @@ td {
   font-style: bold !important;
   font-size: 14px !important;
   margin-left: 17% !important;
+  margin-top: -30px;
 }
 
 .btn2 {
@@ -367,19 +388,6 @@ td {
 
   background: #29cc97 !important;
   width: 100px;
-  height: 34px;
-  border-radius: 100px !important;
-  border: none !important;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-  font-weight: 700 !important;
-  font-style: bold !important;
-  font-size: 14px !important;
-}
-
-.search-btn {
-  background: #29cc97 !important;
-  color: white;
-  width: 120px;
   height: 34px;
   border-radius: 100px !important;
   border: none !important;
@@ -671,11 +679,15 @@ label {
     margin-left: 16px;
   }
 
+  .buttons {
+    margin-top: 0px;
+  }
+
   .buttons,
   .admin-section {
     display: flex;
     flex-direction: row;
-    margin-right: 32px;
+    margin-right: 32px !important;
   }
 
   .sign-out {
@@ -692,7 +704,6 @@ label {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   }
 
-  .search,
   .add-employee,
   .add-department,
   .reset,
@@ -710,6 +721,47 @@ label {
     margin-top: 0px;
   }
 
+  #form5 {
+    margin-right: 5px;
+    margin-left: 16px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  .search-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #dfe0eb;
+    border-radius: 100px;
+    height: 34px;
+    width: 170px;
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+      rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  }
+
+  .search-btn {
+    background-color: #f19833 !important;
+    color: white;
+    width: 100px;
+    height: 34px;
+    border-radius: 100px !important;
+    border: none !important;
+    text-align: center;
+    font-weight: 700 !important;
+    font-style: bold !important;
+    font-size: 14px !important;
+  }
+
+  #searchText {
+    border: none;
+    background: transparent;
+    margin-left: 10px;
+    width: 140px;
+    height: 25px;
+    margin-top: 5px;
+  }
+
   .add-location {
     margin-left: 16px;
   }
@@ -719,8 +771,7 @@ label {
     margin-top: 0px;
   }
 
-  .add-department,
-  .reset {
+  .add-department {
     margin-left: 16px;
     background: #29cc97;
   }
@@ -729,15 +780,7 @@ label {
     width: 100px !important;
     background: #f16f33;
     margin-bottom: 0px;
-    margin-left: 16px;
-  }
-
-  .search {
-    width: 100px;
-    background: #f19833;
-    margin-left: 16px;
-    text-align: center;
-    margin-left: 16px;
+    margin-right: 0;
   }
 
   .add-employee span,
@@ -955,19 +998,6 @@ label {
 
     background: #29cc97 !important;
     width: 100px;
-    height: 34px;
-    border-radius: 100px !important;
-    border: none !important;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    font-weight: 700 !important;
-    font-style: bold !important;
-    font-size: 14px !important;
-  }
-
-  .search-btn {
-    background: #29cc97 !important;
-    color: white;
-    width: 120px;
     height: 34px;
     border-radius: 100px !important;
     border: none !important;
