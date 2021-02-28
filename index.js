@@ -505,6 +505,8 @@ function search() {
 
           let db = data.data;
 
+          console.log(db);
+
           let searched_arr = db.filter(object =>
             Object.keys(object).some(k => object[k].toLowerCase().includes(searchText.toLowerCase())));
 
