@@ -133,6 +133,7 @@ function toggleReadOnly(mode) {
   let entry = $("#profile").children().eq(5).children().eq(1);
   let entryText = entry.val();
   let id = entry.attr("id");
+  console.log(entryText)
 
   if ($("#edit-mode-text").html() !== "Off") {
     $("#save-updates").show();
@@ -786,8 +787,4 @@ function selectOptions(category, selectID) {
 function capitalize(word) {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
-
-// REMOVE CONSOLE.LOG FOR PRODUCTION 
-
-var cl,ce,cw;
 

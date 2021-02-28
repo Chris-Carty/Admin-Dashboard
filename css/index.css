@@ -165,6 +165,7 @@ td {
   margin-left: 10px;
   width: 100px;
   height: 25px;
+  font-size: 13px !important;
 }
 
 .add-employee span,
@@ -760,6 +761,7 @@ label {
     width: 140px;
     height: 25px;
     margin-top: 5px;
+    font-size: 14px !important;
   }
 
   .add-location {
