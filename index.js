@@ -507,8 +507,8 @@ function search() {
 
           console.log(db);
 
-          let searched_arr = db.filter(object =>
-            Object.keys(object).some(k => object[k].toLowerCase().includes(searchText.toLowerCase())));
+          let searched_arr = db.filter(o =>
+            Object.keys(o).some(k => o[k].toLowerCase().includes(searchText.toLowerCase())));
 
             searched_arr = searched_arr.filter( Boolean );
 
