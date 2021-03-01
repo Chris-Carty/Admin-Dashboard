@@ -1,11 +1,13 @@
+// FOR PRODUCTION
+
+var console = {};
+console.log = function(){};
+console.warn = function(){};
+console.error = function(){};
+
+indow.console = console;
+
 // Global Variables
-
-//var console = {};
-//console.log = function(){};
-//console.warn = function(){};
-//console.error = function(){};
-
-//indow.console = console;
 
 let employeeID;
 let employeeProfile;
@@ -512,13 +514,6 @@ function search() {
           }
 
           filterByValue(db, searchText);
-
-
-
-          //let searched_arr = db.filter(arr_obj =>
-           // Object.keys(arr_obj).some(k => arr_obj[k].toLowerCase().includes(searchText.toLowerCase())));
-
-            console.log(searched_arr)
         
             for (let i in db) {
               appendEntry(searched_arr, i)
