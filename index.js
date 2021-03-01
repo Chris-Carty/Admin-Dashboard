@@ -1,11 +1,11 @@
 // Global Variables
 
-var console = {};
-console.log = function(){};
-console.warn = function(){};
-console.error = function(){};
+//var console = {};
+//console.log = function(){};
+//console.warn = function(){};
+//console.error = function(){};
 
-window.console = console;
+//indow.console = console;
 
 let employeeID;
 let employeeProfile;
@@ -502,6 +502,8 @@ function search() {
       url: 'php/getAll.php', 
       dataType: 'json',
       success: function(data) {
+          console.log("ReturnAllData:")
+          console.log(data)
 
           let db = data.data;
 
