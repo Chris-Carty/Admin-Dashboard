@@ -140,6 +140,12 @@ function toggleReadOnly() {
 
 }
 
+function toggleEditMode() {
+  var elm = document.getElementById('check');
+  elm.checked = !elm.checked;
+}
+
+
 function updateLocation() {
   $.getJSON(`php/getAllDepartments.php`, function (departments) {
     let locationID = departments.data.filter(
@@ -284,6 +290,8 @@ function updateEmployee() {
       toggleAreYouSure3();
       updateEmployeeToggle();
       updateSuccessful();
+      toggleEditMode()
+      toggleReadOnly()
     }
   );
 }
