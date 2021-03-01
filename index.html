@@ -65,7 +65,7 @@
                     <th scope="col" class="hide coloured-bg">Email</th>
                     <th scope="col" class="hide coloured-bg">Department</th>
                     <th scope="col" class="hide coloured-bg">Location</th>
-                    <th scope="col" class="coloured-bg text-right">Edit / Delete</th>
+                    <th scope="col" class="coloured-bg text-right">Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,34 +74,11 @@
       </div>
     </div>
 
-        <!-- Sign In From
-        <div id="sign-in-form" style="visibility: visible;">
-          <div class="signIn-form">
-            <div class="logo-login">
-            <img id="company-logo" src="media/svg/folder.svg" />
-            <div id="company-logo-text">Company Directory</div>
-            </div>
-            <div class="employee-form-wrapper">
-              <form>
-                <div class="form-group">
-                  <label for="username">Username</label>
-                  <input type="text" class="form-control" id="username" placeholder="username = Admin1">
-                </div>
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  <input type="password" class="form-control" id="password" placeholder="password = 12345"><br>
-                </div>
-              </form>
-            </div>
-            <button type="submit" class="btn3 btn-primary" onclick="signIn()">Sign In</button>
-          </div>
-        </div> -->
-
     <!-- Add Employee Form -->
 
     <div id="add-employee-form" style="visibility: hidden;">
       <div class="employee-form">
-        <img id="close" src="media/svg/Close-icon.svg" onclick="addEmployee();"/>
+        <img id="close" src="media/svg/Close-icon.svg" onclick="addEmployee()"/>
         <div class="employee-form-wrapper">
           <form id="form" role="form" data-toggle="validator">
             <div class="form-group has-feedback">
@@ -139,7 +116,13 @@
 
         <div id="update-employee-form" style="visibility: hidden;">
           <div class="employee-info">
-            <div class="edit-mode">Edit Mode:<span id="edit-mode-text">Off</span></div>
+            <div class="edit-mode">
+              <label id="switch">
+                <input id="check" type="checkbox" checked onclick="toggleReadOnly()">
+                <span class="slider round"></span>
+              </label>
+              <div class="edit">Edit Mode:<span id="edit-mode-text">Off</span></div>
+            </div>
             <img id="close" src="media/svg/Close-icon.svg" onclick="closeUpdateEmployeeToggle()"/>
             <div id="profile" class="employee-form-info-wrapper">
               <form id="form2" role="form" data-toggle="validator">
@@ -166,15 +149,13 @@
                     <input id="jobTitle" type="text" class="form-control" readonly required>
                     <div class="help-block with-errors"></div>
                   </div>
-                  <div class="form-group has-feedback">
+                  <div class="form-group">
                     <label for="department">Department:</label>
                   <input id="department" name="department" type="text" class="form-control" readonly required>
-                  <div class="help-block with-errors"></div>
                   </div>
-                  <div class="form-group has-feedback">
+                  <div class="form-group">
                     <label for="location">Location:</label>
                     <input id="location" name="location" type="text" class="form-control" readonly required>
-                    <div class="help-block with-errors"></div>
                   </div><br style="line-height: 10px;">
                   <button id="save-updates" type="submit" class="btn btn-primary">SAVE UPDATES</button>
               </form>

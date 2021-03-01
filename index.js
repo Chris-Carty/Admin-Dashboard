@@ -1,4 +1,4 @@
-// FOR PRODUCTION
+//FOR PRODUCTION
 
 var console = {};
 console.log = function(){};
@@ -11,7 +11,6 @@ window.console = console;
 
 let employeeID;
 let employeeProfile;
-let editMode = "Off"
 let departmentID;
 
 // ------------------//
@@ -44,7 +43,7 @@ function clearTable() {
             <th scope="col" class="hide coloured-bg">Email</th>
             <th scope="col" class="hide coloured-bg" id="departmentHeader">Department</th>
             <th scope="col" class="hide coloured-bg" id="locationHeader">Location</th>
-            <th scope="col" class="coloured-bg text-right" id="ManageHeader">Edit / Delete</th>
+            <th scope="col" class="coloured-bg text-right" id="ManageHeader">Delete</th>
         </tr>
     </tbody>
     `);
@@ -69,7 +68,7 @@ function appendEntry(db, i) {
             <td class="hide">${
     db[i].location
   }</td>
-            <td class="text-right"><button onclick="toggleReadOnly(editMode)"><img src="media/svg/edit.svg"></button><button id="delete" onclick="toggleAreYouSure2()"><img src="media/svg/trash-red.svg"></button></td>
+            <td class="text-right"><button id="delete" onclick="toggleAreYouSure2()"><img src="media/svg/trash-red.svg"></button></td>
         </tr>
     `);
 
@@ -80,10 +79,13 @@ function appendEntry(db, i) {
 }
 
 function viewProfile(profile) {
+
   employeeProfile = profile;
   updateEmployeeToggle();
 
-  //console.log(employeeProfile);
+  if ($("#edit-mode-text").html() === "Off") {
+    $("#save-updates").hide(); 
+  }
 
   $("#id").val(profile.id);
   $("#firstName").val(profile.firstName);
@@ -92,69 +94,50 @@ function viewProfile(profile) {
   $("#email2").val(profile.email);
   $("#department").val(profile.department);
   $("#location").val(profile.location);
+
 }
 
-function toggleReadOnly(mode) {
-  //updateProfile()
-  $("#edit-mode-text").html(mode)
-  
+function toggleReadOnly() {
 
-  if ($("#edit-mode-text").html() === "Off") {
-    $("#edit-mode-text").html("On");
-  } else {
-    $("#edit-mode-text").html("Off");
-  }
-
-  if ($("#edit-mode-text").html() === "On") {
-    document.getElementById("firstName").readOnly = false;
-  } else {
-    document.getElementById("firstName").readOnly = true;
-  }
-
-  if ($("#edit-mode-text").html() === "On") {
-    document.getElementById("lastName").readOnly = false;
-  } else {
-    document.getElementById("lastName").readOnly = true;
-  }
-
-  if ($("#edit-mode-text").html() === "On") {
-    document.getElementById("email2").readOnly = false;
-  } else {
-    document.getElementById("email2").readOnly = true;
-  }
-
-  if ($("#edit-mode-text").html() === "On") {
-    document.getElementById("jobTitle").readOnly = false;
-  } else {
-    document.getElementById("jobTitle").readOnly = true;
-  }
-
-  // POPULATE SELECT DEPARTMENT OPTIONS
-
-  let entry = $("#profile").children().eq(5).children().eq(1);
+  let entry = $("#profile").children().eq(0).children().eq(5).children().eq(1);
   let entryText = entry.val();
   let id = entry.attr("id");
-  console.log(entryText)
 
-  if ($("#edit-mode-text").html() !== "Off") {
+  if ($("#edit-mode-text").html() === "Off") {
+
+    $("#edit-mode-text").html("On");
     $("#save-updates").show();
 
+    document.getElementById("firstName").readOnly = false;
+    document.getElementById("lastName").readOnly = false;
+    document.getElementById("email2").readOnly = false;
+    document.getElementById("jobTitle").readOnly = false;
+
     entry.replaceWith(
-      `<select class="form-control" name="department" onchange="updateLocation()" id='department'></select>`
+      `<select class="form-control" name="department" onchange="updateLocation()" id="department"></select>`
     );
+
+    $(`#department`).append(`<option selected="true">${entryText}</option>`);
 
     let category = capitalize(id);
     selectOptions(category, id);
 
-    $(`#department`).append(`<option selected="true">${entryText}</option>`);
   } else {
+
+    $("#edit-mode-text").html("Off");
     $("#save-updates").hide();
+
+    document.getElementById("firstName").readOnly = true;
+    document.getElementById("lastName").readOnly = true;
+    document.getElementById("email2").readOnly = true;
+    document.getElementById("jobTitle").readOnly = true;
 
     entry.replaceWith(
       `<input id="department" name="department" type="text" class="form-control" readonly>`
     );
     $(`#department`).val(entryText);
   }
+
 }
 
 function updateLocation() {
@@ -279,15 +262,6 @@ function updateEmployee() {
       (dep) => dep.name == $("#department").val()
     )[0].id;
 
-    if (
-      $("#firstName").val() == "" ||
-      $("#lastName").val() == "" ||
-      $("#jobTitle").val() == "" ||
-      $("#email2").val() == ""
-    ) {
-      alert("Please Fill in the Blanks");
-      closeUpdateEmployeeToggle();
-    } else {
       $.ajax({
         data: {
           id: parseInt($("#id").val()),
@@ -310,9 +284,8 @@ function updateEmployee() {
       toggleAreYouSure3();
       updateEmployeeToggle();
       updateSuccessful();
-      toggleReadOnly("On")
     }
-  });
+  );
 }
 
 // REMOVE EMPLOYEE FROM DATABASE
@@ -560,10 +533,6 @@ function updateEmployeeToggle() {
 }
 
 function closeUpdateEmployeeToggle() {
-
-  let editMode = "On"
-  toggleReadOnly(editMode)
-
   let info = document.getElementById("update-employee-form");
   let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
@@ -788,6 +757,6 @@ function selectOptions(category, selectID) {
 }
 
 function capitalize(word) {
-  return word.charAt(0).toUpperCase() + word.slice(1);
+    return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
