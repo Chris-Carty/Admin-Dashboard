@@ -504,12 +504,12 @@ function search() {
 
           let db = data.data;
 
-          console.log(db[0]);
+          console.log(db);
 
 
 
-          let searched_arr = db.filter(o =>
-            Object.keys(o).some(k => o[k].toLowerCase().includes(searchText.toLowerCase())));
+          let searched_arr = db.filter(arr_obj =>
+            Object.keys(arr_obj).some(k => arr_obj[k].toLowerCase().includes(searchText.toLowerCase())));
 
             console.log(searched_arr)
         
