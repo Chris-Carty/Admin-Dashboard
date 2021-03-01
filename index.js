@@ -337,6 +337,7 @@ function addDepartment() {
           addDepartmentSuccessful();
           confirmAddDepartment();
           manageDepartmentsToggle();
+          toggleReadOnly()
         },
       });
     }
