@@ -625,8 +625,6 @@ label {
   right: 0;
   bottom: 0;
   background-color: #29cc97;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
 }
 
 .slider:before {
@@ -637,8 +635,6 @@ label {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
 }
 
 input:checked + .slider {
@@ -1320,8 +1316,6 @@ input:checked + .slider:before {
     right: 0;
     bottom: 0;
     background-color: #29cc97;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
   }
 
   .slider:before {
@@ -1332,8 +1326,6 @@ input:checked + .slider:before {
     left: 4px;
     bottom: 4px;
     background-color: white;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
   }
 
   input:checked + .slider {

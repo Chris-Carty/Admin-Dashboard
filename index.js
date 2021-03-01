@@ -12,6 +12,7 @@ window.console = console;
 let employeeID;
 let employeeProfile;
 let departmentID;
+let elm = document.getElementById('check');
 
 // ------------------//
 
@@ -104,6 +105,7 @@ function toggleReadOnly() {
   let id = entry.attr("id");
 
   if ($("#edit-mode-text").html() === "Off") {
+
 
     $("#edit-mode-text").html("On");
     $("#save-updates").show();
@@ -290,8 +292,11 @@ function updateEmployee() {
       toggleAreYouSure3();
       updateEmployeeToggle();
       updateSuccessful();
-      toggleEditMode()
-      toggleReadOnly()
+
+      if (!elm.checked) {
+        elm.checked = !elm.checked;
+      }
+      $("#edit-mode-text").html('Off')
     }
   );
 }
@@ -345,7 +350,6 @@ function addDepartment() {
           addDepartmentSuccessful();
           confirmAddDepartment();
           manageDepartmentsToggle();
-          toggleReadOnly()
         },
       });
     }
@@ -545,8 +549,11 @@ function closeUpdateEmployeeToggle() {
   let info = document.getElementById("update-employee-form");
   let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
-  toggleEditMode()
-  toggleReadOnly()
+
+  if (!elm.checked) {
+    elm.checked = !elm.checked;
+  }
+  $("#edit-mode-text").html('Off')
 }
 
 // ADD DEPARTMENT FORM
