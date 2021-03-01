@@ -503,13 +503,20 @@ function search() {
       success: function(data) {
 
           let db = data.data;
+          let searched_arr;
 
           console.log(db);
 
+          function filterByValue(array, value) {
+            searched_arr = array.filter((data) =>  JSON.stringify(data).toLowerCase().indexOf(value.toLowerCase()) !== -1);
+          }
+
+          filterByValue(db, searchText);
 
 
-          let searched_arr = db.filter(arr_obj =>
-            Object.keys(arr_obj).some(k => arr_obj[k].toLowerCase().includes(searchText.toLowerCase())));
+
+          //let searched_arr = db.filter(arr_obj =>
+           // Object.keys(arr_obj).some(k => arr_obj[k].toLowerCase().includes(searchText.toLowerCase())));
 
             console.log(searched_arr)
         
