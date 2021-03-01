@@ -117,10 +117,10 @@ function toggleReadOnly() {
       `<select class="form-control" name="department" onchange="updateLocation()" id="department"></select>`
     );
 
-    $(`#department`).append(`<option selected="true">${entryText}</option>`);
-
     let category = capitalize(id);
     selectOptions(category, id);
+
+    $(`#department`).append(`<option selected="true">${entryText}</option>`);
 
   } else {
 
