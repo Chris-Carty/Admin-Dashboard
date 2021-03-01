@@ -139,14 +139,7 @@ function toggleReadOnly() {
     );
     $(`#department`).val(entryText);
   }
-
 }
-
-function toggleEditMode() {
-  var elm = document.getElementById('check');
-  elm.checked = !elm.checked;
-}
-
 
 function updateLocation() {
   $.getJSON(`php/getAllDepartments.php`, function (departments) {
@@ -161,10 +154,6 @@ function updateLocation() {
     });
   });
 }
-
-// ------ PHP / SQL DATABASE MODIFICATIONS ------ //
-
-// ADD EMPLOYEE TO DATABASE
 
 // BOOTSTRAP -- VALIDATOR
 
@@ -214,6 +203,9 @@ $('#form5').validator().on('submit', function (e) {
   }
 })
 
+// ------ PHP / SQL DATABASE MODIFICATIONS ------ //
+
+// ADD EMPLOYEE TO DATABASE
 
 function addEmployeeData() {
   let departmentName = $("#addEmployeeDepartment").val();
@@ -293,10 +285,12 @@ function updateEmployee() {
       updateEmployeeToggle();
       updateSuccessful();
 
-      if (!elm.checked) {
-        elm.checked = !elm.checked;
+      $("#edit-mode-text").html("On");
+      toggleReadOnly()
+    
+      if ( elm.checked ) {
+        elm.checked = !elm.checked
       }
-      $("#edit-mode-text").html('Off')
     }
   );
 }
@@ -350,6 +344,13 @@ function addDepartment() {
           addDepartmentSuccessful();
           confirmAddDepartment();
           manageDepartmentsToggle();
+
+          $("#edit-mode-text").html("On");
+          toggleReadOnly()
+        
+          if ( elm.checked ) {
+            elm.checked = !elm.checked
+          }
         },
       });
     }
@@ -550,12 +551,14 @@ function closeUpdateEmployeeToggle() {
   let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
 
-  if (!elm.checked) {
-    elm.checked = !elm.checked;
-  }
-  $("#edit-mode-text").html('Off')
-}
+  $("#edit-mode-text").html("On");
+  toggleReadOnly()
 
+  if ( elm.checked ) {
+    elm.checked = !elm.checked
+  }
+  
+}
 // ADD DEPARTMENT FORM
 
 function manageDepartmentsToggle() {

@@ -624,7 +624,7 @@ label {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #29cc97;
+  background-color: #cc4129;
 }
 
 .slider:before {
@@ -638,11 +638,11 @@ label {
 }
 
 input:checked + .slider {
-  background-color: #cc4129;
+  background-color: #29cc97;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #cc4129;
+  box-shadow: 0 0 1px #29cc97;
 }
 
 input:checked + .slider:before {
@@ -1315,7 +1315,7 @@ input:checked + .slider:before {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #29cc97;
+    background-color: #cc4129;
   }
 
   .slider:before {
@@ -1329,11 +1329,11 @@ input:checked + .slider:before {
   }
 
   input:checked + .slider {
-    background-color: #cc4129;
+    background-color: #29cc97;
   }
 
   input:focus + .slider {
-    box-shadow: 0 0 1px #cc4129;
+    box-shadow: 0 0 1px #29cc97;
   }
 
   input:checked + .slider:before {
