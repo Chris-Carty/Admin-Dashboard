@@ -5,7 +5,7 @@ console.log = function(){};
 console.warn = function(){};
 console.error = function(){};
 
-indow.console = console;
+window.console = console;
 
 // Global Variables
 
