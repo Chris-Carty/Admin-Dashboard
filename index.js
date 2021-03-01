@@ -545,6 +545,8 @@ function closeUpdateEmployeeToggle() {
   let info = document.getElementById("update-employee-form");
   let visibility = info.style.visibility;
   info.style.visibility = visibility == "hidden" ? "visible" : "hidden";
+  toggleEditMode()
+  toggleReadOnly()
 }
 
 // ADD DEPARTMENT FORM
