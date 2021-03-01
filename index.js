@@ -25,7 +25,6 @@ function buildTable() {
     dataType: "json",
     success: function (data) {
       let db = data.data;
-      console.log(db)
       for (let i in db) {
         appendEntry(db, i);
       }
@@ -502,17 +501,15 @@ function search() {
       url: 'php/getAll.php', 
       dataType: 'json',
       success: function(data) {
-          console.log("ReturnAllData:")
-          console.log(data)
 
           let db = data.data;
 
-          console.log(db);
+          console.log(db[0]);
+
+
 
           let searched_arr = db.filter(o =>
             Object.keys(o).some(k => o[k].toLowerCase().includes(searchText.toLowerCase())));
-
-            searched_arr = searched_arr.filter( Boolean );
 
             console.log(searched_arr)
         
