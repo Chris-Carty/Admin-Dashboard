@@ -1,11 +1,11 @@
 //FOR PRODUCTION
 
-var console = {};
+/*var console = {};
 console.log = function(){};
 console.warn = function(){};
 console.error = function(){};
 
-window.console = console;
+window.console = console; */
 
 // Global Variables
 
@@ -88,13 +88,30 @@ function viewProfile(profile) {
     $("#save-updates").hide(); 
   }
 
-  $("#id").val(profile.id);
-  $("#firstName").val(profile.firstName);
-  $("#lastName").val(profile.lastName);
-  $("#jobTitle").val(profile.jobTitle);
-  $("#email2").val(profile.email);
-  $("#department").val(profile.department);
-  $("#location").val(profile.location);
+  //AJAX
+  let viewProfileId = profile.id
+
+  $.ajax({
+    type: "GET",
+    url: "php/getAll.php",
+    dataType: "json",
+    success: function (data) {
+      let db = data.data;
+
+      const employeeProfileArr = db.filter(employee => {
+        return employee.id.includes(viewProfileId)
+      })
+
+      $("#id").val(employeeProfileArr[0].id);
+      $("#firstName").val(employeeProfileArr[0].firstName);
+      $("#lastName").val(employeeProfileArr[0].lastName);
+      $("#jobTitle").val(employeeProfileArr[0].jobTitle);
+      $("#email2").val(employeeProfileArr[0].email);
+      $("#department").val(employeeProfileArr[0].department);
+      $("#location").val(employeeProfileArr[0].location);
+
+    },
+  });
 
 }
 
