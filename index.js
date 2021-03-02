@@ -1,11 +1,11 @@
 //FOR PRODUCTION
 
-/*var console = {};
+var console = {};
 console.log = function(){};
 console.warn = function(){};
 console.error = function(){};
 
-window.console = console; */
+window.console = console; 
 
 // Global Variables
 
